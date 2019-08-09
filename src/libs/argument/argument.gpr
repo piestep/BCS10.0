@@ -1,0 +1,41 @@
+-- BCS Boolean Compiler System
+-- Copyright (c) 2018 Paul Estep
+
+with "xmlada";
+with "../../shared.gpr";
+with "../system/system";
+with "../boolean/boolean";
+
+project Argument is
+
+   type Build_Type is ("test", "release");
+   Build : Build_Type := external ("build", "test");
+
+   case Build is
+      when "test" =>
+         for Source_Dirs use (".", "../../test/stub");
+         for Object_Dir use "../../../obj/libs/argument/test";
+
+      when "release" =>
+         for Source_Dirs use (".");
+         for Object_Dir use "../../../obj/libs/argument";
+   end case;
+
+   package Naming is
+      case Build is
+         when "test" =>
+            for Spec ("Argument_Package.Command_Line") use "argument_package-command_line-stub.ads";
+            for Body ("Argument_Package.Command_Line") use "argument_package-command_line-stub.adb";
+
+         when "release" =>
+            null;
+      end case;
+   end Naming;
+
+   package Compiler renames Shared.Compiler;
+   package Builder renames Shared.Builder;
+   package Binder renames Shared.Binder;
+   package Linker renames Shared.Linker;
+
+end Argument;
+

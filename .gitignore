@@ -1,0 +1,15 @@
+
+# Executable directory
+/bin/
+
+# Object directory
+/obj/
+
+# Object directory
+/tmp/
+
+# Object file
+*.o
+
+# Ada Library Information
+*.ali

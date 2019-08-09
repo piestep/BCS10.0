@@ -1,0 +1,30 @@
+-- BC Boolean Compiler
+-- Copyright (c) 2018 Paul Estep
+
+with "../../shared.gpr";
+with "../system/system";
+
+project Pool is
+
+   for Source_Dirs use (".");
+
+   type Build_Type is ("test", "release");
+   Build : Build_Type := external ("build", "test");
+
+   case Build is
+      when "test" =>
+          for Object_Dir use "../../../obj/libs/pool/test";
+      when "release" =>
+          for Object_Dir use "../../../obj/libs/pool";
+   end case;
+
+   package Compiler renames Shared.Compiler;
+
+   package Builder renames Shared.Builder;
+
+   package Binder renames Shared.Binder;
+
+   package Linker renames Shared.Linker;
+
+end Pool;
+

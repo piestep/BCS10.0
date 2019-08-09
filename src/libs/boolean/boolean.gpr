@@ -1,0 +1,31 @@
+-- BC Boolean Compiler
+-- Copyright (c) 2019 Paul Estep
+
+with "../../shared.gpr";
+with "../system/system";
+with "../pool/pool";
+
+project Boolean is
+
+   for Source_Dirs use (".");
+
+   type Build_Type is ("test", "release");
+   Build : Build_Type := external ("build", "test");
+
+   case Build is
+      when "test" =>
+          for Object_Dir use "../../../obj/libs/boolean/test";
+      when "release" =>
+          for Object_Dir use "../../../obj/libs/boolean";
+   end case;
+
+   package Compiler renames Shared.Compiler;
+
+   package Builder renames Shared.Builder;
+
+   package Binder renames Shared.Binder;
+
+   package Linker renames Shared.Linker;
+
+end Boolean;
+

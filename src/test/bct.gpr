@@ -1,0 +1,39 @@
+-- BCS Boolean Compiler System
+-- Copyright (c) 2019 Paul Estep
+
+with "aunit";
+with "xmlada";
+with "../shared.gpr";
+with "../bcs";
+
+project BCT is
+
+   for Source_Dirs use (".", "libs/**", "bc/**");
+   for Main use ("bct.adb");
+   for Object_Dir use "../../obj/bct";
+   for Exec_Dir use "../../bin";
+
+   -- defined for bcs project file
+   type Build_Type is
+      ("test", "release");
+   Build : Build_Type := external ("build", "test");
+
+   package Compiler renames Shared.Compiler;
+
+   package Builder renames Shared.Builder;
+
+   package Binder renames Shared.Binder;
+
+   package Linker renames Shared.Linker;
+
+   package Ide is
+      for Documentation_Dir use "../../doc";
+   end Ide;
+
+   package Bcs is
+      for Project_File use "../bcs.gpr";
+      for Test_File use "bct.gpr";
+   end Bcs;
+
+end BCT;
+

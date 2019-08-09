@@ -1,0 +1,45 @@
+-- BCS Boolean Compiler System
+-- Copyright (c) 2019 Paul Estep
+
+with "./shared.gpr";
+with "libs/system/system";
+with "libs/pool/pool";
+with "libs/boolean/boolean";
+with "libs/argument/argument";
+
+project BCS is
+
+   for Source_Dirs use ("bc", "br", "pr");
+   for Main use ("bc.adb", "br.adb", "pr.adb");
+   for Exec_Dir use "../bin";
+
+   type Build_Type is ("test", "release");
+   Build : Build_Type := external ("build", "test");
+
+   case Build is
+      when "test" =>
+         for Object_Dir use "../obj/bcs/test";
+
+      when "release" =>
+         for Object_Dir use "../obj/bcs";
+   end case;
+
+   package Compiler renames Shared.Compiler;
+
+   package Builder renames Shared.Builder;
+
+   package Binder renames Shared.Binder;
+
+   package Linker renames Shared.Linker;
+
+   package Ide is
+      for Documentation_Dir use "../doc";
+   end Ide;
+
+   package BCS is
+      for Project_File use "bcs.gpr";
+      for Test_File use "test/bct.gpr";
+   end BCS;
+
+end BCS;
+

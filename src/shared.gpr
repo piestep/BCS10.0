@@ -1,0 +1,100 @@
+-- BCS Boolean Compiler System
+-- Copyright (c) 2018 Paul Estep
+
+-- Release/BC ...
+-- Shared.Stub_Mode
+--   * none
+--     Shared.Test_Build
+--       true
+--         ...
+--       * false
+--         Shared.Xmlada_Build
+--           * static
+--           * relocatable
+--           * static-pic
+--   argument
+--     ...
+--
+-- Test/Main
+-- Shared.Stub_Mode
+--   * none
+--     Shared.Test_Build
+--       * true
+--         Shared.Xmlada_Build
+--           * static
+--           * relocatable
+--           * static-pic
+--       false
+--         ...
+--   ...
+--
+-- Test/Stub
+-- Shared.Stub_Mode
+--   none
+--     ...
+--   * argument
+--     Shared.Test_Build
+--       * true
+--         Shared.Xmlada_Build
+--           * static
+--           * relocatable
+--           * static-pic
+--       ...
+
+abstract project Shared is
+
+   for Source_Files use ();
+   type Build_Type is
+      ("test", "release");
+   Build : Build_Type := external ("build", "test");
+
+   package Compiler is
+
+      case Build is
+
+         when "test" =>
+            for Default_Switches ("ada") use ("-gnat12", "-gnatws", "-g", "-gnato", "-fstack-check", "-gnata", "-fcallgraph-info=su,da", "-ftest-coverage", "-fprofile-arcs", "-fprofile-arcs");
+
+         when "release" =>
+            for Default_Switches ("ada") use ("-gnat12");
+      end case;
+   end Compiler;
+
+   package Builder is
+
+      case Build is
+
+         when "test" =>
+            for Default_Switches ("ada") use ("-g");
+
+         when "release" =>
+
+      end case;
+   end Builder;
+
+   package Binder is
+
+      case Build is
+
+         when "test" =>
+            for Default_Switches ("ada") use ("-E");
+
+         when "release" =>
+
+      end case;
+   end Binder;
+
+   package Linker is
+
+      case Build is
+
+         when "test" =>
+            for Default_Switches ("ada") use ("-g", "--coverage", "-fprofile-generate", "-fprofile-generate");
+
+         when "release" =>
+
+      end case;
+   end Linker;
+
+end Shared;
+
