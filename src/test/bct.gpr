@@ -31,7 +31,9 @@ project BCT is
    end Ide;
 
    package Bcs is
+      for Project_Name use "BCS";
       for Project_File use "../bcs.gpr";
+      for Test_Name use "BCT";
       for Test_File use "bct.gpr";
    end Bcs;
 
