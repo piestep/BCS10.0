@@ -50,6 +50,7 @@ from xml.dom import minidom
 
 GPS.parse_xml(
 """
+
   <project_attribute
      name="Project_Name"
      package="BCS"
@@ -157,7 +158,7 @@ GPS.parse_xml(
      </menu>
      <submenu>
         <menu action="Test">
-           <title>Test1</title>
+           <title>Test</title>
         </menu>
      </submenu>
      <submenu>
@@ -183,12 +184,12 @@ GPS.parse_xml(
   </action>
 
   <action name="Renumber errors">
-     <filter shell_lang="python" shell_cmd="bcs.is_project()" />
+     <filter shell_lang="python" shell_cmd="bcs.in_project()" />
      <shell lang="python" output="none">bcs.renumber_errors()</shell>
   </action>
 
   <action name="Renumber messages">
-     <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+     <filter shell_lang="python" shell_cmd="bcs.in_test()" />
      <shell lang="python" output="none">bcs.renumber_messages()</shell>
   </action>
 
@@ -229,27 +230,59 @@ GPS.parse_xml(
   </action>
 
   <action name="Test run">
-     <filter shell_lang="python" shell_cmd="bcs.is_test()" />
-     <shell lang="python" output="none">bcs.bcs_action()</shell>
-  </action>
-
-  <action name="Test list">
-     <filter shell_lang="python" shell_cmd="bcs.is_test()" />
-     <shell lang="python" output="none">bcs.bcs_action()</shell>
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.is_run()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.run()</shell>
+     <external>%1</external>
   </action>
 
   <action name="Test dump">
-     <filter shell_lang="python" shell_cmd="bcs.is_test()" />
-     <shell lang="python" output="none">bcs.bcs_action()</shell>
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.is_run()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.run()</shell>
+     <external>%1 -d</external>
+  </action>
+
+  <action name="Test generate">
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.is_run()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.run()</shell>
+     <external>%1 -g</external>
   </action>
 
   <action name="Test replace">
-     <shell lang="python" output="none">bcs.bcs_action()</shell>
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.is_run()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.run()</shell>
+     <external>%1 -r</external>
   </action>
 
   <action name="Test diff">
-     <filter shell_lang="python" shell_cmd="bcs.is_test()" />
-     <shell lang="python" output="none">bcs.bcs_action()</shell>
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.is_run()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.run()</shell>
+     <external>%1 -g</external>
+     <shell lang="python" output="none">bcs.vdiff()</shell>
   </action>
 
   <submenu>
@@ -270,13 +303,13 @@ GPS.parse_xml(
            <menu action="Test run">
               <title>Run</title>
            </menu>
-           <menu action="Test list">
-              <title>List</title>
-           </menu>
            <menu action="Test dump">
               <title>Dump</title>
            </menu>
            <menu action="Test replace">
+              <title>Replace</title>
+           </menu>
+           <menu action="Test generate">
               <title>Replace</title>
            </menu>
            <menu action="Test diff">
@@ -308,6 +341,42 @@ def is_test():
    if test is not "":
       dir, filename = os.path.split(GPS.Project.root().file().name())
       return filename == test
+   return False
+
+def in_test():
+   """
+   in test
+   """
+   if is_project():
+      return False
+
+   elif is_test():
+      name = GPS.Project.root().get_attribute_as_string("Test_Name", package="BCS")
+      file = GPS.current_context().file()
+      list = GPS.Project(name).sources(False)
+      if file in list:
+         return True
+
+   return False
+
+def in_project():
+   """
+   in project
+   """
+   if is_project():
+      name = GPS.Project.root().get_attribute_as_string("Project_Name", package="BCS")
+      file = GPS.current_context().file()
+      list = GPS.Project(name).sources(True)
+      if file in list:
+         return True
+
+   elif is_test():
+      name = GPS.Project.root().get_attribute_as_string("Test_Name", package="BCS")
+      file = GPS.current_context().file()
+      list = GPS.Project(name).sources(False)
+      if file not in list:
+         return True
+
    return False
 
 def to_project():
@@ -424,58 +493,76 @@ def boolean_compiler_system():
     """
     GPS.MDI.dialog("BCS")
 
+def is_run():
+   """
+   Is Run
+   """
+   dir, filename = os.path.split(GPS.Project.root().file().name())
+   context = GPS.current_context()
+   if context.entity_name() is not None:
+      entity = context.entity()
+      if entity is not None:
+         if entity.category() == 'package':
+            return entity.full_name().lower() == context.file().unit()
+         elif entity.category() == 'procedure':
+            return True
+
+   return False
+
+def run():
+   """
+   Run
+   """
+   dir = GPS.Project.root().exec_dir()
+   main = GPS.Project.root().get_attribute_as_list("main")[0]
+   file = GPS.File(main)
+   prog = dir + GPS.Project.root().get_executable_name(file)
+
+   context = GPS.current_context()
+   if context.entity_name() is not None:
+      entity = context.entity()
+      if entity.category() == 'package':
+         return prog + " -s " + entity.full_name() + "."
+      elif entity.category() == 'procedure':
+         senario = entity.full_name()[:-(len(entity.name())+1)]
+         case = entity.name()
+         return prog + " -s " + senario + "." + " -c " + case + "."
+
+   return ""
+
+
 def bcs_test():
    """
    Test
    """
    print "TEST"
-   # assume in source editor
-   test = GPS.Project.root().get_attribute_as_string("Test_Name", package="BCS")
-   project = GPS.Project.root().get_attribute_as_string("Project_Name", package="BCS")
-   print test
-   print project
+   context = GPS.current_context()
+   name = context.entity_name()
+   if name is not None:
+      print name
+      entity = context.entity()
+      print entity.category()
+      if context.file() == entity.declaration().file():
+         print "declaration"
+      elif context.file() == entity.body().file():
+         print "body"
 
-
-
-def in_test():
+def filter1():
    """
-   in test
+   Run
    """
-   print "IN TEST"
-   if is_project():
-      print "in project - FALSE"
+   print "filter1"
+   return True
 
-   elif is_test():
-      name = GPS.Project.root().get_attribute_as_string("Test_Name", package="BCS")
-      file = GPS.current_context().file()
-      list = GPS.Project(name).sources(False)
-      if file in list:
-         print "in test - TRUE"
-      else:
-         print "not in test - FALSE"
 
-def in_project():
+def filter2():
    """
-   in project
+   Run
    """
-   print "IN PROJECT"
-   if is_project():
-      name = GPS.Project.root().get_attribute_as_string("Project_Name", package="BCS")
-      file = GPS.current_context().file()
-      list = GPS.Project(name).sources(True)
-      if file in list:
-         print "in project - TRUE"
-      else:
-         print "not in project - FALSE"
+   print "filter2"
+   return True
 
-   elif is_test():
-      name = GPS.Project.root().get_attribute_as_string("Test_Name", package="BCS")
-      file = GPS.current_context().file()
-      list = GPS.Project(name).sources(False)
-      if file in list:
-         print "in test - FALSE"
-      else:
-         print "not in test - TRUE"
+
 
 @gps_utils.hook('gps_started')
 def __gps_started():
