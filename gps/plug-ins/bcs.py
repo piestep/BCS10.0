@@ -43,6 +43,7 @@ Context menus:
 
 import os
 import sys
+import string
 import re
 import GPS
 import gps_utils
@@ -193,6 +194,24 @@ GPS.parse_xml(
      <shell lang="python" output="none">bcs.renumber_messages()</shell>
   </action>
 
+  <action name="Test scenario">
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.scenario()</shell>
+  </action>
+
+  <action name="Test cases">
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.cases()</shell>
+  </action>
+
   <submenu>
      <title>Code</title>
      <menu><title/></menu>
@@ -214,6 +233,15 @@ GPS.parse_xml(
            </menu>
            <menu action="Renumber messages">
               <title>Messages</title>
+           </menu>
+        </submenu>
+        <submenu>
+           <title>Test</title>
+           <menu action="Test scenario">
+              <title>Scenario</title>
+           </menu>
+           <menu action="Test cases">
+              <title>Cases</title>
            </menu>
         </submenu>
     </submenu>
@@ -319,9 +347,6 @@ GPS.parse_xml(
     </submenu>
   </submenu>
  """)
-
-def bcs_action():
-    print "ACTION"
 
 def is_defined():
    # return true if BCS project attribute is defined
@@ -530,38 +555,78 @@ def run():
 
    return ""
 
+def bcs_action():
+    print "ACTION"
+
+def bcs_capitalize(name):
+   """
+   Capitalize ada name
+   """
+   ary = string.split(name, '_')
+   for i in range ( len ( ary ) ):
+      ary[i] = string.upper(ary[i][0]) + ary[i][1:]
+   name = string.join(ary, '_')
+   ary = string.split(name, '.')
+   for i in range ( len ( ary ) ):
+      ary[i] = string.upper(ary[i][0]) + ary[i][1:]
+   return string.join(ary, '.')
+
+def scenario():
+   """
+   Insert test scenario
+   """
+
+   context = GPS.current_context()
+   file = context.file()
+   unit = file.unit()
+   name = bcs_capitalize(unit)
+
+   buf = GPS.EditorBuffer.get(context.file())
+   cursor = buf.main_cursor()
+
+   first = cursor.mark().location()
+   last = cursor.sel_mark().location()
+   buf.cut(first, last, False)
+
+   GPS.Clipboard.copy("return AUnit.Format (\""+name+".\");\n")
+   cursor = buf.main_cursor()
+   first = cursor.mark().location()
+   buf.paste(first)
+
+
+def cases():
+   """
+   Insert test cases
+   """
+
+   context = GPS.current_context()
+   entities = context.file().entities(False)
+
+   buf = GPS.EditorBuffer.get(context.file())
+   cursor = buf.main_cursor()
+   first = cursor.mark().location()
+   last = cursor.sel_mark().location()
+   buf.cut(first, last, False)
+
+   for entity in entities:
+      if entity.category() == 'procedure':
+         if entity.name().startswith('Test_'):
+            procedure = "      Register_Routine(The_Test, " + \
+            entity.name() + \
+            "\'Access, \"" + \
+            entity.name() + \
+            ".\");\n"
+            GPS.Clipboard.copy(procedure)
+            cursor = buf.main_cursor()
+            first = cursor.mark().location()
+            buf.paste(first)
+
 
 def bcs_test():
    """
    Test
    """
    print "TEST"
-   context = GPS.current_context()
-   name = context.entity_name()
-   if name is not None:
-      print name
-      entity = context.entity()
-      print entity.category()
-      if context.file() == entity.declaration().file():
-         print "declaration"
-      elif context.file() == entity.body().file():
-         print "body"
-
-def filter1():
-   """
-   Run
-   """
-   print "filter1"
-   return True
-
-
-def filter2():
-   """
-   Run
-   """
-   print "filter2"
-   return True
-
 
 
 @gps_utils.hook('gps_started')
