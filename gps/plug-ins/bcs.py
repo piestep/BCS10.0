@@ -248,11 +248,13 @@ GPS.parse_xml(
   </submenu>
 
   <action name="Open BCS project">
+     <description>Open BCS project</description>
      <filter shell_lang="python" shell_cmd="bcs.is_test()" />
      <shell lang="python" output="none">bcs.to_project()</shell>
   </action>
 
   <action name="Open BCS test">
+     <description>Open BCS test</description>
      <filter shell_lang="python" shell_cmd="bcs.is_project()" />
      <shell lang="python" output="none">bcs.to_test()</shell>
   </action>
@@ -631,5 +633,7 @@ def bcs_test():
 
 @gps_utils.hook('gps_started')
 def __gps_started():
-    pass
+   if is_defined:
+      GPS.Action('Open BCS project').button(toolbar='main', label='Project', icon='project-symbolic')
+      GPS.Action('Open BCS test').button(toolbar='main', label='Test', icon='test-symbolic')
 

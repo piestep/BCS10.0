@@ -8,10 +8,9 @@
 import GPS
 import gps_utils
 
-
 @gps_utils.hook('gps_started')
 def __gps_started():
     GPS.Action('comment lines').button(
-        toolbar='main', section='editor', icon='comment-symbolic')
+        toolbar='main', section='editor', label='Comment', icon='comment-symbolic')
     GPS.Action('uncomment lines').button(
-        toolbar='main', section='editor', icon='uncomment-symbolic')
+        toolbar='main', section='editor', label='Uncomment', icon='uncomment-symbolic')
