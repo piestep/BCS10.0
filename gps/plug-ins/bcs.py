@@ -340,7 +340,7 @@ GPS.parse_xml(
               <title>Replace</title>
            </menu>
            <menu action="Test generate">
-              <title>Replace</title>
+              <title>Generate</title>
            </menu>
            <menu action="Test diff">
               <title>Diff</title>
@@ -348,6 +348,34 @@ GPS.parse_xml(
         </submenu>
     </submenu>
   </submenu>
+
+  <contextual action="Test scenario" >
+    <Title>BCS/Code/Scenario</Title>
+  </contextual>
+
+  <contextual action="Test cases" >
+    <Title>BCS/Code/Cases</Title>
+  </contextual>
+
+  <contextual action="Test run" >
+    <Title>BCS/Analyze/Run</Title>
+  </contextual>
+
+  <contextual action="Test dump" >
+    <Title>BCS/Analyze/Dump</Title>
+  </contextual>
+
+  <contextual action="Test replace" >
+    <Title>BCS/Analyze/Replace</Title>
+  </contextual>
+
+  <contextual action="Test generate" >
+    <Title>BCS/Analyze/Generate</Title>
+  </contextual>
+
+  <contextual action="Test diff" >
+    <Title>BCS/Analyze/Diff</Title>
+  </contextual>
  """)
 
 def is_defined():
