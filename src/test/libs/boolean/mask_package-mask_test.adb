@@ -36,11 +36,11 @@ package body Mask_Package.Mask_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_Create'Access, "Create.");
-      Register_Routine (The_Test, Test_Create_With_Array'Access, "Create_With_Array.");
-      Register_Routine (The_Test, Test_Count_Of'Access, "Count_Of.");
-      Register_Routine (The_Test, Test_Length_Of'Access, "Length_Of.");
-      Register_Routine (The_Test, Test_Image_Of'Access, "Image_Of.");
+      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
+      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
+      Register_Routine(The_Test, Test_Count_Of'Access, "Test_Count_Of!");
+      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
+      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
    end Register_Tests;
 
    -----------------

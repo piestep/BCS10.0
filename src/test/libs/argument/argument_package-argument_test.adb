@@ -28,12 +28,12 @@ package body Argument_Package.Argument_Test is
       use Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_Simple_Scalar_Integer_Argument'Access, "Test_Simple_Scalar_Integer_Argument.");
-      Register_Routine(The_Test, Test_Simple_Scalar_Modular_Argument'Access, "Test_Simple_Scalar_Modular_Argument.");
-      Register_Routine(The_Test, Test_Multiple_Scalar_Arguments'Access, "Test_Multiple_Scalar_Arguments.");
-      Register_Routine(The_Test, Test_Simple_Array_Integer_Argument'Access, "Test_Simple_Array_Integer_Argument.");
-      Register_Routine(The_Test, Test_Simple_Array_Modular_Argument'Access, "Test_Simple_Array_Modular_Argument.");
-      Register_Routine(The_Test, Test_Multiple_Arguments'Access, "Test_Multiple_Arguments.");
+      Register_Routine(The_Test, Test_Simple_Scalar_Integer_Argument'Access, "Test_Simple_Scalar_Integer_Argument!");
+      Register_Routine(The_Test, Test_Simple_Scalar_Modular_Argument'Access, "Test_Simple_Scalar_Modular_Argument!");
+      Register_Routine(The_Test, Test_Multiple_Scalar_Arguments'Access, "Test_Multiple_Scalar_Arguments!");
+      Register_Routine(The_Test, Test_Simple_Array_Integer_Argument'Access, "Test_Simple_Array_Integer_Argument!");
+      Register_Routine(The_Test, Test_Simple_Array_Modular_Argument'Access, "Test_Simple_Array_Modular_Argument!");
+      Register_Routine(The_Test, Test_Multiple_Arguments'Access, "Test_Multiple_Arguments!");
    end Register_Tests;
 
    -----------------

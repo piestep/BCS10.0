@@ -77,98 +77,66 @@ package body Word_Package.Word_Test is
    procedure Register_Tests (The_Test : in out Test) is
       use AUnit.Test_Cases.Registration;
    begin
-      Register_Routine
-        (The_Test,
-         Test_Create_Constant_With_Boolean_Array'Access,
-         "Create_Constant_With_Boolean_Array.");
-      Register_Routine
-        (The_Test,
-         Test_Create_Constant_With_Size'Access,
-         "Create_Constant_With_Size.");
-      Register_Routine
-        (The_Test,
-         Test_Create_Variable'Access,
-         "Create_Variable.");
-      Register_Routine (The_Test, Test_Dispose'Access, "Dispose.");
-      Register_Routine (The_Test, Test_Copy'Access, "Copy.");
-      Register_Routine
-        (The_Test,
-         Test_Append_With_Equation'Access,
-         "Append_With_Equation.");
-      Register_Routine
-        (The_Test,
-         Test_Append_With_Word'Access,
-         "Append_With_Word.");
-      Register_Routine (The_Test, Test_Fill'Access, "Fill.");
-      Register_Routine (The_Test, Test_Shift_Left'Access, "Shift_Left.");
-      Register_Routine (The_Test, Test_Shift_Right'Access, "Shift Right.");
-      Register_Routine (The_Test, Test_Not_Op'Access, "Not_Op.");
-      Register_Routine (The_Test, Test_And_Op'Access, "And_Op.");
-      Register_Routine (The_Test, Test_Or_Op'Access, "Or_Op.");
-      Register_Routine (The_Test, Test_Xor_Op'Access, "Xor_Op.");
-      Register_Routine (The_Test, Test_Not_Equal'Access, "Not_Equal.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Less_Than'Access,
-         "Unsigned_Less_Than.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Less_Than'Access,
-         "Signed_Less_Than.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Greater_Than'Access,
-         "Unsigned_Greater_Than.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Greater_Than'Access,
-         "Signed_Greater_Than.");
-      Register_Routine (The_Test, Test_Negate'Access, "Negate.");
-      Register_Routine (The_Test, Test_Add'Access, "Add.");
-      Register_Routine (The_Test, Test_Subtract'Access, "Subtract.");
-      Register_Routine (The_Test, Test_Multiply'Access, "Multiply.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Divide'Access,
-         "Unsigned_Divide.");
-      Register_Routine (The_Test, Test_Signed_Divide'Access, "Signed_Divide.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Remainder'Access,
-         "Unsigned_Remainder.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Remainder'Access,
-         "Signed_Remainder.");
-      Register_Routine
-        (The_Test,
-         Test_Assign_Element'Access,
-         "Assign_Element.");
-      Register_Routine (The_Test, Test_Access_Element'Access, "Access_Element");
-      Register_Routine (The_Test, Test_If_Else'Access, "If_Else.");
-      Register_Routine (The_Test, Test_Convert'Access, "Convert.");
-      Register_Routine (The_Test, Test_Normalize'Access, "Normalize.");
-      Register_Routine
-        (The_Test,
-         Test_Normalize_With_Variables'Access,
-         "Normalize_With_Variables.");
-      Register_Routine (The_Test, Test_Is_Constant'Access, "Is_Constant.");
-      Register_Routine
-        (The_Test,
-         Test_To_Constant_Modular'Access,
-         "To_Constant_Modular.");
-      Register_Routine
-        (The_Test,
-         Test_To_Constant_Boolean_Array'Access,
-         "To_Constant_Boolean Array.");
-      Register_Routine (The_Test, Test_Variables_Of'Access, "Variables_Of.");
-      Register_Routine (The_Test, Test_Length_Of'Access, "Length_Of.");
-      Register_Routine (The_Test, Test_Solve'Access, "Solve.");
-      Register_Routine (The_Test, Test_Boolean_Of'Access, "Boolean_Of.");
-      Register_Routine (The_Test, Test_Image_Of'Access, "Image_Of.");
-      Register_Routine (The_Test, Test_Iterate'Access, "Iterate.");
-      Register_Routine (The_Test, Test_Pool'Access, "Pool.");
-   end Register_Tests;
+      -- Repeat for each test routine:
+      Register_Routine(The_Test, Test_Create_Constant_With_Boolean_Array'Access, "Test_Create_Constant_With_Boolean_Array!");
+      Register_Routine(The_Test, Test_Create_Constant_With_Size'Access, "Test_Create_Constant_With_Size!");
+      Register_Routine(The_Test, Test_Create_Variable'Access, "Test_Create_Variable!");
+      Register_Routine(The_Test, Test_Dispose'Access, "Test_Dispose!");
+      Register_Routine(The_Test, Test_Copy'Access, "Test_Copy!");
+      Register_Routine(The_Test, Test_Append_With_Equation'Access, "Test_Append_With_Equation!");
+      Register_Routine(The_Test, Test_Append_With_Word'Access, "Test_Append_With_Word!");
+      Register_Routine(The_Test, Test_Fill'Access, "Test_Fill!");
+      Register_Routine(The_Test, Test_Shift_Left'Access, "Test_Shift_Left!");
+      Register_Routine(The_Test, Test_Shift_Right'Access, "Test_Shift_Right!");
+      Register_Routine(The_Test, Test_Not_Op'Access, "Test_Not_Op!");
+      Register_Routine(The_Test, Test_And_Op'Access, "Test_And_Op!");
+      Register_Routine(The_Test, Test_Or_Op'Access, "Test_Or_Op!");
+      Register_Routine(The_Test, Test_Xor_Op'Access, "Test_Xor_Op!");
+      Register_Routine(The_Test, Test_Not_Equal'Access, "Test_Not_Equal!");
+      Register_Routine(The_Test, Test_Unsigned_Less_Than'Access, "Test_Unsigned_Less_Than!");
+      Register_Routine(The_Test, Test_Signed_Less_Than'Access, "Test_Signed_Less_Than!");
+      Register_Routine(The_Test, Test_Unsigned_Greater_Than'Access, "Test_Unsigned_Greater_Than!");
+      Register_Routine(The_Test, Test_Signed_Greater_Than'Access, "Test_Signed_Greater_Than!");
+      Register_Routine(The_Test, Test_Negate'Access, "Test_Negate!");
+      Register_Routine(The_Test, Test_Add'Access, "Test_Add!");
+      Register_Routine(The_Test, Test_Subtract'Access, "Test_Subtract!");
+      Register_Routine(The_Test, Test_Multiply'Access, "Test_Multiply!");
+      Register_Routine(The_Test, Test_Unsigned_Divide'Access, "Test_Unsigned_Divide!");
+      Register_Routine(The_Test, Test_Signed_Divide'Access, "Test_Signed_Divide!");
+      Register_Routine(The_Test, Test_Unsigned_Remainder'Access, "Test_Unsigned_Remainder!");
+      Register_Routine(The_Test, Test_Signed_Remainder'Access, "Test_Signed_Remainder!");
+      Register_Routine(The_Test, Test_Assign_Element'Access, "Test_Assign_Element!");
+      Register_Routine(The_Test, Test_Access_Element'Access, "Test_Access_Element!");
+      Register_Routine(The_Test, Test_If_Else'Access, "Test_If_Else!");
+      Register_Routine(The_Test, Test_Convert'Access, "Test_Convert!");
+      Register_Routine(The_Test, Test_Normalize'Access, "Test_Normalize!");
+      Register_Routine(The_Test, Test_Normalize_With_Variables'Access, "Test_Normalize_With_Variables!");
+      Register_Routine(The_Test, Test_Is_Constant'Access, "Test_Is_Constant!");
+      Register_Routine(The_Test, Test_To_Constant_Modular'Access, "Test_To_Constant_Modular!");
+      Register_Routine(The_Test, Test_To_Constant_Boolean_Array'Access, "Test_To_Constant_Boolean_Array!");
+      Register_Routine(The_Test, Test_Variables_Of'Access, "Test_Variables_Of!");
+      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
+      Register_Routine(The_Test, Test_Solve'Access, "Test_Solve!");
+      Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
+      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
+      Register_Routine(The_Test, Test_Iterate'Access, "Test_Iterate!");
+      Register_Routine(The_Test, Test_Pool'Access, "Test_Pool!");
+      Register_Routine(The_Test, Test_And_Op'Access, "Test_And_Op!");
+      Register_Routine(The_Test, Test_Or_Op'Access, "Test_Or_Op!");
+      Register_Routine(The_Test, Test_Xor_Op'Access, "Test_Xor_Op!");
+      Register_Routine(The_Test, Test_Not_Equal'Access, "Test_Not_Equal!");
+      Register_Routine(The_Test, Test_Unsigned_Less_Than'Access, "Test_Unsigned_Less_Than!");
+      Register_Routine(The_Test, Test_Signed_Less_Than'Access, "Test_Signed_Less_Than!");
+      Register_Routine(The_Test, Test_Unsigned_Greater_Than'Access, "Test_Unsigned_Greater_Than!");
+      Register_Routine(The_Test, Test_Signed_Greater_Than'Access, "Test_Signed_Greater_Than!");
+      Register_Routine(The_Test, Test_Add'Access, "Test_Add!");
+      Register_Routine(The_Test, Test_Subtract'Access, "Test_Subtract!");
+      Register_Routine(The_Test, Test_Multiply'Access, "Test_Multiply!");
+      Register_Routine(The_Test, Test_Unsigned_Divide'Access, "Test_Unsigned_Divide!");
+      Register_Routine(The_Test, Test_Signed_Divide'Access, "Test_Signed_Divide!");
+      Register_Routine(The_Test, Test_Unsigned_Remainder'Access, "Test_Unsigned_Remainder!");
+      Register_Routine(The_Test, Test_Signed_Remainder'Access, "Test_Signed_Remainder!");
+  end Register_Tests;
 
    ------------
    -- Set_Up --

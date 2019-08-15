@@ -28,10 +28,10 @@ package body Boolean_Package.Boolean_Test is
       use Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_Count_Of'Access, "Test_Count_Of.");
-      Register_Routine (The_Test, Test_BCInteger_At'Access, "Test_BCInteger_At.");
-      Register_Routine (The_Test, Test_BCModular_At'Access, "Test_BCModular_At.");
-      Register_Routine (The_Test, Test_Image_Of'Access, "Test_Image_Of.");
+      Register_Routine(The_Test, Test_Count_Of'Access, "Test_Count_Of!");
+      Register_Routine(The_Test, Test_BCInteger_At'Access, "Test_BCInteger_At!");
+      Register_Routine(The_Test, Test_BCModular_At'Access, "Test_BCModular_At!");
+      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
    end Register_Tests;
 
    --------------------

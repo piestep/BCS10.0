@@ -38,8 +38,8 @@ package body Number_Package.IO_Package.IO_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_Write'Access, "Write.");
-      Register_Routine (The_Test, Test_Read'Access, "Read.");
+      Register_Routine(The_Test, Test_Write'Access, "Test_Write!");
+      Register_Routine(The_Test, Test_Read'Access, "Test_Read!");
    end Register_Tests;
 
    -----------------

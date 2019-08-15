@@ -577,29 +577,16 @@ def run():
    if context.entity_name() is not None:
       entity = context.entity()
       if entity.category() == 'package':
-         return prog + " -s " + entity.full_name() + "."
+         return prog + " -s " + entity.full_name() + "!"
       elif entity.category() == 'procedure':
          senario = entity.full_name()[:-(len(entity.name())+1)]
          case = entity.name()
-         return prog + " -s " + senario + "." + " -c " + case + "."
+         return prog + " -s " + senario + "!" + " -c " + case + "!"
 
    return ""
 
 def bcs_action():
     print "ACTION"
-
-def bcs_capitalize(name):
-   """
-   Capitalize ada name
-   """
-   ary = string.split(name, '_')
-   for i in range ( len ( ary ) ):
-      ary[i] = string.upper(ary[i][0]) + ary[i][1:]
-   name = string.join(ary, '_')
-   ary = string.split(name, '.')
-   for i in range ( len ( ary ) ):
-      ary[i] = string.upper(ary[i][0]) + ary[i][1:]
-   return string.join(ary, '.')
 
 def scenario():
    """
@@ -618,7 +605,7 @@ def scenario():
    last = cursor.sel_mark().location()
    buf.cut(first, last, False)
 
-   GPS.Clipboard.copy("return AUnit.Format (\""+name+".\");\n")
+   GPS.Clipboard.copy("return AUnit.Format (\""+name+"!\");\n")
    cursor = buf.main_cursor()
    first = cursor.mark().location()
    buf.paste(first)
@@ -645,7 +632,7 @@ def cases():
             entity.name() + \
             "\'Access, \"" + \
             entity.name() + \
-            ".\");\n"
+            "!\");\n"
             GPS.Clipboard.copy(procedure)
             cursor = buf.main_cursor()
             first = cursor.mark().location()
@@ -657,10 +644,7 @@ def bcs_test():
    Test
    """
    print "TEST"
-   context = GPS.current_context()
-   file = context.file()
-   entities = file.entities(True)
-   print entities[0].full_name()[:-9]
+
 
 @gps_utils.hook('gps_started')
 def __gps_started():

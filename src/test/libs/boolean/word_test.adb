@@ -69,68 +69,29 @@ package body Word_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_Not'Access, "Not.");
-      Register_Routine (The_Test, Test_And'Access, "And.");
-      Register_Routine (The_Test, Test_Or'Access, "Or.");
-      Register_Routine (The_Test, Test_Xor'Access, "Xor.");
-      Register_Routine (The_Test, Test_Not_Equal'Access, "Not_Equal.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Less_Than'Access,
-         "Unsigned_Less_Than.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Less_Than'Access,
-         "Signed_Less_Than.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Greater_Than'Access,
-         "Unsigned_Greater_Than.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Greater_Than'Access,
-         "Signed_Greater_Than.");
-      Register_Routine (The_Test, Test_Negate'Access, "Negate.");
-      Register_Routine (The_Test, Test_Unsigned_Add'Access, "Unsigned_Add.");
-      Register_Routine (The_Test, Test_Signed_Add'Access, "Signed_Add.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Subtract'Access,
-         "Unsigned_Subtract.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Subtract'Access,
-         "Signed_Subtract.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Multiply'Access,
-         "Unsigned_Multiply.");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Multiply'Access,
-         "Signed_Multiply.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Divide'Access,
-         "Unsigned_Divide.");
-      Register_Routine (The_Test, Test_Signed_Divide'Access, "Signed_Divide.");
-      Register_Routine
-        (The_Test,
-         Test_Unsigned_Remainder'Access,
-         "Unsigned_Remainder");
-      Register_Routine
-        (The_Test,
-         Test_Signed_Remainder'Access,
-         "Signed_Remainder.");
-      Register_Routine
-        (The_Test,
-         Test_Assign_Element'Access,
-         "Assign_Element.");
-      Register_Routine
-        (The_Test,
-         Test_Access_Element'Access,
-         "Access_Element.");
-      Register_Routine (The_Test, Test_If_Else'Access, "If_Else.");
+      Register_Routine(The_Test, Test_Not'Access, "Test_Not!");
+      Register_Routine(The_Test, Test_And'Access, "Test_And!");
+      Register_Routine(The_Test, Test_Or'Access, "Test_Or!");
+      Register_Routine(The_Test, Test_Xor'Access, "Test_Xor!");
+      Register_Routine(The_Test, Test_Not_Equal'Access, "Test_Not_Equal!");
+      Register_Routine(The_Test, Test_Unsigned_Less_Than'Access, "Test_Unsigned_Less_Than!");
+      Register_Routine(The_Test, Test_Signed_Less_Than'Access, "Test_Signed_Less_Than!");
+      Register_Routine(The_Test, Test_Unsigned_Greater_Than'Access, "Test_Unsigned_Greater_Than!");
+      Register_Routine(The_Test, Test_Signed_Greater_Than'Access, "Test_Signed_Greater_Than!");
+      Register_Routine(The_Test, Test_Negate'Access, "Test_Negate!");
+      Register_Routine(The_Test, Test_Unsigned_Add'Access, "Test_Unsigned_Add!");
+      Register_Routine(The_Test, Test_Signed_Add'Access, "Test_Signed_Add!");
+      Register_Routine(The_Test, Test_Unsigned_Subtract'Access, "Test_Unsigned_Subtract!");
+      Register_Routine(The_Test, Test_Signed_Subtract'Access, "Test_Signed_Subtract!");
+      Register_Routine(The_Test, Test_Unsigned_Multiply'Access, "Test_Unsigned_Multiply!");
+      Register_Routine(The_Test, Test_Signed_Multiply'Access, "Test_Signed_Multiply!");
+      Register_Routine(The_Test, Test_Unsigned_Divide'Access, "Test_Unsigned_Divide!");
+      Register_Routine(The_Test, Test_Signed_Divide'Access, "Test_Signed_Divide!");
+      Register_Routine(The_Test, Test_Unsigned_Remainder'Access, "Test_Unsigned_Remainder!");
+      Register_Routine(The_Test, Test_Signed_Remainder'Access, "Test_Signed_Remainder!");
+      Register_Routine(The_Test, Test_Assign_Element'Access, "Test_Assign_Element!");
+      Register_Routine(The_Test, Test_Access_Element'Access, "Test_Access_Element!");
+      Register_Routine(The_Test, Test_If_Else'Access, "Test_If_Else!");
    end Register_Tests;
 
    -----------------

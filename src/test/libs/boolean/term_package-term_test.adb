@@ -49,27 +49,18 @@ package body Term_Package.Term_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_To_Index'Access, "To_Index.");
-      Register_Routine (The_Test, Test_Create'Access, "Create.");
-      Register_Routine
-        (The_Test,
-         Test_Create_With_Value'Access,
-         "Create_With_Value.");
-      Register_Routine (The_Test, Test_Set'Access, "Set.");
-      Register_Routine (The_Test, Test_Is_Set'Access, "Is_Set.");
-      Register_Routine (The_Test, Test_Is_Equal'Access, "Is_Equal.");
-      Register_Routine (The_Test, Test_Index_Of'Access, "Index_Of.");
-      Register_Routine (The_Test, Test_Length_Of'Access, "Length_Of.");
-      Register_Routine (The_Test, Test_Image_Of'Access, "Image_Of.");
-      Register_Routine
-        (The_Test,
-         Test_Image_Of_With_Variables'Access,
-         "Image_Of_With_Variables.");
-      Register_Routine
-        (The_Test,
-         Test_To_Boolean_Array'Access,
-         "To_Boolean_Array.");
-      Register_Routine (The_Test, Test_Boolean_Of'Access, "Boolean_Of.");
+      Register_Routine(The_Test, Test_To_Index'Access, "Test_To_Index!");
+      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
+      Register_Routine(The_Test, Test_Create_With_Value'Access, "Create_With_Value!");
+      Register_Routine(The_Test, Test_Set'Access, "Test_Set!");
+      Register_Routine(The_Test, Test_Is_Set'Access, "Test_Is_Set!");
+      Register_Routine(The_Test, Test_Is_Equal'Access, "Test_Is_Equal!");
+      Register_Routine(The_Test, Test_Index_Of'Access, "Test_Index_Of!");
+      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
+      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
+      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Image_Of_With_Variables!");
+      Register_Routine(The_Test, Test_To_Boolean_Array'Access, "To_Boolean_Array!");
+      Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
    end Register_Tests;
 
    -------------------
