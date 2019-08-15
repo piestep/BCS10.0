@@ -608,8 +608,8 @@ def scenario():
 
    context = GPS.current_context()
    file = context.file()
-   unit = file.unit()
-   name = bcs_capitalize(unit)
+   entities = file.entities(True)
+   name = entities[0].full_name()[:-9]
 
    buf = GPS.EditorBuffer.get(context.file())
    cursor = buf.main_cursor()
@@ -657,7 +657,10 @@ def bcs_test():
    Test
    """
    print "TEST"
-
+   context = GPS.current_context()
+   file = context.file()
+   entities = file.entities(True)
+   print entities[0].full_name()[:-9]
 
 @gps_utils.hook('gps_started')
 def __gps_started():

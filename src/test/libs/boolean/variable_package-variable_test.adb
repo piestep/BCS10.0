@@ -31,7 +31,7 @@ package body Variable_Package.Variable_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Variable.");
+      return AUnit.Format ("Variable_Package.Variable_Test.");
    end Name;
 
    --------------------
@@ -42,21 +42,18 @@ package body Variable_Package.Variable_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_Is_Included'Access, "Is_Included.");
-      Register_Routine (The_Test, Test_Include'Access, "Include.");
-      Register_Routine (The_Test, Test_Exclude'Access, "Exclude.");
-      Register_Routine (The_Test, Test_Array_Of'Access, "Array_Of.");
-      Register_Routine (The_Test, Test_Not'Access, "Not.");
-      Register_Routine (The_Test, Test_And'Access, "And.");
-      Register_Routine (The_Test, Test_Or'Access, "Or.");
-      Register_Routine (The_Test, Test_Xor'Access, "Xor.");
-      Register_Routine (The_Test, Test_Image_Of_Variable'Access, "Image_Of.");
-      Register_Routine (The_Test, Test_Not_Image_Of'Access, "Not_Image_Of.");
-      Register_Routine (The_Test, Test_Boolean_Of'Access, "Boolean_Of.");
-      Register_Routine
-        (The_Test,
-         Test_Image_Of_Set_Of_Variables'Access,
-         "Image_Of_Set_Of_Variables.");
+      Register_Routine(The_Test, Test_Is_Included'Access, "Test_Is_Included.");
+      Register_Routine(The_Test, Test_Include'Access, "Test_Include.");
+      Register_Routine(The_Test, Test_Exclude'Access, "Test_Exclude.");
+      Register_Routine(The_Test, Test_Array_Of'Access, "Test_Array_Of.");
+      Register_Routine(The_Test, Test_Not'Access, "Test_Not.");
+      Register_Routine(The_Test, Test_And'Access, "Test_And.");
+      Register_Routine(The_Test, Test_Or'Access, "Test_Or.");
+      Register_Routine(The_Test, Test_Xor'Access, "Test_Xor.");
+      Register_Routine(The_Test, Test_Image_Of_Variable'Access, "Test_Image_Of_Variable.");
+      Register_Routine(The_Test, Test_Not_Image_Of'Access, "Test_Not_Image_Of.");
+      Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of.");
+      Register_Routine(The_Test, Test_Image_Of_Set_Of_Variables'Access, "Test_Image_Of_Set_Of_Variables.");
    end Register_Tests;
 
    --------------

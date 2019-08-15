@@ -25,7 +25,7 @@ package body Values_Package.Values_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Values.");
+      return AUnit.Format ("Values_Package.Values_Test.");
    end Name;
 
    --------------------
@@ -36,11 +36,11 @@ package body Values_Package.Values_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine (The_Test, Test_Create'Access, "Create.");
-      Register_Routine (The_Test, Test_Create_With_Array'Access, "Create_With_Array.");
-      Register_Routine (The_Test, Test_Concatenation'Access, "Concatenation.");
-      Register_Routine (The_Test, Test_Length_Of'Access, "Length_Of.");
-      Register_Routine (The_Test, Test_Image_Of'Access, "Image_Of.");
+      Register_Routine(The_Test, Test_Create'Access, "Test_Create.");
+      Register_Routine(The_Test, Test_Create_With_Array'Access, "Test_Create_With_Array.");
+      Register_Routine(The_Test, Test_Concatenation'Access, "Test_Concatenation.");
+      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of.");
+      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of.");
    end Register_Tests;
 
    -----------------
