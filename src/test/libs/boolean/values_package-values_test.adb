@@ -25,7 +25,7 @@ package body Values_Package.Values_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Values_Package.Values_Test.");
+      return AUnit.Format("Values_Package.Values_Test!");
    end Name;
 
    --------------------

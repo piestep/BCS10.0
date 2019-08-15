@@ -55,7 +55,7 @@ package body Number_Package.Number_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Number.");
+      return AUnit.Format("Number_Package.Number_Test!");
    end Name;
 
    ------------

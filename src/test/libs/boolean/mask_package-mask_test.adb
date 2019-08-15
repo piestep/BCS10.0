@@ -25,7 +25,7 @@ package body Mask_Package.Mask_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Mask.");
+      return AUnit.Format("Mask_Package.Mask_Test!");
    end Name;
 
    --------------------

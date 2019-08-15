@@ -31,7 +31,7 @@ package body Variable_Package.Variable_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Variable_Package.Variable_Test.");
+      return AUnit.Format("Variable_Package.Variable_Test!");
    end Name;
 
    --------------------

@@ -38,7 +38,7 @@ package body Term_Package.Term_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Term.");
+      return AUnit.Format("Term_Package.Term_Test!");
    end Name;
 
    --------------------

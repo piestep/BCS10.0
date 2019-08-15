@@ -17,7 +17,7 @@ package body Boolean_Package.Boolean_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Boolean_Package.Boolean_Test.");
+      return AUnit.Format("Boolean_Package.Boolean_Test!");
    end Name;
 
    --------------------

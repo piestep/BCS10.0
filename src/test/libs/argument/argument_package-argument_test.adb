@@ -17,7 +17,7 @@ package body Argument_Package.Argument_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Argument_Package.Argument_Test.");
+      return AUnit.Format("Argument_Package.Argument_Test!");
    end Name;
 
    --------------------

@@ -128,7 +128,7 @@ package body Equation_Package.Equation_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Equation.");
+      return AUnit.Format("Equation_Package.Equation_Test!");
    end Name;
 
    ------------

@@ -58,7 +58,7 @@ package body Word_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Word_Test.");
+      return AUnit.Format("Word_Test!");
    end Name;
 
    --------------------

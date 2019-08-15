@@ -25,7 +25,7 @@ package body Equation_Package.IO_Package.IO_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format ("Equation_IO.");
+      return AUnit.Format("Equation_Package.IO_Package.IO_Test!");
    end Name;
 
    --------------------
