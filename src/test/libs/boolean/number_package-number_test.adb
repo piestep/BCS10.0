@@ -55,7 +55,7 @@ package body Number_Package.Number_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Number_Package.Number_Test!");
+      return AUnit.Format ("number_package.number_test!");
    end Name;
 
    ------------
@@ -85,9 +85,9 @@ package body Number_Package.Number_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_Dispose'Access, "Test_Dispose!");
       Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
-      Register_Routine (The_Test, Test_Create_With_Value'Access, "Create_With_Value!");
+      Register_Routine(The_Test, Test_Create_With_Value'Access, "Test_Create_With_Value!");
+      Register_Routine(The_Test, Test_Dispose'Access, "Test_Dispose!");
       Register_Routine(The_Test, Test_Copy'Access, "Test_Copy!");
       Register_Routine(The_Test, Test_Not_Op'Access, "Test_Not_Op!");
       Register_Routine(The_Test, Test_And_Op'Access, "Test_And_Op!");
@@ -95,16 +95,16 @@ package body Number_Package.Number_Test is
       Register_Routine(The_Test, Test_Xor_Op'Access, "Test_Xor_Op!");
       Register_Routine(The_Test, Test_Normalize'Access, "Test_Normalize!");
       Register_Routine(The_Test, Test_Include'Access, "Test_Include!");
-      Register_Routine(The_Test, Test_Is_Included_With_FPT'Access, "Is_Included_With_FPT!");
-      Register_Routine(The_Test, Test_Include'Access, "Test_Include!");
-      Register_Routine(The_Test, Test_Is_Included_With_Index'Access, "Is_Included_With_Index!");
-      Register_Routine(The_Test, Test_Is_Constant_Of_Boolean'Access, "Is_Constant_Of_Boolean!");
+      Register_Routine(The_Test, Test_Is_Included_With_FPT'Access, "Test_Is_Included_With_FPT!");
+      Register_Routine(The_Test, Test_Include_Index'Access, "Test_Include_Index!");
+      Register_Routine(The_Test, Test_Is_Included_With_Index'Access, "Test_Is_Included_With_Index!");
+      Register_Routine(The_Test, Test_Is_Constant_Of_Boolean'Access, "Test_Is_Constant_Of_Boolean!");
       Register_Routine(The_Test, Test_Is_Constant'Access, "Test_Is_Constant!");
       Register_Routine(The_Test, Test_To_Constant'Access, "Test_To_Constant!");
       Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
       Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
       Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
-      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Image_Of_With_Variables!");
+      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Test_Image_Of_With_Variables!");
       Register_Routine(The_Test, Test_Pool'Access, "Test_Pool!");
    end Register_Tests;
 

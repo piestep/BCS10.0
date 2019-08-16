@@ -31,7 +31,7 @@ package body Variable_Package.Variable_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Variable_Package.Variable_Test!");
+      return AUnit.Format ("variable_package.variable_test!");
    end Name;
 
    --------------------
@@ -51,7 +51,7 @@ package body Variable_Package.Variable_Test is
       Register_Routine(The_Test, Test_Or'Access, "Test_Or!");
       Register_Routine(The_Test, Test_Xor'Access, "Test_Xor!");
       Register_Routine(The_Test, Test_Image_Of_Variable'Access, "Test_Image_Of_Variable!");
-      Register_Routine(The_Test, Test_Not'Access, "Test_Not!");
+      Register_Routine(The_Test, Test_Not_Image_Of'Access, "Test_Not_Image_Of!");
       Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
       Register_Routine(The_Test, Test_Image_Of_Set_Of_Variables'Access, "Test_Image_Of_Set_Of_Variables!");
    end Register_Tests;

@@ -17,7 +17,7 @@ package body Argument_Package.Argument_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Argument_Package.Argument_Test!");
+      return AUnit.Format ("argument_package.argument_test!");
    end Name;
 
    --------------------
@@ -28,12 +28,12 @@ package body Argument_Package.Argument_Test is
       use Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_Simple_Scalar_Integer_Argument'Access, "Test_Simple_Scalar_Integer_Argument!");
-      Register_Routine(The_Test, Test_Simple_Scalar_Modular_Argument'Access, "Test_Simple_Scalar_Modular_Argument!");
-      Register_Routine(The_Test, Test_Multiple_Scalar_Arguments'Access, "Test_Multiple_Scalar_Arguments!");
-      Register_Routine(The_Test, Test_Simple_Array_Integer_Argument'Access, "Test_Simple_Array_Integer_Argument!");
-      Register_Routine(The_Test, Test_Simple_Array_Modular_Argument'Access, "Test_Simple_Array_Modular_Argument!");
-      Register_Routine(The_Test, Test_Multiple_Arguments'Access, "Test_Multiple_Arguments!");
+      Register_Routine (The_Test, Test_Simple_Scalar_Integer_Argument'Access, "test_simple_scalar_integer_argument!");
+      Register_Routine (The_Test, Test_Simple_Scalar_Modular_Argument'Access, "test_simple_scalar_modular_argument!");
+      Register_Routine (The_Test, Test_Multiple_Scalar_Arguments'Access, "test_multiple_scalar_arguments!");
+      Register_Routine (The_Test, Test_Simple_Array_Integer_Argument'Access, "test_simple_array_integer_argument!");
+      Register_Routine (The_Test, Test_Simple_Array_Modular_Argument'Access, "test_simple_array_modular_argument!");
+      Register_Routine (The_Test, Test_Multiple_Arguments'Access, "test_multiple_arguments!");
    end Register_Tests;
 
    -----------------

@@ -25,7 +25,7 @@ package body Equation_Package.IO_Package.IO_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Equation_Package.IO_Package.IO_Test!");
+      return AUnit.Format ("equation_package.io_package.io_test!");
    end Name;
 
    --------------------
@@ -38,7 +38,7 @@ package body Equation_Package.IO_Package.IO_Test is
       -- Repeat for each test routine:
       Register_Routine(The_Test, Test_Write'Access, "Test_Write!");
       Register_Routine(The_Test, Test_Read'Access, "Test_Read!");
-   end Register_Tests;
+ end Register_Tests;
 
    ------------
    -- Set_Of --

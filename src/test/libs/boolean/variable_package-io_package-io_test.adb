@@ -21,7 +21,7 @@ package body Variable_Package.IO_Package.IO_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Variable_Package.IO_Package.IO_Test!");
+      return AUnit.Format ("variable_package.io_package.io_test!");
    end Name;
 
    --------------------

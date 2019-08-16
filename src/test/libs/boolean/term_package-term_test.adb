@@ -28,8 +28,8 @@ package body Term_Package.Term_Test is
    function Image_Of_Test_Fpt (The_Fpt : Term_Type) return String is
    begin
       return Image_Of
-          (Boolean_Array_Type
-             (The_Fpt.The_Array (0 .. The_Fpt.The_Length - 1)));
+        (Boolean_Array_Type
+           (The_Fpt.The_Array (0 .. The_Fpt.The_Length - 1)));
    end Image_Of_Test_Fpt;
 
    ----------
@@ -38,7 +38,7 @@ package body Term_Package.Term_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Term_Package.Term_Test!");
+      return AUnit.Format ("term_package.term_test!");
    end Name;
 
    --------------------
@@ -51,15 +51,15 @@ package body Term_Package.Term_Test is
       -- Repeat for each test routine:
       Register_Routine(The_Test, Test_To_Index'Access, "Test_To_Index!");
       Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
-      Register_Routine(The_Test, Test_Create_With_Value'Access, "Create_With_Value!");
+      Register_Routine(The_Test, Test_Create_With_Value'Access, "Test_Create_With_Value!");
       Register_Routine(The_Test, Test_Set'Access, "Test_Set!");
       Register_Routine(The_Test, Test_Is_Set'Access, "Test_Is_Set!");
       Register_Routine(The_Test, Test_Is_Equal'Access, "Test_Is_Equal!");
       Register_Routine(The_Test, Test_Index_Of'Access, "Test_Index_Of!");
       Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
       Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
-      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Image_Of_With_Variables!");
-      Register_Routine(The_Test, Test_To_Boolean_Array'Access, "To_Boolean_Array!");
+      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Test_Image_Of_With_Variables!");
+      Register_Routine(The_Test, Test_To_Boolean_Array'Access, "Test_To_Boolean_Array!");
       Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
    end Register_Tests;
 
@@ -627,7 +627,7 @@ package body Term_Package.Term_Test is
 
       IMAGE_OF_TERMS : constant String :=
         IMAGE_OF_ALL_TERMS (1 .. 2 * VARIABLES);
---        "a0b0c0d0e0f0g0h0i0j0k0l0m0n0o0p0";
+      --        "a0b0c0d0e0f0g0h0i0j0k0l0m0n0o0p0";
 
       The_Fpt : Term_Type;
    begin

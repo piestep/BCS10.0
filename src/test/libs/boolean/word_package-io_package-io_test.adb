@@ -36,7 +36,7 @@ package body Word_Package.IO_Package.IO_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Word_Package.IO_Package.IO_Test!");
+      return AUnit.Format ("word_package.io_package.io_test!");
    end Name;
 
    --------------------

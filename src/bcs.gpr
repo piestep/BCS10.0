@@ -6,6 +6,7 @@ with "libs/system/system";
 with "libs/pool/pool";
 with "libs/boolean/boolean";
 with "libs/argument/argument";
+with "libs/parameter/parameter";
 
 project BCS is
 

@@ -67,7 +67,7 @@ package body Word_Package.Word_Test is
 
    function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Word_Package.Word_Test!");
+      return AUnit.Format ("word_package.word_test!");
    end Name;
 
    --------------------
@@ -136,7 +136,7 @@ package body Word_Package.Word_Test is
       Register_Routine(The_Test, Test_Signed_Divide'Access, "Test_Signed_Divide!");
       Register_Routine(The_Test, Test_Unsigned_Remainder'Access, "Test_Unsigned_Remainder!");
       Register_Routine(The_Test, Test_Signed_Remainder'Access, "Test_Signed_Remainder!");
-  end Register_Tests;
+   end Register_Tests;
 
    ------------
    -- Set_Up --

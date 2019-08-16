@@ -25,7 +25,7 @@ package body Mask_Package.Mask_Test is
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String is
    begin
-      return AUnit.Format("Mask_Package.Mask_Test!");
+      return AUnit.Format ("mask_package.mask_test!");
    end Name;
 
    --------------------
@@ -36,11 +36,11 @@ package body Mask_Package.Mask_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
-      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
-      Register_Routine(The_Test, Test_Count_Of'Access, "Test_Count_Of!");
-      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
-      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
+      Register_Routine (The_Test, Test_Create'Access, "test_create!");
+      Register_Routine (The_Test, Test_Create'Access, "test_create!");
+      Register_Routine (The_Test, Test_Count_Of'Access, "test_count_of!");
+      Register_Routine (The_Test, Test_Length_Of'Access, "test_length_of!");
+      Register_Routine (The_Test, Test_Image_Of'Access, "test_image_of!");
    end Register_Tests;
 
    -----------------
