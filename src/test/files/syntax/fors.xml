@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>For.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- if</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in INTEGER range 1 .. 10 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : For_Statement</ln>
+<ln>            The_Index        I</ln>
+<ln>            The_Definition   INTEGER</ln>
+<ln>            Is_Reverse       FALSE</ln>
+<ln>            The_First        [ 5 ]</ln>
+<ln>            The_Last         [ 6 ]</ln>
+<ln>            The_Statements   [ 7 ]</ln>
+<ln>          end For_Statement</ln>
+<ln></ln>
+<ln>[    5] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    7] : Null_Statement</ln>
+<ln>          end Null_Statement</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>For_Reverse.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- if</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in reverse INTEGER range 1 .. 10 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : For_Statement</ln>
+<ln>            The_Index        I</ln>
+<ln>            The_Definition   INTEGER</ln>
+<ln>            Is_Reverse       TRUE</ln>
+<ln>            The_First        [ 5 ]</ln>
+<ln>            The_Last         [ 6 ]</ln>
+<ln>            The_Statements   [ 7 ]</ln>
+<ln>          end For_Statement</ln>
+<ln></ln>
+<ln>[    5] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    7] : Null_Statement</ln>
+<ln>          end Null_Statement</ln>
+<ln></ln>
+</listing>
+</test>
+</body>

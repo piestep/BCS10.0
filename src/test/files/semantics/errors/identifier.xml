@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Identifier.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   TEST : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 8: Identifier already defined (5).</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Excessive.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   A : INTEGER;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 15: Warning: Integer type may cause excessive BCode compilation (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Expected.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   A : TEST;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 12: Expected type identifier (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Undefined.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 18: Undefined type identifier (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Not_Compatiable_Type.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   A : INDEX_TYPE := - 1;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 25: Expression value not compatiable with identifier type.</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Not_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   A : INDEX_TYPE := TRUE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 26: Identifier not compatiable with expression (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Constant.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln>   B : INDEX_TYPE := A;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 23: Expression must be constant (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Array.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 .. 10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   A : INDEX_ARRAY_TYPE := 1;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 29: Arrays can not be initialized.</ln>
+</listing>
+</test>
+
+<test>
+<name>Identifier_Constant_Value.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   A : constant INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 27: Expected expression for constant variable.</ln>
+</listing>
+</test>
+</body>

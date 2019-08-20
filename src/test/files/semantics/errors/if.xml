@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Condition_Error.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   B : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      if B then</ln>
+<ln>         null;</ln>
+<ln>      end if;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 11: Expected boolean condition.</ln>
+</listing>
+</test>
+</body>

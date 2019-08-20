@@ -42,18 +42,18 @@ package body Variable_Package.Variable_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_Is_Included'Access, "Test_Is_Included!");
-      Register_Routine(The_Test, Test_Include'Access, "Test_Include!");
-      Register_Routine(The_Test, Test_Exclude'Access, "Test_Exclude!");
-      Register_Routine(The_Test, Test_Array_Of'Access, "Test_Array_Of!");
-      Register_Routine(The_Test, Test_Not'Access, "Test_Not!");
-      Register_Routine(The_Test, Test_And'Access, "Test_And!");
-      Register_Routine(The_Test, Test_Or'Access, "Test_Or!");
-      Register_Routine(The_Test, Test_Xor'Access, "Test_Xor!");
-      Register_Routine(The_Test, Test_Image_Of_Variable'Access, "Test_Image_Of_Variable!");
-      Register_Routine(The_Test, Test_Not_Image_Of'Access, "Test_Not_Image_Of!");
-      Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
-      Register_Routine(The_Test, Test_Image_Of_Set_Of_Variables'Access, "Test_Image_Of_Set_Of_Variables!");
+      Register_Routine (The_Test, Test_Is_Included'Access, "test_is_included!");
+      Register_Routine (The_Test, Test_Include'Access, "test_include!");
+      Register_Routine (The_Test, Test_Exclude'Access, "test_exclude!");
+      Register_Routine (The_Test, Test_Array_Of'Access, "test_array_of!");
+      Register_Routine (The_Test, Test_Not'Access, "test_not!");
+      Register_Routine (The_Test, Test_And'Access, "test_and!");
+      Register_Routine (The_Test, Test_Or'Access, "test_or!");
+      Register_Routine (The_Test, Test_Xor'Access, "test_xor!");
+      Register_Routine (The_Test, Test_Image_Of_Variable'Access, "test_image_of_variable!");
+      Register_Routine (The_Test, Test_Not_Image_Of'Access, "test_not_image_of!");
+      Register_Routine (The_Test, Test_Boolean_Of'Access, "test_boolean_of!");
+      Register_Routine (The_Test, Test_Image_Of_Set_Of_Variables'Access, "test_image_of_set_of_variables!");
    end Register_Tests;
 
    --------------

@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Expressions_Not_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln>   B : RANGE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A = B;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>10, 17: Expressions not compatiable.</ln>
+</listing>
+</test>
+
+<test>
+<name>Type_Error-Boolean.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type FALSE_TYPE is new BOOLEAN range FALSE .. FALSE;</ln>
+<ln>   A : FALSE_TYPE;</ln>
+<ln>   B : constant FALSE_TYPE := FALSE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := B or TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 21: Expression not within type (4).</ln>
+</listing>
+</test>
+
+<test>
+<name>Boolean_Error.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A and A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 19: Operands not compatiable with boolean operator.</ln>
+</listing>
+</test>
+
+<test>
+<name>Type_Error-Integer.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln>   B : constant INDEX_TYPE := 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := B + 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 17: Expression not within type (5).</ln>
+</listing>
+</test>
+
+<test>
+<name>Integer_Error.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   A : BOOLEAN;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A + A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 17: Operand not compatiable with integer operator.</ln>
+</listing>
+</test>
+
+<test>
+<name>Operands_Not_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln>   B : RANGE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A + B;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>10, 17: Operands are not compatiable.</ln>
+</listing>
+</test>
+</body>

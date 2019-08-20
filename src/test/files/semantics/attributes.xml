@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Attributes.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Attributes</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A'SIZE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+</body>

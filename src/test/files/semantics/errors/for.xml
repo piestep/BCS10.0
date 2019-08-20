@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Index_Expected.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in TEST range 0 .. 10 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 20: Expected type identifier (6).</ln>
+</listing>
+</test>
+
+<test>
+<name>Index_Undefined.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in A range 0 .. 10 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 17: Undefined type identifier (6).</ln>
+</listing>
+</test>
+
+<test>
+<name>Index_Constraint-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in INDEX_TYPE range 0 .. 10 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 34: Expression value not within index constraint (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Index_Not_Compatiable-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in INDEX_TYPE range TRUE .. 10 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 37: Expression not compatiable with index (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Index_Constraint-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in INDEX_TYPE range 1 .. 11 loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 40: Expression value not within index constraint (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Index_Not_Compatiable-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in INDEX_TYPE range 0 .. TRUE loop</ln>
+<ln>          null;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 42: Expression not compatiable with index (2).</ln>
+</listing>
+</test>
+</body>

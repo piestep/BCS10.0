@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Procedure_Identifier.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure TEST is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end TEST;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 18: Identifier already defined (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Procedure_End.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end M;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 9: Expected procedure identifier.</ln>
+</listing>
+</test>
+</body>

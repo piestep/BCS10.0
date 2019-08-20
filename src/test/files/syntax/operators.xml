@@ -1,0 +1,925 @@
+<?xml version="1.0"?>
+<body>
+
+<!-- Boolean Operators -->
+
+<test>
+<name>Not.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := not 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Unary_Expression</ln>
+<ln>            The_Operator   NOT_SYMBOL</ln>
+<ln>            The_Right      [ 7 ]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>And.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 and 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   AND_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Or.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 or 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   OR_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Xor.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 xor 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   XOR_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<!-- Relation Operators -->
+
+<test>
+<name>Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 = 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Not_Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 /= 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   NOT_EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Less_Than.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &lt; 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   LESS_THAN_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Greater_Than.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &gt; 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   GREATER_THAN_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Less_Than_Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &lt;= 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   LESS_THAN_EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Greater_Than_Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &gt;= 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   GREATER_THAN_EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<!-- Arithmetic Operators -->
+
+<test>
+<name>Plus.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := + 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Minus.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := - 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 7 ]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Addition.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 + 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   PLUS_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Subtraction.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 - 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Times.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 * 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   TIMES_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Divide.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 / 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   DIVIDE_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Remainder.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 rem 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   REM_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+
+<test>
+<name>Modulas.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 mod 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            The_Procedure    [ 3 ]</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            The_Statements   [ 4 ]</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    4] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 5 ]</ln>
+<ln>            The_Expression [ 6 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    5] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    6] : Binary_Expression</ln>
+<ln>            The_Operator   MOD_SYMBOL</ln>
+<ln>            The_Left       [ 7 ]</ln>
+<ln>            The_Right      [ 8 ]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</listing>
+</test>
+</body>

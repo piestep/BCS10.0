@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Parameter.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN (A : in INDEX_TYPE) is</ln>
+<ln>   begin</ln>
+<ln>      A := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 37: Undefined type identifier (1).</ln>
+<ln>7, 8: Assignment to in mode parameter not allowed.</ln>
+</listing>
+</test>
+
+<test>
+<name>Constant.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : constant ID_TYPE := 1;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 8: Expected variable.</ln>
+</listing>
+</test>
+
+<test>
+<name>Constraint.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 0;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 13: Expression not within type (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Not_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   B : BOOLEAN;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := B;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 13: Identifier not compatiable with expression (2).</ln>
+</listing>
+</test>
+</body>

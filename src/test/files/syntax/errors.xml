@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<body>
+<test>
+<name>Accept.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 16: Expected IDENTIFIER_SYMBOL</ln>
+</listing>
+</test>
+<test>
+<name>Starters.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      if  then</ln>
+<ln>        null;</ln>
+<ln>      end if;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 15: THEN_SYMBOL not a starting symbol.</ln>
+</listing>
+</test>
+<test>
+<name>Followers.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>      ,</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 8: COMMA_SYMBOL not a following symbol.</ln>
+</listing>
+</test>
+<test>
+<name>Eof.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+<ln>A := B;</ln>
+</code>
+<listing>
+<ln>8, 2: Expected End Of File.</ln>
+</listing>
+</test>
+</body>

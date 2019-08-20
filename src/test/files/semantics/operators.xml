@@ -1,0 +1,1564 @@
+<?xml version="1.0"?>
+<body>
+<test>
+<name>Not.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := not TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Unary_Expression</ln>
+<ln>            The_Operator   NOT_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  0]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Variable_Expression</ln>
+<ln>            The_Variable   [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   10] : Variable</ln>
+<ln>            The_Identifier  TRUE</ln>
+<ln>            {Constant_Identifier TRUE; (Universal_Boolean);  1}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier TRUE; (Universal_Boolean);  1}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>And.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := TRUE and TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   AND_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Variable_Expression</ln>
+<ln>            The_Variable   [ 11 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   11] : Variable</ln>
+<ln>            The_Identifier  TRUE</ln>
+<ln>            {Constant_Identifier TRUE; (Universal_Boolean);  1}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier TRUE; (Universal_Boolean);  1}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   10] : Variable_Expression</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  TRUE</ln>
+<ln>            {Constant_Identifier TRUE; (Universal_Boolean);  1}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier TRUE; (Universal_Boolean);  1}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Or.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := FALSE or TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   OR_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Variable_Expression</ln>
+<ln>            The_Variable   [ 11 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  0]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   11] : Variable</ln>
+<ln>            The_Identifier  FALSE</ln>
+<ln>            {Constant_Identifier FALSE; (Universal_Boolean);  0}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier FALSE; (Universal_Boolean);  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   10] : Variable_Expression</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  TRUE</ln>
+<ln>            {Constant_Identifier TRUE; (Universal_Boolean);  1}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier TRUE; (Universal_Boolean);  1}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Xor.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := TRUE xor TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   XOR_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  0]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Variable_Expression</ln>
+<ln>            The_Variable   [ 11 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   11] : Variable</ln>
+<ln>            The_Identifier  TRUE</ln>
+<ln>            {Constant_Identifier TRUE; (Universal_Boolean);  1}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier TRUE; (Universal_Boolean);  1}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   10] : Variable_Expression</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Boolean)  1]</ln>
+<ln>          end Variable_Expression</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  TRUE</ln>
+<ln>            {Constant_Identifier TRUE; (Universal_Boolean);  1}</ln>
+<ln>            The_Result [Identifier_Operand (Universal_Boolean):{Constant_Identifier TRUE; (Universal_Boolean);  1}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 = 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean))  0]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   10] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Not_Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 /= 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   NOT_EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean))  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   10] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Less_Than.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &lt; 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   LESS_THAN_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean))  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   10] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Greater_Than.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &gt;  2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   GREATER_THAN_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean))  0]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   10] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Less_Than_Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &lt;= 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   LESS_THAN_EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean))  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   10] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Greater_Than_Equals.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   A : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 &gt;= 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 5 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 6 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[    6] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 7 ]</ln>
+<ln>            The_Expression [ 8 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[    7] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean)):{Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[    8] : Binary_Expression</ln>
+<ln>            The_Operator   GREATER_THAN_EQUAL_SYMBOL</ln>
+<ln>            The_Left       [ 9 ]</ln>
+<ln>            The_Right      [ 10 ]</ln>
+<ln>            The_Result [Constant_Operand (Discrete_Type  0, 1, 1. (Universal_Boolean))  0]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   10] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Plus.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := + 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Minus.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := - 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 14 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -1]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Addition.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 + 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Binary_Expression</ln>
+<ln>            The_Operator   PLUS_SYMBOL</ln>
+<ln>            The_Left       [ 14 ]</ln>
+<ln>            The_Right      [ 15 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  3]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   15] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Subtraction.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 - 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Binary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Left       [ 14 ]</ln>
+<ln>            The_Right      [ 15 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   15] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Times.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 * 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Binary_Expression</ln>
+<ln>            The_Operator   TIMES_SYMBOL</ln>
+<ln>            The_Left       [ 14 ]</ln>
+<ln>            The_Right      [ 15 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   15] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Divide.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 / 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Binary_Expression</ln>
+<ln>            The_Operator   DIVIDE_SYMBOL</ln>
+<ln>            The_Left       [ 14 ]</ln>
+<ln>            The_Right      [ 15 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  0]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   15] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Remainder.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 rem 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Binary_Expression</ln>
+<ln>            The_Operator   REM_SYMBOL</ln>
+<ln>            The_Left       [ 14 ]</ln>
+<ln>            The_Right      [ 15 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   15] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Modulas.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Operators</ln>
+<ln>   type ID_TYPE is new INTEGER range -10 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 mod 2;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Unary_Expression</ln>
+<ln>            The_Operator   MINUS_SYMBOL</ln>
+<ln>            The_Right      [ 9 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer) -10]</ln>
+<ln>          end Unary_Expression</ln>
+<ln></ln>
+<ln>[    9] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     10</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 12 ]</ln>
+<ln>            The_Expression [ 13 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   12] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type -10, 10, 5. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   13] : Binary_Expression</ln>
+<ln>            The_Operator   MOD_SYMBOL</ln>
+<ln>            The_Left       [ 14 ]</ln>
+<ln>            The_Right      [ 15 ]</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Binary_Expression</ln>
+<ln></ln>
+<ln>[   14] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[   15] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+</body>

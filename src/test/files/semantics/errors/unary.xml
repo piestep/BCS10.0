@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Boolean_Type.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type FALSE_TYPE is new BOOLEAN range FALSE .. FALSE;</ln>
+<ln>   A : constant FALSE_TYPE := FALSE;</ln>
+<ln>   B : FALSE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := not A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 17: Expression not within type (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Boolean_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   B : BOOLEAN;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := not 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 17: Expression not compatiable with boolean operator.</ln>
+</listing>
+</test>
+
+<test>
+<name>Integer_Type.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : constant INDEX_TYPE := 10;</ln>
+<ln>   B : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := - A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 15: Expression not within type (3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Integer_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   B : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := - TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 18: Expression not compatiable with integer operator.</ln>
+</listing>
+</test>
+</body>

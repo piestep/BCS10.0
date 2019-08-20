@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Range_Expected.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX is new TEST;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 26: Expected type identifier (3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Undefined.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX is new INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 32: Undefined type identifier (3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Not_Compatiable_Type-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX is new INDEX_TYPE range -1 .. 5;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 41: Expression value not compatiable with base type (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Not_Compatiable-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INTEGER range TRUE .. 2;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 45: Base type not compatiable with expression (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Constant-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   type RANGE_TYPE is new INDEX_TYPE range A .. 10;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 45: Expression must be constant (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Not_Compatiable_Type-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX is new INDEX_TYPE range 0 .. 11;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 46: Expression value not compatiable with base type (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Not_Compatiable-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INTEGER range 2 .. TRUE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 50: Base type not compatiable with expression (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Range_Constant-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   type RANGE_TYPE is new INDEX_TYPE range 0 .. A;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 50: Expression must be constant (3).</ln>
+</listing>
+</test>
+</body>

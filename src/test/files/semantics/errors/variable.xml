@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Variable_Undefined.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 8: Undefined identifier.</ln>
+</listing>
+</test>
+
+<test>
+<name>Variable_Scalar.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 0 .. 10) of INDEX_TYPE;</ln>
+<ln>   A : ARRAY_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 8: Expected scalar variable.</ln>
+</listing>
+</test>
+
+<test>
+<name>Variable_Constant.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      TEST := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 11: Expected variable or constant variable.</ln>
+</listing>
+</test>
+
+<test>
+<name>Variable_Not_Within.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 0 .. 10) of INDEX_TYPE;</ln>
+<ln>   A : ARRAY_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A(11) := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 11: Expression not within array index type.</ln>
+</listing>
+</test>
+
+<test>
+<name>Variable_Not_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 0 .. 10) of INDEX_TYPE;</ln>
+<ln>   A : ARRAY_TYPE;</ln>
+<ln>   B : RANGE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A(B) := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>11, 10: Expression not compatiable with array index.</ln>
+</listing>
+</test>
+
+<test>
+<name>Variable_Array.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 0 .. 10) of INDEX_TYPE;</ln>
+<ln>   A : ARRAY_TYPE;</ln>
+<ln>   B : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B(1) := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>10, 10: Expected array type variable or parameter.</ln>
+</listing>
+</test>
+
+<test>
+<name>Variable_Parameter.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      TEST(1) := 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 13: Expected variable or parameter.</ln>
+</listing>
+</test>
+</body>

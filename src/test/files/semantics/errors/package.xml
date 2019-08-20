@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Package_Identifier.</name>
+<code>
+<ln>package body INTEGER is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end INTEGER;</ln>
+</code>
+<listing>
+<ln>1, 21: Identifier already defined (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Package_End.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end T;</ln>
+</code>
+<listing>
+<ln>7, 6: Expected package identifier.</ln>
+</listing>
+</test>
+</body>

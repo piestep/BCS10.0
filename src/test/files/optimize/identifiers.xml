@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Identifier.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Declarations</ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   ID : ID_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type  0, 10, 4. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  0]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    8] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier ID</ln>
+<ln>            {Variable_Identifier ID; (Signed_Type  0, 10, 4. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 9 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 10 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   10] : Null_Statement</ln>
+<ln>          end Null_Statement</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Identifier_Expression.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Declarations</ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   ID : ID_TYPE := 1;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type  0, 10, 4. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  0]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    8] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier ID</ln>
+<ln>            {Variable_Identifier ID; (Signed_Type  0, 10, 4. (Signed_Type -128, 127, 8. (Universal_Integer)));  1;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 9 ]</ln>
+<ln>            The_Expresson  [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[   10] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Null_Statement</ln>
+<ln>          end Null_Statement</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Identifier_Constant.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Declarations</ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   ID : constant ID_TYPE := 1;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  ID_TYPE</ln>
+<ln>            {Type_Identifier ID_TYPE; (Signed_Type  0, 10, 4. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  0]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    8] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  10]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier ID</ln>
+<ln>            {Constant_Identifier ID; (Signed_Type  0, 10, 4. (Signed_Type -128, 127, 8. (Universal_Integer)));  1}</ln>
+<ln>            Constant       TRUE</ln>
+<ln>            The_Definition [ 9 ]</ln>
+<ln>            The_Expresson  [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[   10] : Operand_Expression</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Operand_Expression</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 11 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   11] : Null_Statement</ln>
+<ln>          end Null_Statement</ln>
+<ln></ln>
+</graph>
+</test>
+</body>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Type_Identifier.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type TEST is new INTEGER;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 13: Identifier already defined (4).</ln>
+</listing>
+</test>
+</body>

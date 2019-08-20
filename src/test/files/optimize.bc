@@ -1,0 +1,12 @@
+package body SYNTAX is
+
+   type INDEX_TYPE is new INTEGER range 0 .. 10;
+   A : INDEX_TYPE;
+
+   procedure MAIN is
+   begin
+      for I in INDEX_TYPE range 1 .. 10 loop
+          A := I;
+      end loop;
+   end MAIN;
+end SYNTAX;

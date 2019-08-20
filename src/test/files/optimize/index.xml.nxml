@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Index.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      for I in INDEX_TYPE range 1 .. 10 loop</ln>
+<ln>          A := I;</ln>
+<ln>      end loop;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+</body>
+

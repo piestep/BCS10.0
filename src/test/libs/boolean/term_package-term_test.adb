@@ -49,18 +49,18 @@ package body Term_Package.Term_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_To_Index'Access, "Test_To_Index!");
-      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
-      Register_Routine(The_Test, Test_Create_With_Value'Access, "Test_Create_With_Value!");
-      Register_Routine(The_Test, Test_Set'Access, "Test_Set!");
-      Register_Routine(The_Test, Test_Is_Set'Access, "Test_Is_Set!");
-      Register_Routine(The_Test, Test_Is_Equal'Access, "Test_Is_Equal!");
-      Register_Routine(The_Test, Test_Index_Of'Access, "Test_Index_Of!");
-      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
-      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
-      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Test_Image_Of_With_Variables!");
-      Register_Routine(The_Test, Test_To_Boolean_Array'Access, "Test_To_Boolean_Array!");
-      Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
+      Register_Routine (The_Test, Test_To_Index'Access, "test_to_index!");
+      Register_Routine (The_Test, Test_Create'Access, "test_create!");
+      Register_Routine (The_Test, Test_Create_With_Value'Access, "test_create_with_value!");
+      Register_Routine (The_Test, Test_Set'Access, "test_set!");
+      Register_Routine (The_Test, Test_Is_Set'Access, "test_is_set!");
+      Register_Routine (The_Test, Test_Is_Equal'Access, "test_is_equal!");
+      Register_Routine (The_Test, Test_Index_Of'Access, "test_index_of!");
+      Register_Routine (The_Test, Test_Length_Of'Access, "test_length_of!");
+      Register_Routine (The_Test, Test_Image_Of'Access, "test_image_of!");
+      Register_Routine (The_Test, Test_Image_Of_With_Variables'Access, "test_image_of_with_variables!");
+      Register_Routine (The_Test, Test_To_Boolean_Array'Access, "test_to_boolean_array!");
+      Register_Routine (The_Test, Test_Boolean_Of'Access, "test_boolean_of!");
    end Register_Tests;
 
    -------------------

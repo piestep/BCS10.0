@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Mod_Not_Compatiable_Type.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type MOD_TYPE is mod -1;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>3, 27: Expression value not compatiable with base type (3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Mod_Not_Compatiable.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type MOD_TYPE is mod TRUE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 29: Base type not compatiable with expression (3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Mod_Constant.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   type MOD_TYPE is mod A;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>6, 26: Expression must be constant (4).</ln>
+</listing>
+</test>
+</body>

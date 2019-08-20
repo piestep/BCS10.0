@@ -85,27 +85,27 @@ package body Number_Package.Number_Test is
       use AUnit.Test_Cases.Registration;
    begin
       -- Repeat for each test routine:
-      Register_Routine(The_Test, Test_Create'Access, "Test_Create!");
-      Register_Routine(The_Test, Test_Create_With_Value'Access, "Test_Create_With_Value!");
-      Register_Routine(The_Test, Test_Dispose'Access, "Test_Dispose!");
-      Register_Routine(The_Test, Test_Copy'Access, "Test_Copy!");
-      Register_Routine(The_Test, Test_Not_Op'Access, "Test_Not_Op!");
-      Register_Routine(The_Test, Test_And_Op'Access, "Test_And_Op!");
-      Register_Routine(The_Test, Test_Or_Op'Access, "Test_Or_Op!");
-      Register_Routine(The_Test, Test_Xor_Op'Access, "Test_Xor_Op!");
-      Register_Routine(The_Test, Test_Normalize'Access, "Test_Normalize!");
-      Register_Routine(The_Test, Test_Include'Access, "Test_Include!");
-      Register_Routine(The_Test, Test_Is_Included_With_FPT'Access, "Test_Is_Included_With_FPT!");
-      Register_Routine(The_Test, Test_Include_Index'Access, "Test_Include_Index!");
-      Register_Routine(The_Test, Test_Is_Included_With_Index'Access, "Test_Is_Included_With_Index!");
-      Register_Routine(The_Test, Test_Is_Constant_Of_Boolean'Access, "Test_Is_Constant_Of_Boolean!");
-      Register_Routine(The_Test, Test_Is_Constant'Access, "Test_Is_Constant!");
-      Register_Routine(The_Test, Test_To_Constant'Access, "Test_To_Constant!");
-      Register_Routine(The_Test, Test_Length_Of'Access, "Test_Length_Of!");
-      Register_Routine(The_Test, Test_Boolean_Of'Access, "Test_Boolean_Of!");
-      Register_Routine(The_Test, Test_Image_Of'Access, "Test_Image_Of!");
-      Register_Routine(The_Test, Test_Image_Of_With_Variables'Access, "Test_Image_Of_With_Variables!");
-      Register_Routine(The_Test, Test_Pool'Access, "Test_Pool!");
+      Register_Routine (The_Test, Test_Create'Access, "test_create!");
+      Register_Routine (The_Test, Test_Create_With_Value'Access, "test_create_with_value!");
+      Register_Routine (The_Test, Test_Dispose'Access, "test_dispose!");
+      Register_Routine (The_Test, Test_Copy'Access, "test_copy!");
+      Register_Routine (The_Test, Test_Not_Op'Access, "test_not_op!");
+      Register_Routine (The_Test, Test_And_Op'Access, "test_and_op!");
+      Register_Routine (The_Test, Test_Or_Op'Access, "test_or_op!");
+      Register_Routine (The_Test, Test_Xor_Op'Access, "test_xor_op!");
+      Register_Routine (The_Test, Test_Normalize'Access, "test_normalize!");
+      Register_Routine (The_Test, Test_Include'Access, "test_include!");
+      Register_Routine (The_Test, Test_Is_Included_With_FPT'Access, "test_is_included_with_fpt!");
+      Register_Routine (The_Test, Test_Include_Index'Access, "test_include_index!");
+      Register_Routine (The_Test, Test_Is_Included_With_Index'Access, "test_is_included_with_index!");
+      Register_Routine (The_Test, Test_Is_Constant_Of_Boolean'Access, "test_is_constant_of_boolean!");
+      Register_Routine (The_Test, Test_Is_Constant'Access, "test_is_constant!");
+      Register_Routine (The_Test, Test_To_Constant'Access, "test_to_constant!");
+      Register_Routine (The_Test, Test_Length_Of'Access, "test_length_of!");
+      Register_Routine (The_Test, Test_Boolean_Of'Access, "test_boolean_of!");
+      Register_Routine (The_Test, Test_Image_Of'Access, "test_image_of!");
+      Register_Routine (The_Test, Test_Image_Of_With_Variables'Access, "test_image_of_with_variables!");
+      Register_Routine (The_Test, Test_Pool'Access, "test_pool!");
    end Register_Tests;
 
    ------------------

@@ -1,0 +1,23 @@
+[    1] : Compilation_Unit
+             The_Unit [ 2 ]
+          end Compilation_Unit
+
+[    2] : Package_Body
+            The_Name         TEST
+            {Package_Identifier TEST}
+            The_Procedure    [ 3 ]
+            The_Identifier   TEST
+            {Package_Identifier TEST}
+          end Package_Body
+
+[    3] : Procedure_Body
+            The_Name         MAIN
+            {Procedure_Identifier MAIN}
+            The_Statements   [ 4 ]
+            The_Identifier  MAIN
+            {Procedure_Identifier MAIN}
+          end Procedure
+
+[    4] : Null_Statement
+          end Null_Statement
+

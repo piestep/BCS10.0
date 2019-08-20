@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Array_Excessive-Index.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INTEGER range 0 ..10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 37: Warning: Integer type may cause excessive BCode compilation (3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Scalar-Index.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 ..10) of INDEX_TYPE;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_ARRAY_TYPE range 0 .. 10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 46: Expected scalar type (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Expected-Index.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (TEST range 0 ..10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 40: Expected type identifier (4).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Undefined-Index.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (A range 0 ..10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 37: Undefined type identifier (4).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Constraint-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 ..10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 54: Expression value not within type constraint (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Not_Compatiable-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   A : constant RANGE_TYPE := 0;</ln>
+<ln></ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range A .. 10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 54: Expression not compatiable with type (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Constant-First.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln></ln>
+<ln>   A : INDEX_TYPE := 0;</ln>
+<ln></ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range A .. 10) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>7, 54: Expression must be constant (5).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Constraint-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 1 .. 11) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 60: Expression value not within type constraint (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Not_Compatiable-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type RANGE_TYPE is new INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   A : constant RANGE_TYPE := 0;</ln>
+<ln></ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 .. A) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>8, 59: Expression not compatiable with type (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Constant-Last.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln></ln>
+<ln>   A : INDEX_TYPE := 0;</ln>
+<ln></ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 1 .. A) of INDEX_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 23: Expression value not compatiable with identifier type.</ln>
+<ln>7, 59: Expression must be constant (6).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Excessive-Element.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 0 ..10) of INTEGER;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 65: Warning: Integer type may cause excessive BCode compilation (4).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Scalar-Element.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 ..10) of INDEX_TYPE;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 0 .. 10) of INDEX_ARRAY_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>5, 75: Expected scalar type (2).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Expected-Element.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 ..10) of TEST;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 68: Expected type identifier (5).</ln>
+</listing>
+</test>
+
+<test>
+<name>Array_Undefined-Element.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type INDEX_ARRAY_TYPE is array (INDEX_TYPE range 0 ..10) of A;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      null;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>4, 65: Undefined type identifier (5).</ln>
+</listing>
+</test>
+</body>

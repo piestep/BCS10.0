@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Constant.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 0 - 0;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Zero_Minus_Variable.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 0 - A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Variable_Minus_Zero.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A - 0;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>One_Minus_Variable.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 - A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Variable_Minus_One.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A - 1;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Variable.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln>   B : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A - B;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+</body>
