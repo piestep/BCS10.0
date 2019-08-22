@@ -1769,11 +1769,21 @@ package body Semantics_Package is
       end if;
 
       if not Undefined_Identifier then
-         if Is_Type (The_Expression.The_Identifier.The_Pointer) then
-            The_Type := Type_Identifier
-              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+         if Is_Type (The_Expression.The_Identifier.The_Pointer) or else
+           Is_Variable (The_Expression.The_Identifier.The_Pointer) or else
+           Is_Parameter (The_Expression.The_Identifier.The_Pointer) or else
+           Is_Index (The_Expression.The_Identifier.The_Pointer) then
 
-            if To_String (The_Expression.The_String) = "LENGTH" then
+            if Is_Type (The_Expression.The_Identifier.The_Pointer) then
+               The_Type := Type_Identifier
+                 (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+            else
+               The_Type := Variable_Identifier
+                 (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+            end if;
+
+            if To_String (The_Expression.The_String) = "LENGTH" and then
+              not Is_Index (The_Expression.The_Identifier.The_Pointer) then
                if Is_Array (The_Type) then
                   The_Expression.The_Result :=
                     new Constant_Operand'
@@ -1806,111 +1816,6 @@ package body Semantics_Package is
                Semenatics_Error
                  (Position_Of (The_Expression),
                   "Expected attribute (1).");
-            end if;
-
-         elsif Is_Variable (The_Expression.The_Identifier.The_Pointer) then
-            The_Type := Variable_Identifier
-              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
-
-            if To_String (The_Expression.The_String) = "LENGTH" then
-               if Is_Array (The_Type) then
-                  The_Expression.The_Result :=
-                    new Constant_Operand'
-                      (The_Type  => Universal_Integer,
-                       The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
-               else
-                  Semenatics_Error
-                    (Position_Of (The_Expression),
-                     "Length attribute requires array type (2).");
-               end if;
-
-            elsif To_String (The_Expression.The_String) = "FIRST" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => First_Of (The_Type));
-
-            elsif To_String (The_Expression.The_String) = "LAST" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Last_Of (The_Type));
-
-            elsif To_String (The_Expression.The_String) = "SIZE" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Size_Of (The_Type));
-            else
-               Semenatics_Error
-                 (Position_Of (The_Expression),
-                  "Expected attribute (2).");
-            end if;
-
-         elsif Is_Index (The_Expression.The_Identifier.The_Pointer) then
-            The_Type := Variable_Identifier
-              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
-
-            if To_String (The_Expression.The_String) = "FIRST" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => First_Of (The_Type));
-
-            elsif To_String (The_Expression.The_String) = "LAST" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Last_Of (The_Type));
-
-            elsif To_String (The_Expression.The_String) = "SIZE" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Size_Of (The_Type));
-            else
-               Semenatics_Error
-                 (Position_Of (The_Expression),
-                  "Expected attribute (3).");
-            end if;
-
-         elsif Is_Parameter (The_Expression.The_Identifier.The_Pointer) then
-            The_Type := Variable_Identifier
-              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
-
-            if To_String (The_Expression.The_String) = "LENGTH" then
-               if Is_Array (The_Type) then
-                  The_Expression.The_Result :=
-                    new Constant_Operand'
-                      (The_Type  => Universal_Integer,
-                       The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
-               else
-                  Semenatics_Error
-                    (Position_Of (The_Expression),
-                     "Length attribute requires array type (3).");
-               end if;
-
-            elsif To_String (The_Expression.The_String) = "FIRST" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => First_Of (The_Type));
-
-            elsif To_String (The_Expression.The_String) = "LAST" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Last_Of (The_Type));
-
-            elsif To_String (The_Expression.The_String) = "SIZE" then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Size_Of (The_Type));
-            else
-               Semenatics_Error
-                 (Position_Of (The_Expression),
-                  "Expected attribute (4).");
             end if;
 
          else

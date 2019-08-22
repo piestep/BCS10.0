@@ -1311,8 +1311,16 @@ package body Semantics_Package.Semantics_Test is
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
-            To_Unbounded_String ("Attributes.")),
-         "unary boolean",
+            To_Unbounded_String ("Type_Scalar.")),
+         "type scalar size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Scalar.")),
+         "variable scalar size attribute",
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 

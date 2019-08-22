@@ -2,16 +2,15 @@
 <body>
 
 <test>
-<name>Attributes.</name>
+<name>Type_Scalar.</name>
 <code>
 <ln>package body SYNTAX is</ln>
 <ln>   -- Attributes</ln>
-<ln>   A : BOOLEAN;</ln>
-<ln>   type SIZE_TYPE is new INTEGER range 1 .. 2;</ln>
-<ln>   B : SIZE_TYPE;</ln>
+<ln>   type BOOLEAN_SIZE is new INTEGER range 1 .. 2;</ln>
+<ln>   A : BOOLEAN_SIZE;</ln>
 <ln>   procedure MAIN is</ln>
 <ln>   begin</ln>
-<ln>      B := A'SIZE;</ln>
+<ln>      A := BOOLEAN'SIZE;</ln>
 <ln>   end MAIN;</ln>
 <ln>end SYNTAX;</ln>
 </code>
@@ -29,41 +28,128 @@
 <ln>            {Package_Identifier SYNTAX}</ln>
 <ln>          end Package_Body</ln>
 <ln></ln>
-<ln>[    3] : Identifier_Declaration</ln>
-<ln>            The_Identifier A</ln>
-<ln>            {Variable_Identifier A; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
-<ln>            Constant       FALSE</ln>
-<ln>            The_Definition [ 5 ]</ln>
-<ln>            The_Next       [ 6 ]</ln>
-<ln>          end Identifier_Declaration</ln>
-<ln></ln>
-<ln>[    6] : Type_Declaration</ln>
-<ln>            The_Identifier  SIZE_TYPE</ln>
-<ln>            {Type_Identifier SIZE_TYPE; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
-<ln>            The_Definition  [ 7 ]</ln>
-<ln>            The_Next        [ 8 ]</ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  BOOLEAN_SIZE</ln>
+<ln>            {Type_Identifier BOOLEAN_SIZE; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
 <ln>          end Type_Declaration</ln>
 <ln></ln>
-<ln>[    7] : Range_Definition</ln>
+<ln>[    5] : Range_Definition</ln>
 <ln>            The_Identifier INTEGER</ln>
 <ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
-<ln>            The_First      [ 9 ]</ln>
-<ln>            The_Last       [ 10 ]</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
 <ln>          end Range_Definition</ln>
 <ln></ln>
-<ln>[    9] : Integer_Expression</ln>
+<ln>[    7] : Integer_Expression</ln>
 <ln>            The_String     1</ln>
 <ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
 <ln>          end Integer_Expression</ln>
 <ln></ln>
-<ln>[   10] : Integer_Expression</ln>
+<ln>[    8] : Integer_Expression</ln>
 <ln>            The_String     2</ln>
 <ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
 <ln>          end Integer_Expression</ln>
 <ln></ln>
-<ln>[    8] : Identifier_Declaration</ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 9 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[    4] : Procedure_Body</ln>
+<ln>            The_Name         MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>            The_Statements   [ 10 ]</ln>
+<ln>            The_Identifier  MAIN</ln>
+<ln>            {Procedure_Identifier MAIN}</ln>
+<ln>          end Procedure</ln>
+<ln></ln>
+<ln>[   10] : Assignment_Statement</ln>
+<ln>            The_Variable   [ 11 ]</ln>
+<ln>            The_Expression [ 12 ]</ln>
+<ln>          end Assignment_Statement</ln>
+<ln></ln>
+<ln>[   11] : Variable</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>          end Variable</ln>
+<ln></ln>
+<ln>[   12] : Attribute_Expression</ln>
+<ln>            The_Identifier BOOLEAN</ln>
+<ln>            The_Attribute  SIZE</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Attribute_Expression</ln>
+<ln></ln>
+</graph>
+</test>
+
+<test>
+<name>Variable_Scalar.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Attributes</ln>
+<ln>   type BOOLEAN_SIZE is new INTEGER range 1 .. 2;</ln>
+<ln>   A : BOOLEAN_SIZE;</ln>
+<ln>   B : BOOLEAN;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := B'SIZE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln>[    1] : Compilation_Unit</ln>
+<ln>             The_Unit [ 2 ]</ln>
+<ln>          end Compilation_Unit</ln>
+<ln></ln>
+<ln>[    2] : Package_Body</ln>
+<ln>            The_Name         SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>            The_Declarations [ 3 ]</ln>
+<ln>            The_Procedure    [ 4 ]</ln>
+<ln>            The_Identifier   SYNTAX</ln>
+<ln>            {Package_Identifier SYNTAX}</ln>
+<ln>          end Package_Body</ln>
+<ln></ln>
+<ln>[    3] : Type_Declaration</ln>
+<ln>            The_Identifier  BOOLEAN_SIZE</ln>
+<ln>            {Type_Identifier BOOLEAN_SIZE; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)))}</ln>
+<ln>            The_Definition  [ 5 ]</ln>
+<ln>            The_Next        [ 6 ]</ln>
+<ln>          end Type_Declaration</ln>
+<ln></ln>
+<ln>[    5] : Range_Definition</ln>
+<ln>            The_Identifier INTEGER</ln>
+<ln>            {Type_Identifier INTEGER; (Signed_Type -128, 127, 8. (Universal_Integer))}</ln>
+<ln>            The_First      [ 7 ]</ln>
+<ln>            The_Last       [ 8 ]</ln>
+<ln>          end Range_Definition</ln>
+<ln></ln>
+<ln>[    7] : Integer_Expression</ln>
+<ln>            The_String     1</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    8] : Integer_Expression</ln>
+<ln>            The_String     2</ln>
+<ln>            The_Result [Constant_Operand (Universal_Integer)  2]</ln>
+<ln>          end Integer_Expression</ln>
+<ln></ln>
+<ln>[    6] : Identifier_Declaration</ln>
+<ln>            The_Identifier A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            Constant       FALSE</ln>
+<ln>            The_Definition [ 9 ]</ln>
+<ln>            The_Next       [ 10 ]</ln>
+<ln>          end Identifier_Declaration</ln>
+<ln></ln>
+<ln>[   10] : Identifier_Declaration</ln>
 <ln>            The_Identifier B</ln>
-<ln>            {Variable_Identifier B; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            {Variable_Identifier B; (Discrete_Type  0, 1, 1. (Universal_Boolean));  0;  0}</ln>
 <ln>            Constant       FALSE</ln>
 <ln>            The_Definition [ 11 ]</ln>
 <ln>          end Identifier_Declaration</ln>
@@ -82,13 +168,13 @@
 <ln>          end Assignment_Statement</ln>
 <ln></ln>
 <ln>[   13] : Variable</ln>
-<ln>            The_Identifier  B</ln>
-<ln>            {Variable_Identifier B; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
-<ln>            The_Result [Identifier_Operand (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier B; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
+<ln>            The_Identifier  A</ln>
+<ln>            {Variable_Identifier A; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}</ln>
+<ln>            The_Result [Identifier_Operand (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer))):{Variable_Identifier A; (Signed_Type  1, 2, 1. (Signed_Type -128, 127, 8. (Universal_Integer)));  0;  0}]</ln>
 <ln>          end Variable</ln>
 <ln></ln>
 <ln>[   14] : Attribute_Expression</ln>
-<ln>            The_Identifier A</ln>
+<ln>            The_Identifier B</ln>
 <ln>            The_Attribute  SIZE</ln>
 <ln>            The_Result [Constant_Operand (Universal_Integer)  1]</ln>
 <ln>          end Attribute_Expression</ln>
