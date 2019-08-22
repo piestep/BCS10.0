@@ -29,7 +29,7 @@
 <ln>end T;</ln>
 </code>
 <listing>
-<ln>7, 6: Expected package identifier.</ln>
+<ln>7, 6: Expected package identifier (1).</ln>
 </listing>
 </test>
 </body>

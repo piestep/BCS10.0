@@ -18,7 +18,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 11: Expected boolean condition.</ln>
+<ln>8, 11: Expected boolean condition (1).</ln>
 </listing>
 </test>
 </body>

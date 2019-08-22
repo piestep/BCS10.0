@@ -22,19 +22,15 @@ with Identifier_Package.Image_Package; use Identifier_Package.Image_Package;
 with Operand_Package.Image_Package;    use Operand_Package.Image_Package;
 --
 
--- Note: To renumber semantic errors use message text ending with an error
--- number. Use regexp '("<error message text> \()([[:digit:]]+)(\)\.")' and
--- replace with '\1\i\3'. Be sure to use 'Find & Replace' and not 'Replace All'.
+-- Error messages:
 --
--- Error messages that require error codes:
---
--- ("Base type not compatiable with expression \()([[:digit:]]+)(\).")       --
--- ("Expected scalar type \()([[:digit:]]+)(\).")                            --
--- ("Expected type identifier \()([[:digit:]]+)(\).") 		             --
--- ("Expression must be constant \()([[:digit:]]+)(\).") 	             --
--- ("Expression not compatiable with index \()([[:digit:]]+)(\).")           --
--- ("Expression not compatiable with type \()([[:digit:]]+)(\).")            --
--- ("Expression not within type \()([[:digit:]]+)(\).") 	             --
+-- Base type not compatiable with expression       --
+-- Expected scalar type \()([[:digit:]]+)(\).")                            --
+-- Expected type identifier \()([[:digit:]]+)(\).") 		             --
+-- Expression must be constant \()([[:digit:]]+)(\).") 	             --
+-- Expression not compatiable with index \()([[:digit:]]+)(\).")           --
+-- Expression not compatiable with type \()([[:digit:]]+)(\).")            --
+-- Expression not within type \()([[:digit:]]+)(\).") 	             --
 -- ("Expression value not compatiable with base type \()([[:digit:]]+)(\).") --
 -- ("Expression value not within index constraint \()([[:digit:]]+)(\).")    --
 -- ("Expression value not within type constraint \()([[:digit:]]+)(\).")     --
@@ -150,7 +146,7 @@ package body Semantics_Package is
       else
          Semenatics_Error
            (The_Package.The_Identifier.The_Position,
-            "Expected package identifier.");
+            "Expected package identifier (1).");
       end if;
 
       Scope_Package.Close;
@@ -188,7 +184,7 @@ package body Semantics_Package is
       else
          Semenatics_Error
            (The_Procedure.The_Identifier.The_Position,
-            "Expected procedure identifier.");
+            "Expected procedure identifier (1).");
       end if;
 
       Scope_Package.Close;
@@ -209,7 +205,7 @@ package body Semantics_Package is
          -- look up the identifier.
 
          if Scope_Package.Is_Identifier
-             (The_Parameter.The_Identifier.The_String)
+           (The_Parameter.The_Identifier.The_String)
          then
             Semenatics_Error
               (The_Parameter.The_Identifier.The_Position,
@@ -220,7 +216,7 @@ package body Semantics_Package is
          -- look up the type.
 
          if Scope_Package.Is_Identifier
-             (The_Parameter.The_Definition.The_String)
+           (The_Parameter.The_Definition.The_String)
          then
             The_Identifier :=
               Scope_Package.Look_Up (The_Parameter.The_Definition.The_String);
@@ -270,7 +266,7 @@ package body Semantics_Package is
             Debug
               (Semenatics_Debug,
                "Parameter_Identifier: " &
-               To_String (The_Parameter.The_Identifier.The_String));
+                 To_String (The_Parameter.The_Identifier.The_String));
             Debug (Semenatics_Debug, Image_Of (The_Identifier));
          end if;
 
@@ -316,7 +312,7 @@ package body Semantics_Package is
       -- look up the identifier.
 
       if Scope_Package.Is_Identifier
-          (The_Declaration.The_Identifier.The_String)
+        (The_Declaration.The_Identifier.The_String)
       then
          Semenatics_Error
            (The_Declaration.The_Identifier.The_Position,
@@ -343,7 +339,7 @@ package body Semantics_Package is
          Debug
            (Semenatics_Debug,
             "Type_Identifier " &
-            To_String (The_Declaration.The_Identifier.The_String));
+              To_String (The_Declaration.The_Identifier.The_String));
          Debug (Semenatics_Debug, Image_Of (The_Type));
       end if;
 
@@ -361,7 +357,7 @@ package body Semantics_Package is
       -- look up the identifier.
 
       if Scope_Package.Is_Identifier
-          (The_Declaration.The_Identifier.The_String)
+        (The_Declaration.The_Identifier.The_String)
       then
          Semenatics_Error
            (The_Declaration.The_Identifier.The_Position,
@@ -372,7 +368,7 @@ package body Semantics_Package is
       -- look up the type.
 
       if Scope_Package.Is_Identifier
-          (The_Declaration.The_Definition.The_String)
+        (The_Declaration.The_Definition.The_String)
       then
          The_Identifier :=
            Scope_Package.Look_Up (The_Declaration.The_Definition.The_String);
@@ -413,26 +409,26 @@ package body Semantics_Package is
          if The_Declaration.The_Expression.The_Result /= null then
             if The_Type = null or else Is_Scalar (The_Type) then
                if Operand_Package.Is_Constant
-                   (The_Declaration.The_Expression.The_Result)
+                 (The_Declaration.The_Expression.The_Result)
                then
                   if Is_Compatiable
-                      (The_Type,
-                       The_Declaration.The_Expression.The_Result.The_Type)
+                    (The_Type,
+                     The_Declaration.The_Expression.The_Result.The_Type)
                   then
                      if Is_Within
-                         (Constant_Operand
-                            (The_Declaration.The_Expression.The_Result.all)
-                            .The_Value,
-                          The_Type)
+                       (Constant_Operand
+                          (The_Declaration.The_Expression.The_Result.all)
+                        .The_Value,
+                        The_Type)
                      then
                         The_Value :=
                           Constant_Operand
                             (The_Declaration.The_Expression.The_Result.all)
-                            .The_Value;
+                          .The_Value;
                      else
                         Semenatics_Error
                           (Position_Of (The_Declaration.The_Expression),
-                           "Expression value not compatiable with identifier type.");
+                           "Expression value not compatiable with identifier type (1).");
                      end if;
                   else
                      Semenatics_Error
@@ -447,7 +443,7 @@ package body Semantics_Package is
             else
                Semenatics_Error
                  (Position_Of (The_Declaration.The_Expression),
-                  "Arrays can not be initialized.");
+                  "Arrays can not be initialized (1).");
             end if;
          end if;
 
@@ -455,7 +451,7 @@ package body Semantics_Package is
          if The_Declaration.Is_Constant then
             Semenatics_Error
               (Position_Of (The_Declaration),
-               "Expected expression for constant variable.");
+               "Expected expression for constant variable (1).");
          end if;
       end if;
 
@@ -476,7 +472,7 @@ package body Semantics_Package is
             Debug
               (Semenatics_Debug,
                "Constant_Identifier: " &
-               To_String (The_Declaration.The_Identifier.The_String));
+                 To_String (The_Declaration.The_Identifier.The_String));
 
          else
             The_Identifier :=
@@ -493,7 +489,7 @@ package body Semantics_Package is
             Debug
               (Semenatics_Debug,
                "Variable_Identifier: " &
-               To_String (The_Declaration.The_Identifier.The_String));
+                 To_String (The_Declaration.The_Identifier.The_String));
 
          end if;
       end if;
@@ -540,7 +536,7 @@ package body Semantics_Package is
       -- look up range type (identifier).
 
       if Scope_Package.Is_Identifier
-          (The_Definition.The_Identifier.The_String)
+        (The_Definition.The_Identifier.The_String)
       then
          The_Identifier :=
            Scope_Package.Look_Up (The_Definition.The_Identifier.The_String);
@@ -574,17 +570,17 @@ package body Semantics_Package is
 
          if The_Definition.The_First.The_Result /= null then
             if Operand_Package.Is_Constant
-                (The_Definition.The_First.The_Result)
+              (The_Definition.The_First.The_Result)
             then
                if Is_Compatiable
-                   (The_Base,
-                    The_Definition.The_First.The_Result.The_Type)
+                 (The_Base,
+                  The_Definition.The_First.The_Result.The_Type)
                then
                   if not Is_Within
-                      (Constant_Operand
-                         (The_Definition.The_First.The_Result.all)
-                         .The_Value,
-                       The_Base)
+                    (Constant_Operand
+                       (The_Definition.The_First.The_Result.all)
+                     .The_Value,
+                     The_Base)
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_First),
@@ -606,16 +602,16 @@ package body Semantics_Package is
 
          if The_Definition.The_Last.The_Result /= null then
             if Operand_Package.Is_Constant
-                (The_Definition.The_Last.The_Result)
+              (The_Definition.The_Last.The_Result)
             then
                if Is_Compatiable
-                   (The_Base,
-                    The_Definition.The_Last.The_Result.The_Type)
+                 (The_Base,
+                  The_Definition.The_Last.The_Result.The_Type)
                then
                   if not Is_Within
-                      (Constant_Operand (The_Definition.The_Last.The_Result.all)
-                         .The_Value,
-                       The_Base)
+                    (Constant_Operand (The_Definition.The_Last.The_Result.all)
+                     .The_Value,
+                     The_Base)
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_Last),
@@ -648,18 +644,18 @@ package body Semantics_Package is
                    (The_Base  => The_Base,
                     The_First =>
                       Constant_Operand (The_Definition.The_First.The_Result.all)
-                        .The_Value mod
+                    .The_Value mod
                       The_Modulas,
                     The_Last =>
                       Constant_Operand (The_Definition.The_Last.The_Result.all)
-                        .The_Value mod
+                    .The_Value mod
                       The_Modulas,
                     The_Size =>
                       Size_Of
                         (Constant_Operand
                            (The_Definition.The_Last.The_Result.all)
-                           .The_Value mod
-                         The_Modulas),
+                         .The_Value mod
+                           The_Modulas),
                     The_Modulas => The_Modulas);
             elsif The_Base /= null and then Is_Signed (The_Base) then
                The_Type :=
@@ -667,33 +663,33 @@ package body Semantics_Package is
                    (The_Base  => The_Base,
                     The_First =>
                       Constant_Operand (The_Definition.The_First.The_Result.all)
-                        .The_Value,
+                    .The_Value,
                     The_Last =>
                       Constant_Operand (The_Definition.The_Last.The_Result.all)
-                        .The_Value,
+                    .The_Value,
                     The_Size =>
                       Size_Of
                         (Constant_Operand
                            (The_Definition.The_First.The_Result.all)
-                           .The_Value,
+                         .The_Value,
                          Constant_Operand
                            (The_Definition.The_Last.The_Result.all)
-                           .The_Value));
+                         .The_Value));
             else
                The_Type :=
                  new Discrete_Type'
                    (The_Base  => The_Base,
                     The_First =>
                       Constant_Operand (The_Definition.The_First.The_Result.all)
-                        .The_Value,
+                    .The_Value,
                     The_Last =>
                       Constant_Operand (The_Definition.The_Last.The_Result.all)
-                        .The_Value,
+                    .The_Value,
                     The_Size =>
                       Size_Of
                         (Constant_Operand
                            (The_Definition.The_Last.The_Result.all)
-                           .The_Value));
+                         .The_Value));
             end if;
          end if;
 
@@ -742,23 +738,23 @@ package body Semantics_Package is
 
       if The_Definition.The_Expression.The_Result /= null then
          if Operand_Package.Is_Constant
-             (The_Definition.The_Expression.The_Result)
+           (The_Definition.The_Expression.The_Result)
          then
             if Is_Compatiable
-                (Universal_Integer,
-                 The_Definition.The_Expression.The_Result.The_Type)
+              (Universal_Integer,
+               The_Definition.The_Expression.The_Result.The_Type)
             then
                if Constant_Operand
-                   (The_Definition.The_Expression.The_Result.all)
-                   .The_Value >=
-                 0
+                 (The_Definition.The_Expression.The_Result.all)
+                 .The_Value >=
+                   0
                then
                   The_Size :=
                     Size_Of
                       (Constant_Operand
                          (The_Definition.The_Expression.The_Result.all)
-                         .The_Value -
-                       1);
+                       .The_Value -
+                         1);
                   The_Type :=
                     new Modular_Type'
                       (The_Base  => Universal_Integer,
@@ -766,18 +762,18 @@ package body Semantics_Package is
                        The_Last  =>
                          Constant_Operand
                            (The_Definition.The_Expression.The_Result.all)
-                           .The_Value -
+                       .The_Value -
                          1,
                        The_Size    => The_Size,
                        The_Modulas =>
                          Constant_Operand
                            (The_Definition.The_Expression.The_Result.all)
-                           .The_Value);
+                       .The_Value);
                else
                   Semenatics_Error
                     (Position_Of
                        (Mod_Definition_Node (The_Definition.all)
-                          .The_Expression),
+                        .The_Expression),
                      "Expression value not compatiable with base type (3).");
                end if;
             else
@@ -855,17 +851,17 @@ package body Semantics_Package is
 
          if The_Definition.The_First.The_Result /= null then
             if Operand_Package.Is_Constant
-                (The_Definition.The_First.The_Result)
+              (The_Definition.The_First.The_Result)
             then
                if Is_Compatiable
-                   (The_Index,
-                    The_Definition.The_First.The_Result.The_Type)
+                 (The_Index,
+                  The_Definition.The_First.The_Result.The_Type)
                then
                   if not Is_Within
-                      (Constant_Operand
-                         (The_Definition.The_First.The_Result.all)
-                         .The_Value,
-                       The_Index)
+                    (Constant_Operand
+                       (The_Definition.The_First.The_Result.all)
+                     .The_Value,
+                     The_Index)
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_First),
@@ -885,16 +881,16 @@ package body Semantics_Package is
 
          if The_Definition.The_Last.The_Result /= null then
             if Operand_Package.Is_Constant
-                (The_Definition.The_Last.The_Result)
+              (The_Definition.The_Last.The_Result)
             then
                if Is_Compatiable
-                   (The_Index,
-                    The_Definition.The_Last.The_Result.The_Type)
+                 (The_Index,
+                  The_Definition.The_Last.The_Result.The_Type)
                then
                   if not Is_Within
-                      (Constant_Operand (The_Definition.The_Last.The_Result.all)
-                         .The_Value,
-                       The_Index)
+                    (Constant_Operand (The_Definition.The_Last.The_Result.all)
+                     .The_Value,
+                     The_Index)
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_Last),
@@ -916,7 +912,7 @@ package body Semantics_Package is
       -- look up element (element) type.
 
       if Scope_Package.Is_Identifier
-          (The_Definition.The_Element.The_String)
+        (The_Definition.The_Element.The_String)
       then
          The_Identifier :=
            Scope_Package.Look_Up (The_Definition.The_Element.The_String);
@@ -969,10 +965,10 @@ package body Semantics_Package is
               The_Index => The_Index,
               The_First =>
                 Constant_Operand (The_Definition.The_First.The_Result.all)
-                  .The_Value,
+              .The_Value,
               The_Last =>
                 Constant_Operand (The_Definition.The_Last.The_Result.all)
-                  .The_Value,
+              .The_Value,
               The_Element => The_Type);
       end if;
 
@@ -1015,19 +1011,19 @@ package body Semantics_Package is
          if Is_Identifier (The_Statement.The_Variable.The_Result) then
             The_Identifier :=
               Identifier_Operand (The_Statement.The_Variable.The_Result.all)
-                .The_Identifier;
+              .The_Identifier;
             The_Type := The_Statement.The_Variable.The_Result.The_Type;
 
             if Is_Parameter (The_Identifier) then
                if not Parameter_Identifier (The_Identifier.all).Is_Out then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_Variable),
-                     "Assignment to in mode parameter not allowed.");
+                     "Assignment to in mode parameter not allowed (1).");
                end if;
             elsif not Is_Variable (The_Identifier) then
                Semenatics_Error
                  (Position_Of (The_Statement.The_Variable),
-                  "Expected variable.");
+                  "Expected variable (1).");
             end if;
          end if;
       end if;
@@ -1038,15 +1034,15 @@ package body Semantics_Package is
         The_Statement.The_Expression.The_Result /= null
       then
          if Is_Compatiable
-             (The_Statement.The_Variable.The_Result.The_Type,
-              The_Statement.The_Expression.The_Result.The_Type)
+           (The_Statement.The_Variable.The_Result.The_Type,
+            The_Statement.The_Expression.The_Result.The_Type)
          then
             if Is_Constant (The_Statement.The_Expression.The_Result) then
                if not Is_Within
-                   (Constant_Operand
-                      (The_Statement.The_Expression.The_Result.all)
-                      .The_Value,
-                    The_Statement.The_Variable.The_Result.The_Type)
+                 (Constant_Operand
+                    (The_Statement.The_Expression.The_Result.all)
+                  .The_Value,
+                  The_Statement.The_Variable.The_Result.The_Type)
                then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_Expression),
@@ -1075,7 +1071,7 @@ package body Semantics_Package is
       -- look up identifier (identifier).
 
       if Scope_Package.Is_Identifier
-          (The_Variable.The_Identifier.The_String)
+        (The_Variable.The_Identifier.The_String)
       then
          The_Identifier :=
            Scope_Package.Look_Up (The_Variable.The_Identifier.The_String);
@@ -1088,7 +1084,7 @@ package body Semantics_Package is
                The_Type    => null,
                The_Value   => 0,
                The_Address => 0));
-         Semenatics_Error (Position_Of (The_Variable), "Undefined identifier.");
+         Semenatics_Error (Position_Of (The_Variable), "Undefined identifier (1).");
          Undefined_Identifier := True;
       end if;
 
@@ -1109,12 +1105,12 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Variable),
-                     "Expected scalar variable.");
+                     "Expected scalar variable (1).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Variable),
-                  "Expected variable or constant variable.");
+                  "Expected variable or constant variable (1).");
             end if;
          end if;
       else
@@ -1133,17 +1129,17 @@ package body Semantics_Package is
                if The_Type /= null then
                   if Is_Array (The_Type) then
                      if Is_Compatiable
-                         (The_Variable.The_Expression.The_Result.The_Type,
-                          Array_Type (The_Type.all).The_Index)
+                       (The_Variable.The_Expression.The_Result.The_Type,
+                        Array_Type (The_Type.all).The_Index)
                      then
                         if Is_Constant
-                            (The_Variable.The_Expression.The_Result)
+                          (The_Variable.The_Expression.The_Result)
                         then
                            if Is_Within
-                               (Constant_Operand
-                                  (The_Variable.The_Expression.The_Result.all)
-                                  .The_Value,
-                                The_Type)
+                             (Constant_Operand
+                                (The_Variable.The_Expression.The_Result.all)
+                              .The_Value,
+                              The_Type)
                            then
 
                               The_Variable.The_Result :=
@@ -1154,12 +1150,12 @@ package body Semantics_Package is
                                    The_Index      =>
                                      Copy
                                        (The_Variable.The_Expression
-                                          .The_Result));
+                                        .The_Result));
                               Debug (Semenatics_Debug, "Array_Operand");
                            else
                               Semenatics_Error
                                 (Position_Of (The_Variable.The_Expression),
-                                 "Expression not within array index type.");
+                                 "Expression not within array index type (1).");
                            end if;
                         else
                            The_Variable.The_Result :=
@@ -1175,18 +1171,18 @@ package body Semantics_Package is
                      else
                         Semenatics_Error
                           (Position_Of (The_Variable.The_Expression),
-                           "Expression not compatiable with array index.");
+                           "Expression not compatiable with array index (1).");
                      end if;
                   else
                      Semenatics_Error
                        (Position_Of (The_Variable.The_Expression),
-                        "Expected array type variable or parameter.");
+                        "Expected array type variable or parameter (1).");
                   end if;
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Variable.The_Expression),
-                  "Expected variable or parameter.");
+                  "Expected variable or parameter (1).");
             end if;
          end if;
       end if;
@@ -1204,17 +1200,17 @@ package body Semantics_Package is
          or else Is_Array (The_Variable.The_Result)
          or else Is_Variable (The_Variable.The_Result)
          or else
-         (Is_Identifier (The_Variable.The_Result)
-          and then
-          (Is_Variable
-             (Identifier_Operand (The_Variable.The_Result.all).The_Identifier)
-           or else Is_Index
-             (Identifier_Operand (The_Variable.The_Result.all).The_Identifier)
-           or else Is_Parameter
-             (Identifier_Operand (The_Variable.The_Result.all).The_Identifier)
-           or else Is_Constant
-             (Identifier_Operand (The_Variable.The_Result.all)
-                .The_Identifier))));
+           (Is_Identifier (The_Variable.The_Result)
+            and then
+              (Is_Variable
+                   (Identifier_Operand (The_Variable.The_Result.all).The_Identifier)
+               or else Is_Index
+                 (Identifier_Operand (The_Variable.The_Result.all).The_Identifier)
+               or else Is_Parameter
+                 (Identifier_Operand (The_Variable.The_Result.all).The_Identifier)
+               or else Is_Constant
+                 (Identifier_Operand (The_Variable.The_Result.all)
+                  .The_Identifier))));
 
       Debug (Semenatics_Debug, Image_Of (The_Variable.The_Result));
 
@@ -1236,11 +1232,11 @@ package body Semantics_Package is
 
       if The_Statement.The_Expression.The_Result /= null then
          if not Is_Boolean
-             (The_Statement.The_Expression.The_Result.The_Type)
+           (The_Statement.The_Expression.The_Result.The_Type)
          then
             Semenatics_Error
               (Position_Of (The_Statement.The_Expression),
-               "Expected boolean condition.");
+               "Expected boolean condition (1).");
          end if;
       end if;
 
@@ -1262,7 +1258,7 @@ package body Semantics_Package is
       -- look up index type.
 
       if Scope_Package.Is_Identifier
-          (The_Statement.The_Definition.The_String)
+        (The_Statement.The_Definition.The_String)
       then
          The_Identifier :=
            Scope_Package.Look_Up (The_Statement.The_Definition.The_String);
@@ -1289,16 +1285,16 @@ package body Semantics_Package is
 
       if The_Statement.The_First.The_Result /= null then
          if Is_Compatiable
-             (The_Index,
-              The_Statement.The_First.The_Result.The_Type)
+           (The_Index,
+            The_Statement.The_First.The_Result.The_Type)
          then
             if Operand_Package.Is_Constant
-                (The_Statement.The_First.The_Result)
+              (The_Statement.The_First.The_Result)
             then
                if not Is_Within
-                   (Constant_Operand (The_Statement.The_First.The_Result.all)
-                      .The_Value,
-                    The_Index)
+                 (Constant_Operand (The_Statement.The_First.The_Result.all)
+                  .The_Value,
+                  The_Index)
                then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_First),
@@ -1314,16 +1310,16 @@ package body Semantics_Package is
 
       if The_Statement.The_Last.The_Result /= null then
          if Is_Compatiable
-             (The_Index,
-              The_Statement.The_Last.The_Result.The_Type)
+           (The_Index,
+            The_Statement.The_Last.The_Result.The_Type)
          then
             if Operand_Package.Is_Constant
-                (The_Statement.The_Last.The_Result)
+              (The_Statement.The_Last.The_Result)
             then
                if not Is_Within
-                   (Constant_Operand (The_Statement.The_Last.The_Result.all)
-                      .The_Value,
-                    The_Index)
+                 (Constant_Operand (The_Statement.The_Last.The_Result.all)
+                  .The_Value,
+                  The_Index)
                then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_Last),
@@ -1404,11 +1400,11 @@ package body Semantics_Package is
                          (The_Expression.The_Operator,
                           Constant_Operand
                             (The_Expression.The_Right.The_Result.all)
-                            .The_Value);
+                          .The_Value);
 
                      if Is_Within
-                         (The_Value,
-                          The_Expression.The_Right.The_Result.The_Type)
+                       (The_Value,
+                        The_Expression.The_Right.The_Result.The_Type)
                      then
                         The_Expression.The_Result :=
                           new Constant_Operand'
@@ -1430,7 +1426,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Expression not compatiable with boolean operator.");
+                     "Expression not compatiable with boolean operator (1).");
                end if;
 
             when Minus_Symbol =>
@@ -1441,7 +1437,7 @@ package body Semantics_Package is
                          (The_Expression.The_Operator,
                           Constant_Operand
                             (The_Expression.The_Right.The_Result.all)
-                            .The_Value);
+                          .The_Value);
 
                      The_Type := The_Expression.The_Right.The_Result.The_Type;
                      if The_Type /= null and then Is_Modular (The_Type) then
@@ -1450,8 +1446,8 @@ package body Semantics_Package is
                      end if;
 
                      if Is_Within
-                         (The_Value,
-                          The_Expression.The_Right.The_Result.The_Type)
+                       (The_Value,
+                        The_Expression.The_Right.The_Result.The_Type)
                      then
                         The_Expression.The_Result :=
                           new Constant_Operand'
@@ -1474,7 +1470,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Expression not compatiable with integer operator.");
+                     "Expression not compatiable with integer operator (1).");
                end if;
             when others =>
                raise Critical_Error;
@@ -1509,15 +1505,15 @@ package body Semantics_Package is
          case The_Expression.The_Operator is
 
             when Equal_Symbol           |
-              Not_Equal_Symbol          |
-              Less_Than_Symbol          |
-              Less_Than_Equal_Symbol    |
-              Greater_Than_Symbol       |
-              Greater_Than_Equal_Symbol =>
+                 Not_Equal_Symbol          |
+                 Less_Than_Symbol          |
+                 Less_Than_Equal_Symbol    |
+                 Greater_Than_Symbol       |
+                 Greater_Than_Equal_Symbol =>
 
                if Is_Compatiable
-                   (The_Expression.The_Left.The_Result.The_Type,
-                    The_Expression.The_Right.The_Result.The_Type)
+                 (The_Expression.The_Left.The_Result.The_Type,
+                  The_Expression.The_Right.The_Result.The_Type)
                then
 
                   if Is_Constant (The_Expression.The_Left.The_Result) and
@@ -1529,10 +1525,10 @@ package body Semantics_Package is
                          (The_Expression.The_Operator,
                           Constant_Operand
                             (The_Expression.The_Left.The_Result.all)
-                            .The_Value,
+                          .The_Value,
                           Constant_Operand
                             (The_Expression.The_Right.The_Result.all)
-                            .The_Value);
+                          .The_Value);
 
                      The_Expression.The_Result :=
                        new Constant_Operand'
@@ -1544,7 +1540,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Expressions not compatiable.");
+                     "Expressions not compatiable (1).");
                end if;
 
             when And_Symbol | Or_Symbol | Xor_Symbol =>
@@ -1567,10 +1563,10 @@ package body Semantics_Package is
                          (The_Expression.The_Operator,
                           Constant_Operand
                             (The_Expression.The_Left.The_Result.all)
-                            .The_Value,
+                          .The_Value,
                           Constant_Operand
                             (The_Expression.The_Right.The_Result.all)
-                            .The_Value);
+                          .The_Value);
 
                      if Is_Within (The_Value, The_Type) then
 
@@ -1590,22 +1586,22 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Operands not compatiable with boolean operator.");
+                     "Operands not compatiable with boolean operator (1).");
                end if;
 
             when Plus_Symbol |
-              Minus_Symbol   |
-              Times_Symbol   |
-              Divide_Symbol  |
-              Rem_Symbol     |
-              Mod_Symbol     =>
+                 Minus_Symbol   |
+                 Times_Symbol   |
+                 Divide_Symbol  |
+                 Rem_Symbol     |
+                 Mod_Symbol     =>
                if Is_Compatiable
-                   (The_Expression.The_Left.The_Result.The_Type,
-                    The_Expression.The_Right.The_Result.The_Type)
+                 (The_Expression.The_Left.The_Result.The_Type,
+                  The_Expression.The_Right.The_Result.The_Type)
                then
 
                   if Is_Integer
-                      (The_Expression.The_Right.The_Result.The_Type)
+                    (The_Expression.The_Right.The_Result.The_Type)
                   then
 
                      The_Type :=
@@ -1622,15 +1618,15 @@ package body Semantics_Package is
                             (The_Expression.The_Operator,
                              Constant_Operand
                                (The_Expression.The_Left.The_Result.all)
-                               .The_Value,
+                             .The_Value,
                              Constant_Operand
                                (The_Expression.The_Right.The_Result.all)
-                               .The_Value);
+                             .The_Value);
 
                         if The_Type /= null and then Is_Modular (The_Type) then
                            The_Value :=
                              The_Value mod
-                             Modular_Type (The_Type.all).The_Modulas;
+                               Modular_Type (The_Type.all).The_Modulas;
                         end if;
 
                         if Is_Within (The_Value, The_Type) then
@@ -1652,12 +1648,12 @@ package body Semantics_Package is
                   else
                      Semenatics_Error
                        (Position_Of (The_Expression.The_Right),
-                        "Operand not compatiable with integer operator.");
+                        "Operand not compatiable with integer operator (1).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Operands are not compatiable.");
+                     "Operands are not compatiable (1).");
                end if;
             when others =>
                raise Critical_Error;
@@ -1731,172 +1727,203 @@ package body Semantics_Package is
         (The_Expression.The_Result = null
          or else Is_Variable (The_Expression.The_Result)
          or else
-         (Is_Identifier (The_Expression.The_Result)
-          and then
-          (Is_Variable
-             (Identifier_Operand (The_Expression.The_Result.all).The_Identifier)
-           or else Is_Index
-             (Identifier_Operand (The_Expression.The_Result.all).The_Identifier)
-           or else Is_Parameter
-             (Identifier_Operand (The_Expression.The_Result.all)
-                .The_Identifier)))
+           (Is_Identifier (The_Expression.The_Result)
+            and then
+              (Is_Variable
+                   (Identifier_Operand (The_Expression.The_Result.all).The_Identifier)
+               or else Is_Index
+                 (Identifier_Operand (The_Expression.The_Result.all).The_Identifier)
+               or else Is_Parameter
+                 (Identifier_Operand (The_Expression.The_Result.all)
+                  .The_Identifier)))
          or else Is_Constant (The_Expression.The_Result));
 
       Debug (Semenatics_Debug, "end Variable_Expression");
    end Parse;
 
    procedure Parse (The_Expression : Attribute_Expression_Graph) is
-      The_Type : Type_Pointer;
+      The_Type             : Type_Pointer;
+      The_Identifier       : Identifier_Pointer;
+      Undefined_Identifier : Boolean := False;
    begin
       Debug (Semenatics_Debug, "begin Attribute_Expression");
 
-      if Is_Type (The_Expression.The_Identifier.The_Pointer) then
-         The_Type := Type_Identifier
-           (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+      -- look up identifier (identifier).
 
-         if To_String (The_Expression.The_String) = "LENGTH" then
-            if Is_Array (The_Type) then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
-            else
-               Semenatics_Error
-                 (Position_Of (The_Expression),
-                  "Length attribute requires array type (1).");
-            end if;
+      if Scope_Package.Is_Identifier
+        (The_Expression.The_Identifier.The_String)
+      then
+         The_Identifier :=
+           Scope_Package.Look_Up (The_Expression.The_Identifier.The_String);
 
-         elsif To_String (The_Expression.The_String) = "FIRST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => First_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "LAST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Last_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "SIZE" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Size_Of (The_Type));
-         else
-            Semenatics_Error
-              (Position_Of (The_Expression),
-               "Expected attribute (1).");
-         end if;
-
-      elsif Is_Variable (The_Expression.The_Identifier.The_Pointer) then
-         The_Type := Variable_Identifier
-           (The_Expression.The_Identifier.The_Pointer.all).The_Type;
-
-         if To_String (The_Expression.The_String) = "LENGTH" then
-            if Is_Array (The_Type) then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
-            else
-               Semenatics_Error
-                 (Position_Of (The_Expression),
-                  "Length attribute requires array type (1).");
-            end if;
-
-         elsif To_String (The_Expression.The_String) = "FIRST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => First_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "LAST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Last_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "SIZE" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Size_Of (The_Type));
-         else
-            Semenatics_Error
-              (Position_Of (The_Expression),
-               "Expected attribute (1).");
-         end if;
-
-      elsif Is_Index (The_Expression.The_Identifier.The_Pointer) then
-         The_Type := Variable_Identifier
-           (The_Expression.The_Identifier.The_Pointer.all).The_Type;
-
-         if To_String (The_Expression.The_String) = "FIRST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => First_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "LAST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Last_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "SIZE" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Size_Of (The_Type));
-         else
-            Semenatics_Error
-              (Position_Of (The_Expression),
-               "Expected attribute (1).");
-         end if;
-
-      elsif Is_Parameter (The_Expression.The_Identifier.The_Pointer) then
-         The_Type := Variable_Identifier
-           (The_Expression.The_Identifier.The_Pointer.all).The_Type;
-
-         if To_String (The_Expression.The_String) = "LENGTH" then
-            if Is_Array (The_Type) then
-               The_Expression.The_Result :=
-                 new Constant_Operand'
-                   (The_Type  => Universal_Integer,
-                    The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
-            else
-               Semenatics_Error
-                 (Position_Of (The_Expression),
-                  "Length attribute requires array type (1).");
-            end if;
-
-         elsif To_String (The_Expression.The_String) = "FIRST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => First_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "LAST" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Last_Of (The_Type));
-
-         elsif To_String (The_Expression.The_String) = "SIZE" then
-            The_Expression.The_Result :=
-              new Constant_Operand'
-                (The_Type  => Universal_Integer,
-                 The_Value => Size_Of (The_Type));
-         else
-            Semenatics_Error
-              (Position_Of (The_Expression),
-               "Expected attribute (1).");
-         end if;
-
+         The_Expression.The_Identifier.The_Pointer := The_Identifier;
       else
-         raise Critical_Error;
+         Scope_Package.Enter
+           (new Variable_Identifier'
+              (The_String  => The_Expression.The_Identifier.The_String,
+               The_Type    => null,
+               The_Value   => 0,
+               The_Address => 0));
+         Semenatics_Error (Position_Of (The_Expression), "Undefined identifier (2).");
+         Undefined_Identifier := True;
       end if;
+
+      if not Undefined_Identifier then
+         if Is_Type (The_Expression.The_Identifier.The_Pointer) then
+            The_Type := Type_Identifier
+              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+
+            if To_String (The_Expression.The_String) = "LENGTH" then
+               if Is_Array (The_Type) then
+                  The_Expression.The_Result :=
+                    new Constant_Operand'
+                      (The_Type  => Universal_Integer,
+                       The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
+               else
+                  Semenatics_Error
+                    (Position_Of (The_Expression),
+                     "Length attribute requires array type (1).");
+               end if;
+
+            elsif To_String (The_Expression.The_String) = "FIRST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => First_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "LAST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Last_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "SIZE" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Size_Of (The_Type));
+            else
+               Semenatics_Error
+                 (Position_Of (The_Expression),
+                  "Expected attribute (1).");
+            end if;
+
+         elsif Is_Variable (The_Expression.The_Identifier.The_Pointer) then
+            The_Type := Variable_Identifier
+              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+
+            if To_String (The_Expression.The_String) = "LENGTH" then
+               if Is_Array (The_Type) then
+                  The_Expression.The_Result :=
+                    new Constant_Operand'
+                      (The_Type  => Universal_Integer,
+                       The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
+               else
+                  Semenatics_Error
+                    (Position_Of (The_Expression),
+                     "Length attribute requires array type (2).");
+               end if;
+
+            elsif To_String (The_Expression.The_String) = "FIRST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => First_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "LAST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Last_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "SIZE" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Size_Of (The_Type));
+            else
+               Semenatics_Error
+                 (Position_Of (The_Expression),
+                  "Expected attribute (2).");
+            end if;
+
+         elsif Is_Index (The_Expression.The_Identifier.The_Pointer) then
+            The_Type := Variable_Identifier
+              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+
+            if To_String (The_Expression.The_String) = "FIRST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => First_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "LAST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Last_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "SIZE" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Size_Of (The_Type));
+            else
+               Semenatics_Error
+                 (Position_Of (The_Expression),
+                  "Expected attribute (3).");
+            end if;
+
+         elsif Is_Parameter (The_Expression.The_Identifier.The_Pointer) then
+            The_Type := Variable_Identifier
+              (The_Expression.The_Identifier.The_Pointer.all).The_Type;
+
+            if To_String (The_Expression.The_String) = "LENGTH" then
+               if Is_Array (The_Type) then
+                  The_Expression.The_Result :=
+                    new Constant_Operand'
+                      (The_Type  => Universal_Integer,
+                       The_Value => Last_Of (The_Type) - First_Of (The_Type) + 1);
+               else
+                  Semenatics_Error
+                    (Position_Of (The_Expression),
+                     "Length attribute requires array type (3).");
+               end if;
+
+            elsif To_String (The_Expression.The_String) = "FIRST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => First_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "LAST" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Last_Of (The_Type));
+
+            elsif To_String (The_Expression.The_String) = "SIZE" then
+               The_Expression.The_Result :=
+                 new Constant_Operand'
+                   (The_Type  => Universal_Integer,
+                    The_Value => Size_Of (The_Type));
+            else
+               Semenatics_Error
+                 (Position_Of (The_Expression),
+                  "Expected attribute (4).");
+            end if;
+
+         else
+            raise Critical_Error;
+         end if;
+      end if;
+
+      -- returns
+      --       Constant_Operand
+
+      Check
+        (The_Expression.The_Result = null
+         or else Is_Constant (The_Expression.The_Result));
 
       Debug (Semenatics_Debug, "Attribute ");
       Debug (Semenatics_Debug, Image_Of (The_Expression.The_Result));

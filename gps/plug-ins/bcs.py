@@ -144,14 +144,6 @@ GPS.parse_xml(
      <shell lang="python" output="none">bcs.bcs_test()</shell>
   </action>
 
-  <action name="In Test">
-     <shell lang="python" output="none">bcs.in_test()</shell>
-  </action>
-
-  <action name="In Project">
-     <shell lang="python" output="none">bcs.in_project()</shell>
-  </action>
-
   <submenu>
      <title>Help</title>
      <menu action="Boolean_compiler_system">
@@ -162,39 +154,34 @@ GPS.parse_xml(
            <title>Test</title>
         </menu>
      </submenu>
-     <submenu>
-        <menu action="In Test">
-           <title>In Test</title>
-        </menu>
-     </submenu>
-     <submenu>
-        <menu action="In Project">
-           <title>In Project</title>
-        </menu>
-     </submenu>
   </submenu>
 
   <action name="Generate object directories">
+     <description>Generate object directories for project</description>
      <filter shell_lang="python" shell_cmd="bcs.is_project()" />
      <shell lang="python" output="none">bcs.generate_directories()</shell>
   </action>
 
   <action name="Generate unit test">
+     <description>Generate unit test (not implemented)</description>
      <filter shell_lang="python" shell_cmd="bcs.is_project()" />
      <shell lang="python" output="none">bcs.bcs_action()</shell>
   </action>
 
   <action name="Renumber errors">
+     <description>Renumber error messages</description>
      <filter shell_lang="python" shell_cmd="bcs.in_project()" />
      <shell lang="python" output="none">bcs.renumber_errors()</shell>
   </action>
 
   <action name="Renumber messages">
+     <description>Renumber test messages</description>
      <filter shell_lang="python" shell_cmd="bcs.in_test()" />
      <shell lang="python" output="none">bcs.renumber_messages()</shell>
   </action>
 
   <action name="Test scenario">
+     <description>Replace test scenario in file</description>
      <filter_and>
         <filter language="ada" />
         <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -204,6 +191,7 @@ GPS.parse_xml(
   </action>
 
   <action name="Test cases">
+     <description>Replace test cases in file</description>
      <filter_and>
         <filter language="ada" />
         <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -211,6 +199,48 @@ GPS.parse_xml(
      </filter_and>
      <shell lang="python" output="none">bcs.cases()</shell>
   </action>
+
+  <action name="Replace scenarios">
+     <description>Replace all test scenarios in project</description>
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.scenarios()</shell>
+  </action>
+
+  <action name="Replace registrations">
+     <description>Replace all test case registrations in project</description>
+     <filter_and>
+        <filter language="ada" />
+        <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+        <filter shell_lang="python" shell_cmd="bcs.in_test()" />
+     </filter_and>
+     <shell lang="python" output="none">bcs.registrations()</shell>
+  </action>
+
+  <submenu>
+     <title>File</title>
+     <menu><title/></menu>
+     <submenu>
+        <title>Project</title>
+        <menu><title/></menu>
+        <submenu>
+           <title>BCS</title>
+           <menu><title/></menu>
+           <submenu>
+              <title>Replace all</title>
+              <menu action="Replace scenarios">
+                 <title>Scenario</title>
+              </menu>
+              <menu action="Replace registrations">
+                 <title>Cases</title>
+              </menu>
+           </submenu>
+        </submenu>
+     </submenu>
+  </submenu>
 
   <submenu>
      <title>Code</title>
@@ -260,6 +290,7 @@ GPS.parse_xml(
   </action>
 
   <action name="Test run">
+     <description>Run standard test</description>
      <filter_and>
         <filter language="ada" />
         <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -271,6 +302,7 @@ GPS.parse_xml(
   </action>
 
   <action name="Test dump">
+     <description>Run standard test and dump results</description>
      <filter_and>
         <filter language="ada" />
         <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -293,6 +325,7 @@ GPS.parse_xml(
   </action>
 
   <action name="Test replace">
+     <description>Run standard test and replace results</description>
      <filter_and>
         <filter language="ada" />
         <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -300,10 +333,11 @@ GPS.parse_xml(
         <filter shell_lang="python" shell_cmd="bcs.is_run()" />
      </filter_and>
      <shell lang="python" output="none">bcs.run()</shell>
-     <external>%1 -r</external>
+     <external>%1 -g -r</external>
   </action>
 
   <action name="Test diff">
+     <description>Run standard test and show diff of new and previous results</description>
      <filter_and>
         <filter language="ada" />
         <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -469,7 +503,7 @@ def generate_directories():
 
 def renumber_errors():
    # renumber errors based on pattern in project
-   GPS.Console("Messages").write("Renumbering errors")
+   GPS.Console("Messages").write("Renumbering errors: ")
    default = GPS.Project.root().get_attribute_as_string("Error_Pattern", package="PTest")
    if default == "":
       default = "(\".*)(\([0-9]+\))(\.\")"
@@ -506,7 +540,7 @@ def renumber_errors():
             elif count == 1:
                GPS.Console("Messages").write("Renumbered 1 error message\n")
             else:
-               GPS.Console("Messages").write("Renumbered "+str(count)+" error messages\n")
+               GPS.Console("Messages").write("Renumbered " + str(count) + " error messages\n")
          else:
             GPS.Console("Messages").write("File (context) not selected.\n")
 
@@ -577,10 +611,10 @@ def run():
    if context.entity_name() is not None:
       entity = context.entity()
       if entity.category() == 'package':
-         return prog + " -s " + entity.full_name() + "!"
+         return prog + " -s " + entity.full_name().lower() + "!"
       elif entity.category() == 'procedure':
-         senario = entity.full_name()[:-(len(entity.name())+1)]
-         case = entity.name()
+         senario = entity.full_name()[:-(len(entity.name())+1)].lower()
+         case = entity.name().lower()
          return prog + " -s " + senario + "!" + " -c " + case + "!"
 
    return ""
@@ -595,8 +629,7 @@ def scenario():
 
    context = GPS.current_context()
    file = context.file()
-   entities = file.entities(True)
-   name = entities[0].full_name()[:-9]
+   name = file.unit()
 
    buf = GPS.EditorBuffer.get(context.file())
    cursor = buf.main_cursor()
@@ -631,12 +664,78 @@ def cases():
             procedure = "      Register_Routine(The_Test, " + \
             entity.name() + \
             "\'Access, \"" + \
-            entity.name() + \
+            entity.name().lower() + \
             "!\");\n"
             GPS.Clipboard.copy(procedure)
             cursor = buf.main_cursor()
             first = cursor.mark().location()
             buf.paste(first)
+
+
+def scenarios():
+   """
+   Replace all scenarios in test project
+   """
+
+   count = 0
+   pattern = "return AUnit.Format.*;"
+   sources = GPS.Project.root().sources()
+   for source in sources:
+      if source.name()[-4:] == '.adb':
+         file = open(source.name(), 'r')
+         text = file.read()
+         file.close
+         match = re.search(pattern, text)
+         if match is not None:
+            text = re.sub(pattern, 'return AUnit.Format ("' + source.unit() + '!");', text)
+            count = count + 1
+
+            file = open(source.name(), 'w')
+            file.write(text)
+            file.close()
+
+   if count == 0:
+      print "No scenarios found."
+   elif count == 1:
+      print "1 scenerio found to replace."
+   else:
+      print str(count) + " scenarios found."
+
+
+def registrations():
+   """
+   Replace all registrations in test project
+   """
+
+   count = 0
+   sources = GPS.Project.root().sources()
+   for source in sources:
+      if source.name()[-4:] == '.adb':
+         file = open(source.name(), 'r')
+         text = file.read()
+         file.close
+         entities = source.entities(False)
+         for entity in entities:
+            if entity.category() == "procedure":
+               pattern = "Register_Routine.*The_Test, " + entity.name() + "'Access" + '.*;'
+               match = re.search(pattern, text)
+               if match is not None:
+                  replace = 'Register_Routine (The_Test, ' + entity.name() + \
+                  "'Access, " + '"' + entity.name().lower() + \
+                  '!");'
+                  text = re.sub(pattern, replace, text)
+                  count = count + 1
+
+         file = open(source.name(), 'w')
+         file.write(text)
+         file.close()
+
+   if count == 0:
+      print "No registration test cases found."
+   elif count == 1:
+      print "1 registration test case found."
+   else:
+      print str(count) + " registration test cases found."
 
 
 def bcs_test():

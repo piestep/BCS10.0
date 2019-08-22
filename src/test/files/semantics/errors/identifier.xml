@@ -90,7 +90,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 25: Expression value not compatiable with identifier type.</ln>
+<ln>5, 25: Expression value not compatiable with identifier type (1).</ln>
 </listing>
 </test>
 
@@ -152,7 +152,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 29: Arrays can not be initialized.</ln>
+<ln>6, 29: Arrays can not be initialized (1).</ln>
 </listing>
 </test>
 
@@ -172,7 +172,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 27: Expected expression for constant variable.</ln>
+<ln>5, 27: Expected expression for constant variable (1).</ln>
 </listing>
 </test>
 </body>

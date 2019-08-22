@@ -16,7 +16,7 @@
 </code>
 <listing>
 <ln>5, 37: Undefined type identifier (1).</ln>
-<ln>7, 8: Assignment to in mode parameter not allowed.</ln>
+<ln>7, 8: Assignment to in mode parameter not allowed (1).</ln>
 </listing>
 </test>
 
@@ -35,7 +35,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 8: Expected variable.</ln>
+<ln>8, 8: Expected variable (1).</ln>
 </listing>
 </test>
 

@@ -35,7 +35,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 17: Expression not compatiable with boolean operator.</ln>
+<ln>7, 17: Expression not compatiable with boolean operator (1).</ln>
 </listing>
 </test>
 
@@ -74,7 +74,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 18: Expression not compatiable with integer operator.</ln>
+<ln>8, 18: Expression not compatiable with integer operator (1).</ln>
 </listing>
 </test>
 </body>

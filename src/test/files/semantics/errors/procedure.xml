@@ -29,7 +29,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 9: Expected procedure identifier.</ln>
+<ln>6, 9: Expected procedure identifier (1).</ln>
 </listing>
 </test>
 </body>

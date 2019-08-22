@@ -202,7 +202,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 23: Expression value not compatiable with identifier type.</ln>
+<ln>5, 23: Expression value not compatiable with identifier type (1).</ln>
 <ln>7, 59: Expression must be constant (6).</ln>
 </listing>
 </test>

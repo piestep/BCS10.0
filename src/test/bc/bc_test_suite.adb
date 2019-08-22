@@ -12,7 +12,7 @@ with Scope_Package_Test_Suite;
 with Block_Package_Test_Suite;
 with Graph_Package_Test_Suite;
 with Syntax_Package_Test_Suite;
---  with Semantics_Package_Test_Suite;
+with Semantics_Package_Test_Suite;
 --  with Optimize_Package_Test_Suite;
 --  with Generate_Package_Parameters_Test_Suite;
 --  with Generate_Package_PCode_Test_Suite;
@@ -39,7 +39,7 @@ package body BC_Test_Suite is
       Result.Add_Test (Block_Package_Test_Suite.Suite);
       Result.Add_Test (Graph_Package_Test_Suite.Suite);
       Result.Add_Test (Syntax_Package_Test_Suite.Suite);
-      --        Result.Add_Test (Semantics_Package_Test_Suite.Suite);
+      Result.Add_Test (Semantics_Package_Test_Suite.Suite);
       --        Result.Add_Test (Optimize_Package_Test_Suite.Suite);
       --          Result.Add_Test (Generate_Package_Parameters_Test_Suite.Suite);
       --          Result.Add_Test (Generate_Package_PCode_Test_Suite.Suite);
