@@ -9,10 +9,6 @@ with AUnit.Test_Cases; use AUnit.Test_Cases;
 
 package Syntax_Package.Syntax_Test is
 
-   Syntax_Dump     : Boolean := False;
-   Syntax_Generate : Boolean := False;
-   Syntax_Replace  : Boolean := False;
-
    type Test is new Test_Case with null record;
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String;

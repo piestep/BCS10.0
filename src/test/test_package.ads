@@ -20,6 +20,18 @@ package Test_Package is
    type Array_Of_Unbounded_Strings is
      array (Positive range <>) of Unbounded_String;
 
+   -- Dump test listings to output
+
+   Dump_Flag     : Boolean := False;
+
+   -- Generate xml test file
+
+   Generate_Flag : Boolean := False;
+
+   -- Replace xml test with generated file
+
+   Replace_Flag  : Boolean := False;
+
    --generic AUnit assert for integer values.
 
    generic

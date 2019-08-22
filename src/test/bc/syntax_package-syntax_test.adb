@@ -62,7 +62,7 @@ package body Syntax_Package.Syntax_Test is
       Register_Routine(The_Test, Test_Precedences'Access, "test_precedences!");
       Register_Routine(The_Test, Test_Expressions'Access, "test_expressions!");
       Register_Routine(The_Test, Test_Syntax_Errors'Access, "test_syntax_errors!");
-  end Register_Tests;
+   end Register_Tests;
 
    -----------------
    -- Set_Up_Case --
@@ -95,7 +95,7 @@ package body Syntax_Package.Syntax_Test is
       The_Message : String;
       Dump        : Boolean;
       Generate    : Boolean) with
-      Pre => not (Dump and Generate) is
+     Pre => not (Dump and Generate) is
       use XML_Package.Strings_Vector;
 
       The_File : Ada.Text_IO.File_Type;
@@ -166,7 +166,7 @@ package body Syntax_Package.Syntax_Test is
 
          AUnit.Assertions.Assert
            (Count (The_Unit) =
-            Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
+                Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
             "Test " & The_Message & " node count.");
 
          AUnit.Assertions.Assert
@@ -198,7 +198,7 @@ package body Syntax_Package.Syntax_Test is
       The_Message : String;
       Dump        : Boolean;
       Generate    : Boolean) with
-      Pre => not (Dump and Generate) is
+     Pre => not (Dump and Generate) is
       use XML_Package.Strings_Vector;
 
       The_File   : Ada.Text_IO.File_Type;
@@ -324,7 +324,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -333,13 +333,13 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Procedure.")),
          "procedure",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -360,7 +360,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -369,21 +369,21 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Scalar_Declaration.")),
          "scalar declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Scalar_Range_Declaration.")),
          "scalar range declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -403,7 +403,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -412,13 +412,13 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Mod_Declaration.")),
          "mod declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -439,7 +439,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -448,13 +448,13 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Array_Declaration.")),
          "array declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -475,7 +475,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -484,29 +484,29 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Identifier_Declaration.")),
          "identifier declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expression_Declaration.")),
          "identifier expression declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant_Declaration.")),
          "identifier constant declaration",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -527,7 +527,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -536,45 +536,45 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_In.")),
          "parameter in",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Out.")),
          "parameter out",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_In_Out.")),
          "parameter in out",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_List.")),
          "parameter list",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -595,7 +595,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -604,21 +604,21 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Assignment.")),
          "assignment",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Assignment.")),
          "array assignment",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -638,7 +638,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -647,21 +647,21 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("If_Then.")),
          "if then",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then_Else.")),
          "if then else",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -681,7 +681,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -690,21 +690,21 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("For.")),
          "for",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("For_Reverse.")),
          "for reverse",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -725,7 +725,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -734,13 +734,13 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Statement_List.")),
          "Statement list",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -761,7 +761,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -772,30 +772,30 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Not.")),
          "not",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("And.")),
          "and",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element (The_Tests, To_Unbounded_String ("Or.")),
          "or",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Xor.")),
          "xor",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       -- Relation operators
 
@@ -804,48 +804,48 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Equals.")),
          "equals",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_Equals.")),
          "not equals",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Less_Than.")),
          "less than",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Greater_Than.")),
          "greater than",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Less_Than_Equals.")),
          "less than equals",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Greater_Than_Equals.")),
          "greater than equals",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       -- Arithmetic Operators
 
@@ -854,69 +854,69 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Plus.")),
          "plus",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Minus.")),
          "minus",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Addition.")),
          "addition",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Subtraction.")),
          "subtraction",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Times.")),
          "times",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Divide.")),
          "divide",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Remainder.")),
          "remainder",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Modulas.")),
          "modulas",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -937,7 +937,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -946,85 +946,85 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("And_Not_Precedence.")),
          "and not precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Xor_Precedence.")),
          "xor precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Or_Precedence.")),
          "or precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Negate_Precedence.")),
          "minus precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Plus_Precedence.")),
          "plus precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Paren_Precedence.")),
          "paren precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Times_Precedence.")),
          "times precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Divide_Precedence.")),
          "divide precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Rem_Precedence.")),
          "rem precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Precedence.")),
          "mod precedence",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1045,7 +1045,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
          Ada.Text_IO.Set_Output (The_File);
 
@@ -1058,10 +1058,10 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Tick.")),
          "tick",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Ada.Text_IO.Put_Line ("</body>");
          Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
       end if;
@@ -1082,7 +1082,7 @@ package body Syntax_Package.Syntax_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1091,37 +1091,37 @@ package body Syntax_Package.Syntax_Test is
            (The_Tests,
             To_Unbounded_String ("Accept.")),
          "accept symbol",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Starters.")),
          "starter symbols",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Followers.")),
          "follower symbols",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Eof.")),
          "eof",
-         Dump     => Syntax_Dump,
-         Generate => Syntax_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Syntax_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Syntax_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;

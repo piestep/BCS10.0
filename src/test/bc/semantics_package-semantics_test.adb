@@ -81,7 +81,7 @@ package body Semantics_Package.Semantics_Test is
       Register_Routine(The_Test, Test_For_Errors'Access, "test_for_errors!");
       Register_Routine(The_Test, Test_Unary_Errors'Access, "test_unary_errors!");
       Register_Routine(The_Test, Test_Binary_Errors'Access, "test_binary_errors!");
-  end Register_Tests;
+   end Register_Tests;
 
    ------------
    -- Set_Up --
@@ -402,7 +402,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/procedure.xml";
+        Test_Package.FILES & "/" & "semantics/procedure.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -410,7 +410,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -419,13 +419,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Procedure.")),
          "procedure",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -439,7 +439,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/discreate.xml";
+        Test_Package.FILES & "/" & "semantics/discreate.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -447,7 +447,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -456,13 +456,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Discreate.")),
          "discreate declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -476,7 +476,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/scalar.xml";
+        Test_Package.FILES & "/" & "semantics/scalar.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -484,7 +484,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -493,13 +493,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -513,14 +513,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/mod.xml";
+        Test_Package.FILES & "/" & "semantics/mod.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -529,21 +529,21 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Without_Range.")),
          "mod without range declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -557,14 +557,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/range.xml";
+        Test_Package.FILES & "/" & "semantics/range.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -573,29 +573,29 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Discreate.")),
          "discreate range declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar range declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod range declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -609,14 +609,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/array.xml";
+        Test_Package.FILES & "/" & "semantics/array.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -625,13 +625,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Array_Declaration.")),
          "array declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -645,14 +645,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/identifiers.xml";
+        Test_Package.FILES & "/" & "semantics/identifiers.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -661,29 +661,29 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Identifier_Declaration.")),
          "identifier declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expression_Declaration.")),
          "identifier expression declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant_Declaration.")),
          "identifier constant declaration",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -697,14 +697,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/parameters.xml";
+        Test_Package.FILES & "/" & "semantics/parameters.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -713,37 +713,37 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("In_Parameter.")),
          "in parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Out_Parameter.")),
          "out parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("In_Out_Parameter.")),
          "in out parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -757,14 +757,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/assignments.xml";
+        Test_Package.FILES & "/" & "semantics/assignments.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -773,37 +773,37 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Assignment.")),
          "assignment",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter assignment",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array.")),
          "array assignment",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Variable_Index.")),
          "array assignment with variable index",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -817,14 +817,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/ifs.xml";
+        Test_Package.FILES & "/" & "semantics/ifs.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -833,21 +833,21 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("If_Then.")),
          "if then",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then_Else.")),
          "if then else",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -861,14 +861,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/fors.xml";
+        Test_Package.FILES & "/" & "semantics/fors.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -877,21 +877,21 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("For.")),
          "for",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("For_Reverse.")),
          "for reverse",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -905,14 +905,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/operators.xml";
+        Test_Package.FILES & "/" & "semantics/operators.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -923,30 +923,30 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Not.")),
          "not",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("And.")),
          "and",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element (The_Tests, To_Unbounded_String ("Or.")),
          "or",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Xor.")),
          "xor",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       -- Relation operators
 
@@ -955,48 +955,48 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Equals.")),
          "equals",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_Equals.")),
          "not equals",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Less_Than.")),
          "less than",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Greater_Than.")),
          "greater than",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Less_Than_Equals.")),
          "less than equals",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Greater_Than_Equals.")),
          "greater than equals",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       -- Arithmetic Operators
 
@@ -1005,69 +1005,69 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Plus.")),
          "plus",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Minus.")),
          "minus",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Addition.")),
          "addition",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Subtraction.")),
          "subtraction",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Times.")),
          "times",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Divide.")),
          "divide",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Remainder.")),
          "remainder",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Modulas.")),
          "modulas",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1081,14 +1081,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/precedence.xml";
+        Test_Package.FILES & "/" & "semantics/precedence.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1097,93 +1097,93 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("And_Not.")),
          "and not precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_And.")),
          "not and precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Xor.")),
          "xor precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Or.")),
          "or precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Minus.")),
          "minus precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Plus.")),
          "plus precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Paren.")),
          "paren precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Times.")),
          "times precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Divide.")),
          "divide precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Rem.")),
          "rem precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod precedence",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1197,14 +1197,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/expressions.xml";
+        Test_Package.FILES & "/" & "semantics/expressions.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1213,77 +1213,77 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Unary-Boolean.")),
          "unary boolean",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Unary-Integer.")),
          "unary integer",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Unary-Mod.")),
          "unary mod",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Relation.")),
          "binary boolean",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Boolean.")),
          "binary boolean",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Integer.")),
          "binary integer",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Mod.")),
          "binary mod",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter expression",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index.")),
          "index expression",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1297,14 +1297,14 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/attributes.xml";
+        Test_Package.FILES & "/" & "semantics/attributes.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1313,13 +1313,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Attributes.")),
          "unary boolean",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1337,7 +1337,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/package.xml";
+        Test_Package.FILES & "/" & "semantics/errors/package.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1345,7 +1345,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1354,21 +1354,21 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Package_Identifier.")),
          "package identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Package_End.")),
          "package end identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1382,7 +1382,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/procedure.xml";
+        Test_Package.FILES & "/" & "semantics/errors/procedure.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1390,7 +1390,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1399,21 +1399,21 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Procedure_Identifier.")),
          "procedure identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Procedure_End.")),
          "procedure end identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1427,7 +1427,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/parameter.xml";
+        Test_Package.FILES & "/" & "semantics/errors/parameter.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1435,7 +1435,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1444,37 +1444,37 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Parameter_Identifier.")),
          "parameter identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Excessive.")),
          "parameter excessive",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Expected.")),
          "parameter expected",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Undefined.")),
          "parameter undefined",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1488,7 +1488,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/type.xml";
+        Test_Package.FILES & "/" & "semantics/errors/type.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1496,7 +1496,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1505,13 +1505,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Type_Identifier.")),
          "type identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1525,7 +1525,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/identifier.xml";
+        Test_Package.FILES & "/" & "semantics/errors/identifier.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1533,7 +1533,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1542,77 +1542,77 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Identifier.")),
          "identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Excessive.")),
          "identifier excessive",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expected.")),
          "identifier expected",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Undefined.")),
          "identifier undefined",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Not_Compatiable_Type.")),
          "identifier not compatiable type",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Not_Compatiable.")),
          "identifier not compatiable",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant.")),
          "identifier constant",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Array.")),
          "identifier array",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant_Value.")),
          "identifier constant value",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1626,7 +1626,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/range.xml";
+        Test_Package.FILES & "/" & "semantics/errors/range.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1634,7 +1634,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1643,69 +1643,69 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Range_Expected.")),
          "range expected",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Undefined.")),
          "range undefined",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable_Type-First.")),
          "range not compatiable type (first)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable-First.")),
          "range not compatiable (first)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Constant-First.")),
          "range first constant (first)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable_Type-Last.")),
          "range last not compatiable type (last)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable-Last.")),
          "range not compatiable (last)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Constant-Last.")),
          "range last constant (last)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1719,7 +1719,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/mod.xml";
+        Test_Package.FILES & "/" & "semantics/errors/mod.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1727,7 +1727,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1736,29 +1736,29 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Mod_Not_Compatiable_Type.")),
          "mod not compatiable type",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Not_Compatiable.")),
          "mod not compatiable",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Constant.")),
          "mod constant",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1772,7 +1772,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/array.xml";
+        Test_Package.FILES & "/" & "semantics/errors/array.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1780,7 +1780,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1789,117 +1789,117 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Array_Excessive-Index.")),
          "array excessive index",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Scalar-Index.")),
          "array scalar index",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Expected-Index.")),
          "array expected index",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Undefined-Index.")),
          "array undefined index",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constraint-First.")),
          "array constraint first",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Not_Compatiable-First.")),
          "array index not compatiable first",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constant-First.")),
          "array constant first",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constraint-Last.")),
          "array constraint last",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Not_Compatiable-Last.")),
          "array index not compatiable last",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constant-Last.")),
          "array constant last",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Excessive-Element.")),
          "array excessive element",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Scalar-Element.")),
          "array scalar element",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Expected-Element.")),
          "array expected element",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Undefined-Element.")),
          "array undefined element",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1913,7 +1913,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/assignment.xml";
+        Test_Package.FILES & "/" & "semantics/errors/assignment.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1921,7 +1921,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1930,37 +1930,37 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "assignment to in parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "assignment to constant",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constraint.")),
          "assignment not within constraint",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_Compatiable.")),
          "assignment not compatiable with identifier",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1974,7 +1974,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/variable.xml";
+        Test_Package.FILES & "/" & "semantics/errors/variable.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1982,7 +1982,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1991,61 +1991,61 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Variable_Undefined.")),
          "variable undefined",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Scalar.")),
          "variable scalar",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Constant.")),
          "variable or constant variable",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Not_Within.")),
          "variable not within constraint",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Not_Compatiable.")),
          "variable not compatiable",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Array.")),
          "array variable or parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Parameter.")),
          "variable or parameter",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -2059,7 +2059,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/if.xml";
+        Test_Package.FILES & "/" & "semantics/errors/if.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2067,7 +2067,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -2076,13 +2076,13 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Condition_Error.")),
          "boolean condition",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -2096,7 +2096,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/for.xml";
+        Test_Package.FILES & "/" & "semantics/errors/for.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2104,7 +2104,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -2113,53 +2113,53 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Index_Expected.")),
          "index identifier expected",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Undefined.")),
          "index type undefined",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Constraint-First.")),
          "index not within type constraint (first)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Not_Compatiable-First.")),
          "index not compatiable with type (first)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Constraint-Last.")),
          "index not within type constraint (last)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Not_Compatiable-Last.")),
          "index not compatiable with type (last)",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -2173,7 +2173,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/unary.xml";
+        Test_Package.FILES & "/" & "semantics/errors/unary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2181,7 +2181,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -2190,37 +2190,37 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Boolean_Type.")),
          "not within unary operator type",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Compatiable.")),
          "not compatiable with unary operator",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Type.")),
          "not within unary operator type",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Compatiable.")),
          "not compatiable with unary operator",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -2234,7 +2234,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-                  Test_Package.FILES & "/" & "semantics/errors/binary.xml";
+        Test_Package.FILES & "/" & "semantics/errors/binary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2242,7 +2242,7 @@ package body Semantics_Package.Semantics_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -2251,53 +2251,53 @@ package body Semantics_Package.Semantics_Test is
            (The_Tests,
             To_Unbounded_String ("Expressions_Not_Compatiable.")),
          "expressions not compatiable",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Error-Boolean.")),
          "not within binary operator",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Error.")),
          "not compatiable with binary operator",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Error-Integer.")),
          "not within binary operator",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Error.")),
          "not compatiable with binary operator",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Error_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Operands_Not_Compatiable.")),
          "operands not compatiable",
-         Dump     => Semantics_Dump,
-         Generate => Semantics_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Semantics_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Semantics_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;

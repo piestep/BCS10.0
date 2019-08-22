@@ -11,6 +11,7 @@ with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Command_Line;      use Ada.Command_Line;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --
+with Test_Package;
 with Test_Suite;
 --
 
@@ -24,9 +25,6 @@ procedure Bct is
 
    The_Filter  : Test_Filter_Access := null;
    The_Options : AUnit_Options;
-
-   Dump_Flag     : Boolean := False;
-   Generate_Flag : Boolean := False;
 
    procedure Run is new AUnit.Run.Test_Runner (Test_Suite.Suite);
    Reporter : AUnit.Reporter.Text.Text_Reporter;
@@ -68,33 +66,35 @@ begin
       elsif Argument (The_Argument) = "-d" or
         Argument (The_Argument) = "--dump"
       then
-         if Generate_Flag then
+         if Test_Package.Generate_Flag then
             Put_Line ("-d, --dump can not be used with -g, --generate");
             Put_Usage;
             return;
          end if;
 
-         Dump_Flag              := True;
+         Test_Package.Dump_Flag := True;
 
       elsif Argument (The_Argument) = "-g" or
         Argument (The_Argument) = "--generate"
       then
-         if Dump_Flag then
+         if Test_Package.Dump_Flag then
             Put_Line ("-g, --generate can not be used with -d, --dump");
             Put_Usage;
             return;
          end if;
 
-         Generate_Flag              := True;
+         Test_Package.Generate_Flag := True;
 
       elsif Argument (The_Argument) = "-r" or
         Argument (The_Argument) = "--replace"
       then
-         if not Generate_Flag then
+         if not Test_Package.Generate_Flag then
             Put_Line ("-r, --replace can only be used with -g, --generate");
             Put_Usage;
             return;
          end if;
+
+         Test_Package.Replace_Flag := True;
 
       else
          Put_Line ("Unknown switch: " & Argument (The_Argument));

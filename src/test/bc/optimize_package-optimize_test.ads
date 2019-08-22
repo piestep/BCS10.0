@@ -10,10 +10,6 @@ with AUnit.Test_Cases; use AUnit.Test_Cases;
 
 package Optimize_Package.Optimize_Test is
 
-   Optimize_Dump     : Boolean := False;
-   Optimize_Generate : Boolean := False;
-   Optimize_Replace  : Boolean := False;
-
    type Test is new Test_Case with null record;
 
    overriding function Name (The_Test : in Test) return AUnit.Test_String;
@@ -49,9 +45,9 @@ package Optimize_Package.Optimize_Test is
 
    -- optimize error test
 
---     procedure Test_Optimize_Errors_For_Variable
---       (The_Test : in out Test_Case'Class);
---     procedure Test_Optimize_Errors_For_Binary_Expression
---       (The_Test : in out Test_Case'Class);
+   --     procedure Test_Optimize_Errors_For_Variable
+   --       (The_Test : in out Test_Case'Class);
+   --     procedure Test_Optimize_Errors_For_Binary_Expression
+   --       (The_Test : in out Test_Case'Class);
 
 end Optimize_Package.Optimize_Test;

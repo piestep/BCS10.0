@@ -430,7 +430,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -439,13 +439,13 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Procedure.")),
          "procedure",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -467,7 +467,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -476,13 +476,13 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar type",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -504,7 +504,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -513,21 +513,21 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod type",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Without_Range.")),
          "mod type without range",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -549,7 +549,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -558,21 +558,21 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar range type",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod range type",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -594,7 +594,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -603,13 +603,13 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Array.")),
          "array type",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -631,7 +631,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -640,29 +640,29 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Identifier.")),
          "identifier declaration",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expression.")),
          "identifier expression declaration",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant.")),
          "identifier constant declaration",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -684,7 +684,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -693,29 +693,29 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Assignment.")),
          "scalar assignment",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant_Index.")),
          "array constant index assignment",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Index.")),
          "array variable index assignment",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -737,7 +737,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -746,21 +746,21 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("If_Then.")),
          "if then",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then_Else.")),
          "if then else",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -782,7 +782,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -791,13 +791,13 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("For.")),
          "for statement",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -819,7 +819,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -828,37 +828,37 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Boolean_Constant.")),
          "unary boolean constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Variable.")),
          "unary boolean variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Constant.")),
          "unary integer constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Variable.")),
          "unary integer variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -880,7 +880,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -889,21 +889,21 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary relation constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary relation variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -925,7 +925,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -934,53 +934,53 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary and constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("False_And_Variable.")),
          "binary and variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_And_False.")),
          "binary and variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("True_And_Variable.")),
          "binary and variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_And_True.")),
          "binary and variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary and variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1002,7 +1002,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1011,53 +1011,53 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary or constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("False_Or_Variable.")),
          "binary or variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Or_False.")),
          "binary or variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("True_Or_Variable.")),
          "binary or variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Or_True.")),
          "binary or variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary or variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1079,7 +1079,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1088,53 +1088,53 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary xor constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("False_Xor_Variable.")),
          "binary xor variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Xor_False.")),
          "binary xor variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("True_Xor_Variable.")),
          "binary xor variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Xor_True.")),
          "binary xor variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary xor variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1156,7 +1156,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1165,53 +1165,53 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary addition constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Plus_Variable.")),
          "binary addition variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Plus_Zero.")),
          "binary addition variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Plus_Variable.")),
          "binary addition variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Plus_One.")),
          "binary addition variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary addition variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1233,7 +1233,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1242,53 +1242,53 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary subtraction constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Minus_Variable.")),
          "binary subtraction variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Minus_Zero.")),
          "binary subtraction variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Minus_Variable.")),
          "binary subtraction variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Minus_One.")),
          "binary subtraction variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary subtraction variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1310,7 +1310,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1319,69 +1319,69 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary multiplication constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Times_Variable.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Times_Zero.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Times_Variable.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Times_One.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Two_Times_Variable.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Times_Two.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary multiplication variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1403,7 +1403,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1412,61 +1412,61 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary division constant expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Divide_Variable.")),
          "binary division variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Divide_Variable.")),
          "binary division variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Divide_One.")),
          "binary division variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Two_Divide_Variable.")),
          "binary division variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Divide_Two.")),
          "binary division variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary division variable expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1488,7 +1488,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1497,13 +1497,13 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
@@ -1525,7 +1525,7 @@ package body Optimize_Package.Optimize_Test is
    begin
       XML_Package.Load (XMLNAME, The_Tests);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
@@ -1534,13 +1534,13 @@ package body Optimize_Package.Optimize_Test is
            (The_Tests,
             To_Unbounded_String ("Index.")),
          "index expression",
-         Dump     => Optimize_Dump,
-         Generate => Optimize_Generate);
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
-      if Optimize_Generate then
+      if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
 
-         if Optimize_Replace then
+         if Test_Package.Replace_Flag then
             Replace_XMLfile (XMLNAME, LISTNAME);
          end if;
       end if;
