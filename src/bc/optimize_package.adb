@@ -6,20 +6,14 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --
 with Debug_Package;      use Debug_Package;
 with Error_Package;      use Error_Package;
-with Source_Package;     use Source_Package;
 with Scanner_Package;    use Scanner_Package;
 with Type_Package;       use Type_Package;
 with Identifier_Package; use Identifier_Package;
-with Operand_Package;    use Operand_Package;
 --
 
--- Note: To renumber optimize errors use message text ending with an error
--- number. Use regexp '("<error message text> \()([[:digit:]]+)(\)\.")' and
--- replace with '\1\i\3'. Be sure to use 'Find & Replace' and not 'Replace All'.
+-- Error messages:
 --
--- Error messages that require error codes:
---
--- ("Expression not within type \()([[:digit:]]+)(\).")                      --
+-- Expression not within type.                    --
 
 package body Optimize_Package is
 
@@ -86,8 +80,7 @@ package body Optimize_Package is
    procedure Procedure_Body (The_Procedure : in out Procedure_Body_Graph);
    procedure Declarations (The_Declarations : in out Declaration_Graph);
    procedure Type_Declaration (The_Declaration : in out Declaration_Graph);
-   procedure Identifier_Declaration
-     (The_Declaration : in out Declaration_Graph);
+   procedure Identifier_Declaration (The_Declaration : in out Declaration_Graph);
    procedure Definition (The_Definition : in out Definition_Graph);
    procedure Range_Definition (The_Definition : in out Definition_Graph);
    procedure Mod_Definition (The_Definition : in out Definition_Graph);
@@ -305,8 +298,8 @@ package body Optimize_Package is
 
       if The_Right /= null and then Is_Constant (The_Right) then
          if not Is_Within
-             (Constant_Operand (The_Right.all).The_Value,
-              The_Left.The_Type)
+           (Constant_Operand (The_Right.all).The_Value,
+            The_Left.The_Type)
          then
             -- not within type should be caught at optimize binary expression
             -- semantics
@@ -332,8 +325,8 @@ package body Optimize_Package is
       The_Operand := null;
 
       if Is_Array
-          (Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
-             .The_Type)
+        (Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
+         .The_Type)
       then
 
          Expression (The_Variable.The_Expression, The_Expression);
@@ -342,11 +335,11 @@ package body Optimize_Package is
 
             The_Type :=
               Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
-                .The_Type;
+              .The_Type;
             if Is_Constant (The_Expression) then
                if Is_Within
-                   (Constant_Operand (The_Expression.all).The_Value,
-                    The_Type)
+                 (Constant_Operand (The_Expression.all).The_Value,
+                  The_Type)
                then
 
                   The_Operand :=
@@ -373,7 +366,7 @@ package body Optimize_Package is
       else
          The_Type :=
            Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
-             .The_Type;
+           .The_Type;
 
          The_Operand :=
            new Identifier_Operand'
@@ -416,12 +409,12 @@ package body Optimize_Package is
       The_Type :=
         Index_Identifier
           (For_Statement_Node (The_Statement.all).The_Index.The_Pointer.all)
-          .The_Type;
+            .The_Type;
 
       if The_First /= null and then Is_Constant (The_First) then
          if not Is_Within
-             (Constant_Operand (The_First.all).The_Value,
-              The_Type)
+           (Constant_Operand (The_First.all).The_Value,
+            The_Type)
          then
             -- not within type should be caught by optimize binary expression or
             -- semantics.
@@ -433,8 +426,8 @@ package body Optimize_Package is
 
       if The_Last /= null and then Is_Constant (The_Last) then
          if not Is_Within
-             (Constant_Operand (The_Last.all).The_Value,
-              The_Type)
+           (Constant_Operand (The_Last.all).The_Value,
+            The_Type)
          then
             -- not within type should be caught by optimize binary expression or
             -- semantics.
@@ -590,11 +583,11 @@ package body Optimize_Package is
       case Binary_Expression_Node (The_Expression.all).The_Operator is
 
          when Equal_Symbol           |
-           Not_Equal_Symbol          |
-           Less_Than_Symbol          |
-           Less_Than_Equal_Symbol    |
-           Greater_Than_Symbol       |
-           Greater_Than_Equal_Symbol =>
+              Not_Equal_Symbol          |
+              Less_Than_Symbol          |
+              Less_Than_Equal_Symbol    |
+              Greater_Than_Symbol       |
+              Greater_Than_Equal_Symbol =>
 
             if (The_Right /= null and The_Left /= null)
               and then (Is_Constant (The_Left) and Is_Constant (The_Right))
@@ -672,12 +665,12 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (4).");
                         end if;
 
@@ -708,12 +701,12 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (5).");
                         end if;
                      end if;
@@ -743,12 +736,12 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (6).");
                         end if;
 
@@ -779,12 +772,12 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (7).");
                         end if;
                      end if;
@@ -868,13 +861,13 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
 
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (9).");
                         end if;
 
@@ -893,7 +886,7 @@ package body Optimize_Package is
                         Optimize_Error
                           (Position_Of
                              (Binary_Expression_Node (The_Expression.all)
-                                .The_Right),
+                              .The_Right),
                            "Expression divided by zero.");
 
                      elsif Constant_Operand (The_Right.all).The_Value = 1 then
@@ -934,7 +927,7 @@ package body Optimize_Package is
                             (The_Operator => Minus_Symbol,
                              The_Right    =>
                                Binary_Expression_Node (The_Expression.all)
-                                 .The_Right,
+                             .The_Right,
                              The_Result => Copy (The_Operand));
 
                         Binary_Expression_Node (The_Expression.all).The_Right :=
@@ -960,13 +953,13 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
 
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (O10).");
                         end if;
 
@@ -991,13 +984,13 @@ package body Optimize_Package is
                               Copy (The_Operand),
                               Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right));
+                                 .The_Right));
 
                         else
                            Optimize_Error
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
-                                   .The_Right),
+                                 .The_Right),
                               "Expression not within type (10).");
                         end if;
 
@@ -1069,7 +1062,7 @@ package body Optimize_Package is
                Copy (The_Operand),
                Position_Of (The_Expression));
 
-               -- Dispose the operand.
+            -- Dispose the operand.
             Dispose (The_Right);
 
          else
