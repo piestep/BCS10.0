@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Undefined_Identifier.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Undefined Identifier Error</ln>
+<ln>   type TEST_SIZE is new INTEGER range 1 .. 20;</ln>
+<ln>   A : TEST_SIZE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := A_TYPE'SIZE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>7, 23: Undefined identifier for attribute (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Length_Requires_Array.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Length Attribute Requires Array</ln>
+<ln>   type SCALAR_TYPE is new INTEGER range 0 .. 3;</ln>
+<ln>   type TEST_SIZE is new INTEGER range 0 .. 10;</ln>
+<ln>   A : TEST_SIZE;</ln>
+<ln>   B : SCALAR_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := B'LENGTH;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>9, 20: Length attribute requires array type (1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Expected_Attribute.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Expected Attribute</ln>
+<ln>   type TEST_SIZE is new INTEGER range 1 .. 20;</ln>
+<ln>   A : TEST_SIZE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := TEST_SIZE'ATTRIBUTE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>7, 31: Expected attribute (1).</ln>
+</listing>
+</test>
+</body>

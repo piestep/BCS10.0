@@ -57,5 +57,6 @@ package Semantics_Package.Semantics_Test is
    procedure Test_For_Errors (The_Test : in out Test_Case'Class);
    procedure Test_Unary_Errors (The_Test : in out Test_Case'Class);
    procedure Test_Binary_Errors (The_Test : in out Test_Case'Class);
+   procedure Test_Attribute_Errors (The_Test : in out Test_Case'Class);
 
 end Semantics_Package.Semantics_Test;

@@ -81,6 +81,7 @@ package body Semantics_Package.Semantics_Test is
       Register_Routine(The_Test, Test_For_Errors'Access, "test_for_errors!");
       Register_Routine(The_Test, Test_Unary_Errors'Access, "test_unary_errors!");
       Register_Routine(The_Test, Test_Binary_Errors'Access, "test_binary_errors!");
+      Register_Routine(The_Test, Test_Attribute_Errors'Access, "test_attribute_errors!");
    end Register_Tests;
 
    ------------
@@ -2500,5 +2501,58 @@ package body Semantics_Package.Semantics_Test is
          end if;
       end if;
    end Test_Binary_Errors;
+
+   ---------------------------
+   -- Test_Attribute_Errors --
+   ---------------------------
+
+   procedure Test_Attribute_Errors (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+
+      XMLNAME : constant String :=
+        Test_Package.FILES & "/" & "semantics/errors/attribute.xml";
+
+      The_Tests : XML_Package.Tests_Map.Map;
+      The_File  : Ada.Text_IO.File_Type;
+
+   begin
+      XML_Package.Load (XMLNAME, The_Tests);
+
+      if Test_Package.Generate_Flag then
+         Create_Generate_File (The_File, LISTNAME);
+      end if;
+
+      Run_Error_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Undefined_Identifier.")),
+         "undefined identifier",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Error_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Length_Requires_Array.")),
+         "length requires array",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Error_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Expected_Attribute.")),
+         "expected attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      if Test_Package.Generate_Flag then
+         Close_Generate_File (The_File);
+
+         if Test_Package.Replace_Flag then
+            Replace_XMLfile (XMLNAME, LISTNAME);
+         end if;
+      end if;
+   end Test_Attribute_Errors;
 
 end Semantics_Package.Semantics_Test;

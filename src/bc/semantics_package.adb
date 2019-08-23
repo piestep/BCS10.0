@@ -1764,7 +1764,9 @@ package body Semantics_Package is
                The_Type    => null,
                The_Value   => 0,
                The_Address => 0));
-         Semenatics_Error (Position_Of (The_Expression), "Undefined identifier (2).");
+         Semenatics_Error
+           (Position_Of (The_Expression),
+            "Undefined identifier for attribute (1).");
          Undefined_Identifier := True;
       end if;
 
