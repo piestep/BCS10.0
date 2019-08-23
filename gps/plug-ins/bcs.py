@@ -546,7 +546,7 @@ def renumber_errors():
 
 def renumber_messages():
    # renumber messages based on pattern in tests
-   GPS.Console("Messages").write("Renumbering messages")
+   GPS.Console("Messages").write("Renumbering messages: ")
    default = GPS.Project.root().get_attribute_as_string("Message_Pattern", package="Pie")
    if default == "":
       default = "\"\([0-9]+\)"
