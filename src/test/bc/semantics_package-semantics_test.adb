@@ -1308,19 +1308,209 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
+      -- Type array attributes
+
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
-            To_Unbounded_String ("Type_Scalar.")),
-         "type scalar size attribute",
+            To_Unbounded_String ("Type_Array_Length.")),
+         "type array length attribute",
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       Run_Tests
         (XML_Package.Tests_Map.Element
            (The_Tests,
-            To_Unbounded_String ("Variable_Scalar.")),
-         "variable scalar size attribute",
+            To_Unbounded_String ("Type_Array_First.")),
+         "type array first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Type_Array_Last.")),
+         "type array last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Type_Array_Size.")),
+         "type array size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      -- Type scalar attributes
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Type_Scalar_First.")),
+         "type Scalar first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Type_Scalar_Last.")),
+         "type Scalar last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Type_Scalar_Size.")),
+         "type Scalar size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      -- Variable array attributes
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Array_Length.")),
+         "variable array length attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Array_First.")),
+         "variable array first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Array_Last.")),
+         "variable array last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Array_Size.")),
+         "variable array size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      -- Variable scalar attributes
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Scalar_First.")),
+         "variable Scalar first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Scalar_Last.")),
+         "variable Scalar last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Scalar_Size.")),
+         "variable Scalar size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      -- Parameter array attributes
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Array_Length.")),
+         "parameter array length attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Array_First.")),
+         "parameter array first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Array_Last.")),
+         "parameter array last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Array_Size.")),
+         "parameter array size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      -- Parameter scalar attributes
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Scalar_First.")),
+         "parameter Scalar first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Scalar_Last.")),
+         "parameter Scalar last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Parameter_Scalar_Size.")),
+         "parameter Scalar size attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      -- Index attributes
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Index_First.")),
+         "index first attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Index_Last.")),
+         "index last attribute",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Index_Size.")),
+         "index size attribute",
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 

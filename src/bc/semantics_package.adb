@@ -1778,7 +1778,7 @@ package body Semantics_Package is
                The_Type := Type_Identifier
                  (The_Expression.The_Identifier.The_Pointer.all).The_Type;
             else
-               The_Type := Variable_Identifier
+               The_Type := Typed_Identifier
                  (The_Expression.The_Identifier.The_Pointer.all).The_Type;
             end if;
 
