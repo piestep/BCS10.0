@@ -43,11 +43,14 @@ package Optimize_Package.Optimize_Test is
    procedure Test_Parameter (The_Test : in out Test_Case'Class);
    procedure Test_Index (The_Test : in out Test_Case'Class);
 
+   procedure Test_Assign (The_Test : in out Test_Case'Class);
+   procedure Test_Assign_Left (The_Test : in out Test_Case'Class);
+   procedure Test_Assign_Right (The_Test : in out Test_Case'Class);
+
    -- optimize error test
 
-   --     procedure Test_Optimize_Errors_For_Variable
-   --       (The_Test : in out Test_Case'Class);
-   --     procedure Test_Optimize_Errors_For_Binary_Expression
-   --       (The_Test : in out Test_Case'Class);
+   procedure Test_Variable_Errors (The_Test : in out Test_Case'Class);
+   procedure Test_Unary_Expression_Errors (The_Test : in out Test_Case'Class);
+   procedure Test_Binary_Expression_Errors (The_Test : in out Test_Case'Class);
 
 end Optimize_Package.Optimize_Test;

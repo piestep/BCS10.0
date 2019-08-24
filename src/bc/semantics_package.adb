@@ -1414,7 +1414,7 @@ package body Semantics_Package is
                      else
                         Semenatics_Error
                           (Position_Of (The_Expression.The_Right),
-                           "Expression not within type (2).");
+                           "Expression not within type (S2).");
                      end if;
 
                   else
@@ -1426,7 +1426,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Expression not compatiable with boolean operator (1).");
+                     "Expression not compatiable with boolean operator (S1).");
                end if;
 
             when Minus_Symbol =>
@@ -1457,7 +1457,7 @@ package body Semantics_Package is
                      else
                         Semenatics_Error
                           (Position_Of (The_Expression.The_Right),
-                           "Expression not within type (3).");
+                           "Expression not within type (S3).");
                      end if;
 
                   else
@@ -1470,7 +1470,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Expression not compatiable with integer operator (1).");
+                     "Expression not compatiable with integer operator (S1).");
                end if;
             when others =>
                raise Critical_Error;

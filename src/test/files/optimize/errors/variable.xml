@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Index_Range.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln>   -- Declarations</ln>
+<ln>   type INDEX_TYPE is new INTEGER range 0 .. 10;</ln>
+<ln>   type ARRAY_TYPE is array (INDEX_TYPE range 1 .. 10) of BOOLEAN;</ln>
+<ln>   A : ARRAY_TYPE;</ln>
+<ln>   I : INDEX_TYPE;</ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A(I*0) := True;</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<listing>
+<ln>9, 12: Expression not within array index type (O1).</ln>
+</listing>
+</test>
+</body>

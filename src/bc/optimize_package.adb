@@ -10,6 +10,95 @@ with Scanner_Package;    use Scanner_Package;
 with Type_Package;       use Type_Package;
 with Identifier_Package; use Identifier_Package;
 --
+with Operand_Package.Image_Package;
+with Ada.Text_IO;
+
+-- NOTES:
+--  j = 0
+--  for i in 1 .. 4 loop
+--     j = j + 1
+--  end loop
+--
+--  j = j + 1
+--  j = j + 1
+--  j = j + 1
+--  j = j + 1
+--
+--  -----
+--  a range 1 .. 4
+--  j = 0
+--  for i in a .. 4 loop
+--     j = j + 1
+--  end loop
+--
+--  if a <= 4 then
+--     i = a
+--     i = i + 1
+--     j = j + 1
+--     if i <= 4 then
+--        i = i + 1
+--        j = j + 1
+--        if i <= 4 then
+--           i = i + 1
+--           j = j + 1
+--           if i <= 4 then
+--              i = i + 1
+--              j = j + 1
+--           end if
+--        end if
+--     end if
+--  end if
+--
+--  -----
+--  a range 1 .. 4
+--  j = 0
+--  for i in 1 .. a loop
+--     j = j + 1
+--  end loop
+--
+--  if 1 <= a then
+--     i = a
+--     i = i + 1
+--     j = j + 1
+--     if i <= a then
+--        i = i + 1
+--        j = j + 1
+--        if i <= a then
+--           i = i + 1
+--           j = j + 1
+--           if i <= a then
+--              i = i + 1
+--              j = j + 1
+--           end if
+--        end if
+--     end if
+--  end if
+--
+--  -----
+--  a range 1 .. 4
+--  b range 1 .. 4
+--  j = 0
+--  for i in a .. b loop
+--     j = j + 1
+--  end loop
+--
+--  if a <= b then
+--     i = a
+--     i = i + 1
+--     j = j + 1
+--     if i <= b then
+--        i = i + 1
+--        j = j + 1
+--        if i <= b then
+--           i = i + 1
+--           j = j + 1
+--           if i <= b then
+--              i = i + 1
+--              j = j + 1
+--           end if
+--        end if
+--     end if
+--  end if
 
 -- Error messages:
 --
@@ -292,24 +381,26 @@ package body Optimize_Package is
         (Assignment_Statement_Node (The_Statement.all).The_Variable,
          The_Left);
 
-      Expression
-        (Assignment_Statement_Node (The_Statement.all).The_Expression,
-         The_Right);
+      if The_Left /= null then
+         Expression
+           (Assignment_Statement_Node (The_Statement.all).The_Expression,
+            The_Right);
 
-      if The_Right /= null and then Is_Constant (The_Right) then
-         if not Is_Within
-           (Constant_Operand (The_Right.all).The_Value,
-            The_Left.The_Type)
-         then
-            -- not within type should be caught at optimize binary expression
-            -- semantics
-            raise Critical_Error;
+         if The_Right /= null and then Is_Constant (The_Right) then
+            if not Is_Within
+              (Constant_Operand (The_Right.all).The_Value,
+               The_Left.The_Type)
+            then
+               -- not within type should be caught at optimize binary expression
+               -- semantics
+               raise Critical_Error;
+            end if;
          end if;
-      end if;
 
-      -- Dispose operands.
-      Dispose (The_Left);
-      Dispose (The_Right);
+         -- Dispose operands.
+         Dispose (The_Left);
+         Dispose (The_Right);
+      end if;
 
       Debug (Optimize_Debug, "end Assignment_Statement");
    end Assignment_Statement;
@@ -341,7 +432,6 @@ package body Optimize_Package is
                  (Constant_Operand (The_Expression.all).The_Value,
                   The_Type)
                then
-
                   The_Operand :=
                     new Array_Operand'
                       (The_Type       => Array_Type (The_Type.all).The_Element,
@@ -352,7 +442,7 @@ package body Optimize_Package is
                else
                   Optimize_Error
                     (Position_Of (The_Variable.The_Expression),
-                     "Expression not within array index type.");
+                     "Expression not within array index type (O1).");
                end if;
             else
                The_Operand :=
@@ -505,7 +595,7 @@ package body Optimize_Package is
                   Optimize_Error
                     (Position_Of
                        (Unary_Expression_Node (The_Expression.all).The_Right),
-                     "Expression not within type (1).");
+                     "Expression not within type (O1).");
                end if;
 
             else
@@ -538,7 +628,7 @@ package body Optimize_Package is
                   Optimize_Error
                     (Position_Of
                        (Unary_Expression_Node (The_Expression.all).The_Right),
-                     "Expression not within type (2).");
+                     "Expression not within type (O2).");
                end if;
 
             else
@@ -887,7 +977,7 @@ package body Optimize_Package is
                           (Position_Of
                              (Binary_Expression_Node (The_Expression.all)
                               .The_Right),
-                           "Expression divided by zero.");
+                           "Expression divided by zero (1).");
 
                      elsif Constant_Operand (The_Right.all).The_Value = 1 then
                         Assign_Left (The_Expression);
@@ -960,7 +1050,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (O10).");
+                              "Expression not within type (10).");
                         end if;
 
                      elsif Constant_Operand (The_Left.all).The_Value = 1 then
@@ -991,7 +1081,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (10).");
+                              "Expression not within type (11).");
                         end if;
 
                      else

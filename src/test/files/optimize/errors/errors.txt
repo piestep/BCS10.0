@@ -1,0 +1,17 @@
+   procedure Variable
+Optimize_Error (Position_Of (The_Variable.The_Expression), "Expression not within array index type (1).");
+   procedure Unary_Expression
+Optimize_Error (Position_Of(Unary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (1).");
+Optimize_Error (Position_Of(Unary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (2).");
+  procedure Binary_Expression
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (3).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (4).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (5).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (6).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (7).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (8).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (9).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression divided by zero (1).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (10).");
+Optimize_Error (Position_Of(Binary_Expression_Node (The_Expression.all).The_Right), "Expression not within type (11).");
+

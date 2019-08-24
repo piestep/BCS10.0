@@ -56,6 +56,7 @@ package body Optimize_Package.Optimize_Test is
       use Registration;
 
    begin
+      -- Repeat for each test routine:
       Register_Routine(The_Test, Test_Procedure'Access, "test_procedure!");
       Register_Routine(The_Test, Test_Scalar'Access, "test_scalar!");
       Register_Routine(The_Test, Test_Mod'Access, "test_mod!");
@@ -76,7 +77,13 @@ package body Optimize_Package.Optimize_Test is
       Register_Routine(The_Test, Test_Division'Access, "test_division!");
       Register_Routine(The_Test, Test_Parameter'Access, "test_parameter!");
       Register_Routine(The_Test, Test_Index'Access, "test_index!");
-  end Register_Tests;
+      Register_Routine(The_Test, Test_Assign'Access, "test_assign!");
+      Register_Routine(The_Test, Test_Assign_Left'Access, "test_assign_left!");
+      Register_Routine(The_Test, Test_Assign_Right'Access, "test_assign_right!");
+      Register_Routine(The_Test, Test_Variable_Errors'Access, "test_variable_errors!");
+      Register_Routine(The_Test, Test_Unary_Expression_Errors'Access, "test_unary_expression_errors!");
+      Register_Routine(The_Test, Test_Binary_Expression_Errors'Access, "test_binary_expression_errors!");
+   end Register_Tests;
 
    ------------
    -- Set_Up --
@@ -158,7 +165,7 @@ package body Optimize_Package.Optimize_Test is
       The_Message : String;
       Dump        : Boolean;
       Generate    : Boolean) with
-      Pre => not (Dump and Generate) is
+     Pre => not (Dump and Generate) is
       use XML_Package.Strings_Vector;
 
       The_File : Ada.Text_IO.File_Type;
@@ -193,6 +200,7 @@ package body Optimize_Package.Optimize_Test is
             "Test " & The_Message & " syntax warnngs.");
       end if;
 
+      --        if The_Number_Of_Errors /= 0 and The_Number_Of_Warnings /= 0 then
       Semantics_Package.Parse (The_Unit);
 
       if not (Dump or Generate) then
@@ -203,6 +211,7 @@ package body Optimize_Package.Optimize_Test is
            (The_Number_Of_Warnings = 0,
             "Test " & The_Message & " semantic warnngs.");
       end if;
+      --        if The_Number_Of_Errors /= 0 and The_Number_Of_Warnings /= 0 then
 
       Optimize (The_Unit);
 
@@ -251,7 +260,7 @@ package body Optimize_Package.Optimize_Test is
 
          AUnit.Assertions.Assert
            (Count (The_Unit) =
-            Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
+                Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
             "Test " & The_Message & " node count.");
 
          AUnit.Assertions.Assert
@@ -283,7 +292,7 @@ package body Optimize_Package.Optimize_Test is
       The_Message : String;
       Dump        : Boolean;
       Generate    : Boolean) with
-      Pre => not (Dump and Generate) is
+     Pre => not (Dump and Generate) is
       use XML_Package.Strings_Vector;
 
       The_File : Ada.Text_IO.File_Type;
@@ -1545,5 +1554,104 @@ package body Optimize_Package.Optimize_Test is
          end if;
       end if;
    end Test_Index;
+
+
+   procedure Test_Assign (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Test_Assign;
+
+   procedure Test_Assign_Left (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Test_Assign_Left;
+
+   procedure Test_Assign_Right (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Test_Assign_Right;
+
+   procedure Test_Variable_Errors (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+
+      XMLNAME : constant String :=
+        Test_Package.FILES & "/" & "optimize/errors/variable.xml";
+
+      The_Tests : XML_Package.Tests_Map.Map;
+      The_File  : Ada.Text_IO.File_Type;
+
+   begin
+      XML_Package.Load (XMLNAME, The_Tests);
+
+      if Test_Package.Generate_Flag then
+         Create_Generate_File (The_File, LISTNAME);
+      end if;
+
+      Run_Error_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Index_Range.")),
+         "not within array index",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      if Test_Package.Generate_Flag then
+         Close_Generate_File (The_File);
+
+         if Test_Package.Replace_Flag then
+            Replace_XMLfile (XMLNAME, LISTNAME);
+         end if;
+      end if;
+   end Test_Variable_Errors;
+
+   procedure Test_Unary_Expression_Errors (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+
+      XMLNAME : constant String :=
+        Test_Package.FILES & "/" & "optimize/errors/unary.xml";
+
+      The_Tests : XML_Package.Tests_Map.Map;
+      The_File  : Ada.Text_IO.File_Type;
+
+   begin
+      XML_Package.Load (XMLNAME, The_Tests);
+
+      if Test_Package.Generate_Flag then
+         Create_Generate_File (The_File, LISTNAME);
+      end if;
+
+      --        Run_Error_Tests
+      --          (XML_Package.Tests_Map.Element
+      --             (The_Tests,
+      --              To_Unbounded_String ("Unary_Boolean.")),
+      --           "not within boolean type",
+      --           Dump     => Test_Package.Dump_Flag,
+      --           Generate => Test_Package.Generate_Flag);
+
+      Run_Error_Tests
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Unary_Integer.")),
+         "not within integer type",
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      if Test_Package.Generate_Flag then
+         Close_Generate_File (The_File);
+
+         if Test_Package.Replace_Flag then
+            Replace_XMLfile (XMLNAME, LISTNAME);
+         end if;
+      end if;
+   end Test_Unary_Expression_Errors;
+
+   procedure Test_Binary_Expression_Errors (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Test_Binary_Expression_Errors;
 
 end Optimize_Package.Optimize_Test;

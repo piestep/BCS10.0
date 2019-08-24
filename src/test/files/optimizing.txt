@@ -1,0 +1,86 @@
+-----
+j = 0
+for i in 1 .. 4 loop
+   j = j + 1
+end loop
+
+j = j + 1
+j = j + 1
+j = j + 1
+j = j + 1
+
+-----
+a range 1 .. 4
+j = 0
+for i in a .. 4 loop
+   j = j + 1
+end loop
+
+if a <= 4 then
+   i = a
+   i = i + 1
+   j = j + 1
+   if i <= 4 then
+      i = i + 1
+      j = j + 1
+      if i <= 4 then
+         i = i + 1
+         j = j + 1
+         if i <= 4 then
+            i = i + 1
+            j = j + 1
+         end if
+      end if
+   end if
+end if
+
+-----
+a range 1 .. 4
+j = 0
+for i in 1 .. a loop
+   j = j + 1
+end loop
+
+if 1 <= a then
+   i = a
+   i = i + 1
+   j = j + 1
+   if i <= a then
+      i = i + 1
+      j = j + 1
+      if i <= a then
+         i = i + 1
+         j = j + 1
+         if i <= a then
+            i = i + 1
+            j = j + 1
+         end if
+      end if
+   end if
+end if
+
+-----
+a range 1 .. 4
+b range 1 .. 4
+j = 0
+for i in a .. b loop
+   j = j + 1
+end loop
+
+if a <= b then
+   i = a
+   i = i + 1
+   j = j + 1
+   if i <= b then
+      i = i + 1
+      j = j + 1
+      if i <= b then
+         i = i + 1
+         j = j + 1
+         if i <= b then
+            i = i + 1
+            j = j + 1
+         end if
+      end if
+   end if
+end if

@@ -41,6 +41,7 @@ package body Operand_Package.Operand_Test is
    overriding procedure Register_Tests (The_Test : in out Test) is
       use Registration;
    begin
+      -- Repeat for each test routine:
       Register_Routine(The_Test, Test_Copy'Access, "test_copy!");
       Register_Routine(The_Test, Test_Dispose'Access, "test_dispose!");
       Register_Routine(The_Test, Test_Is_Constant'Access, "test_is_constant!");
@@ -49,7 +50,7 @@ package body Operand_Package.Operand_Test is
       Register_Routine(The_Test, Test_Is_Array'Access, "test_is_array!");
       Register_Routine(The_Test, Test_Constant_Operation_Uniary'Access, "test_constant_operation_uniary!");
       Register_Routine(The_Test, Test_Constant_Operation_Binary'Access, "test_constant_operation_binary!");
-  end Register_Tests;
+   end Register_Tests;
 
    -----------------
    -- Set_Up_Case --
@@ -83,7 +84,7 @@ package body Operand_Package.Operand_Test is
           (The_Type       => The_Type,
            The_Identifier => The_Identifier,
            The_Index      =>
-             new Constant_Operand'(The_Type => The_Type, The_Value => 0));
+              new Constant_Operand'(The_Type => The_Type, The_Value => 0));
 
       The_Unmarked_Operand_Allocations :=
         Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool);
@@ -219,7 +220,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Copy;
 
@@ -238,7 +239,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Test dispose (constant).");
 
       The_Operand := new Variable_Operand'(The_Type => The_Type);
@@ -246,7 +247,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Test dispose (variable).");
 
       The_Operand :=
@@ -256,7 +257,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Test dispose (identifier).");
 
       The_Operand :=
@@ -264,12 +265,12 @@ package body Operand_Package.Operand_Test is
           (The_Type       => The_Type,
            The_Identifier => The_Identifier,
            The_Index      =>
-             new Constant_Operand'(The_Type => The_Type, The_Value => 0));
+              new Constant_Operand'(The_Type => The_Type, The_Value => 0));
       Dispose (The_Operand);
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Test dispose (array).");
    end Test_Dispose;
 
@@ -300,7 +301,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Is_Constant;
 
@@ -331,7 +332,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Is_Variable;
 
@@ -362,7 +363,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Is_Identifier;
 
@@ -393,7 +394,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Is_Array;
 
@@ -427,7 +428,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Constant_Operation_Uniary;
 
@@ -628,7 +629,7 @@ package body Operand_Package.Operand_Test is
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
-         The_Unmarked_Operand_Allocations,
+             The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
    end Test_Constant_Operation_Binary;
 

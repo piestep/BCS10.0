@@ -51,7 +51,7 @@ package body Semantics_Package.Semantics_Test is
       use AUnit.Test_Cases.Registration;
 
    begin
-      --        Register_Routine (The_Test, Test_Procedure'Access, "Procedure.");
+      -- Repeat for each test routine:
       Register_Routine(The_Test, Test_Procedure'Access, "test_procedure!");
       Register_Routine(The_Test, Test_Discreate_Declaration'Access, "test_discreate_declaration!");
       Register_Routine(The_Test, Test_Scalar_Declaration'Access, "test_scalar_declaration!");
