@@ -370,11 +370,11 @@ GPS.parse_xml(
            <menu action="Test dump">
               <title>Dump</title>
            </menu>
-           <menu action="Test replace">
-              <title>Replace</title>
-           </menu>
            <menu action="Test generate">
               <title>Generate</title>
+           </menu>
+           <menu action="Test replace">
+              <title>Replace</title>
            </menu>
            <menu action="Test diff">
               <title>Diff</title>
@@ -399,12 +399,12 @@ GPS.parse_xml(
     <Title>BCS/Analyze/Dump</Title>
   </contextual>
 
-  <contextual action="Test replace" >
-    <Title>BCS/Analyze/Replace</Title>
-  </contextual>
-
   <contextual action="Test generate" >
     <Title>BCS/Analyze/Generate</Title>
+  </contextual>
+
+  <contextual action="Test replace" >
+    <Title>BCS/Analyze/Replace</Title>
   </contextual>
 
   <contextual action="Test diff" >
