@@ -625,10 +625,12 @@ package body Optimize_Package is
                        (Unary_Expression_Node (The_Expression.all).The_Right));
 
                else
-                  Optimize_Error
-                    (Position_Of
-                       (Unary_Expression_Node (The_Expression.all).The_Right),
-                     "Expression not within type (O2).");
+                  -- Note: In order to reach this code you must have a variable
+                  -- expression such as (A * 0) to appy unary minus. Since
+                  -- the only expression is something times zero any expression
+                  -- would optimize to - 0 which is zero. Any expression with
+                  -- a zero must be compatiable with the variable.
+                  raise Critical_Error;
                end if;
 
             else

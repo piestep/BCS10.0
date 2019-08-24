@@ -14,6 +14,7 @@
 </code>
 <listing>
 <ln>3, 24: Identifier already defined (3).</ln>
+<ln>3, 37: Warning: Integer type may cause excessive BCode compilation (1).</ln>
 </listing>
 </test>
 
@@ -65,4 +66,3 @@
 </listing>
 </test>
 </body>
-

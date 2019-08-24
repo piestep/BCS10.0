@@ -154,7 +154,7 @@ is
          if Semantic_Dump then
             Put_Item
               ("The_Identifier   " &
-               To_String (The_Package.The_Identifier.The_String));
+                 To_String (The_Package.The_Identifier.The_String));
 
             if Full_Dump then
                Put_Item (Image_Of (The_Package.The_Identifier.The_Pointer));
@@ -175,7 +175,7 @@ is
 
          Put_Item
            ("The_Name         " &
-            To_String (The_Procedure.The_Name.The_String));
+              To_String (The_Procedure.The_Name.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Procedure.The_Name.The_Pointer));
@@ -191,7 +191,7 @@ is
          if Semantic_Dump then
             Put_Item
               ("The_Identifier  " &
-               To_String (The_Procedure.The_Identifier.The_String));
+                 To_String (The_Procedure.The_Identifier.The_String));
 
             if Full_Dump then
                Put_Item (Image_Of (The_Procedure.The_Identifier.The_Pointer));
@@ -214,7 +214,7 @@ is
 
          Put_Item
            ("The_Name        " &
-            To_String (The_Parameter.The_Identifier.The_String));
+              To_String (The_Parameter.The_Identifier.The_String));
          if Full_Dump then
             Put_Item (Image_Of (The_Parameter.The_Identifier.The_Pointer));
          end if;
@@ -224,7 +224,7 @@ is
 
          Put_Item
            ("The_Definition  " &
-            To_String (The_Parameter.The_Definition.The_String));
+              To_String (The_Parameter.The_Definition.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Parameter.The_Definition.The_Pointer));
@@ -270,7 +270,7 @@ is
 
          Put_Item
            ("The_Identifier  " &
-            To_String (The_Declaration.The_Identifier.The_String));
+              To_String (The_Declaration.The_Identifier.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Declaration.The_Identifier.The_Pointer));
@@ -296,7 +296,7 @@ is
 
          Put_Item
            ("The_Identifier " &
-            To_String (The_Declaration.The_Identifier.The_String));
+              To_String (The_Declaration.The_Identifier.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Declaration.The_Identifier.The_Pointer));
@@ -345,7 +345,7 @@ is
 
          Put_Item
            ("The_Identifier " &
-            To_String (The_Definition.The_Identifier.The_String));
+              To_String (The_Definition.The_Identifier.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Definition.The_Identifier.The_Pointer));
@@ -388,7 +388,7 @@ is
          if The_Definition.The_Index /= null then
             Put_Item
               ("The_Index   " &
-               To_String (The_Definition.The_Index.The_String));
+                 To_String (The_Definition.The_Index.The_String));
 
             if Full_Dump then
                Put_Item (Image_Of (The_Definition.The_Index.The_Pointer));
@@ -404,7 +404,7 @@ is
 
          Put_Item
            ("The_Element  " &
-            To_String (The_Definition.The_Element.The_String));
+              To_String (The_Definition.The_Element.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Definition.The_Element.The_Pointer));
@@ -471,7 +471,7 @@ is
 
          Put_Item
            ("The_Identifier  " &
-            To_String (The_Variable.The_Identifier.The_String));
+              To_String (The_Variable.The_Identifier.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Variable.The_Identifier.The_Pointer));
@@ -535,7 +535,7 @@ is
 
          Put_Item
            ("The_Index        " &
-            To_String (The_Statement.The_Index.The_String));
+              To_String (The_Statement.The_Index.The_String));
 
          if Full_Dump then
             Put_Item (Image_Of (The_Statement.The_Index.The_Pointer));
@@ -544,7 +544,7 @@ is
          if The_Statement.The_Definition /= null then
             Put_Item
               ("The_Definition   " &
-               To_String (The_Statement.The_Definition.The_String));
+                 To_String (The_Statement.The_Definition.The_String));
 
             if Full_Dump then
                Put_Item (Image_Of (The_Statement.The_Definition.The_Pointer));
@@ -617,12 +617,14 @@ is
    end Dump;
 
    procedure Dump (The_Expression : Binary_Expression_Graph) is
+
    begin
       if The_Expression /= null then
          Put_Header (Graph_Pointer (The_Expression), "Binary_Expression");
 
          Put_Item
            ("The_Operator   " & Symbol'Image (The_Expression.The_Operator));
+
          Put_Item
            ("The_Left      ",
             Lookup (Graph_Pointer (The_Expression.The_Left)));
@@ -667,10 +669,10 @@ is
 
          Put_Item
            ("The_Identifier " &
-            To_String (The_Expression.The_Identifier.The_String));
+              To_String (The_Expression.The_Identifier.The_String));
          Put_Item
            ("The_Attribute  " &
-            To_String (The_Expression.The_String));
+              To_String (The_Expression.The_String));
 
          if Full_Dump then
             Put_Item ("The_Result " & Image_Of (The_Expression.The_Result));

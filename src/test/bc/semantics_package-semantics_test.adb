@@ -152,33 +152,27 @@ package body Semantics_Package.Semantics_Test is
       null;
    end Tear_Down_Case;
 
-   ---------------
-   -- Run_Tests --
-   ---------------
+   --------------
+   -- Run_Test --
+   --------------
 
-   procedure Run_Tests
+   procedure Run_Test
      (The_Test    : XML_Package.XML_Record;
       The_Message : String;
+      Error_Test  : Boolean;
       Dump        : Boolean;
-      Generate    : Boolean) with
-     Pre => not (Dump and Generate) is
+      Generate    : Boolean) is
+
       use XML_Package.Strings_Vector;
 
+      Run : constant Boolean := not (Dump or Generate);
+      Result : Boolean := False;
       The_File : Ada.Text_IO.File_Type;
       The_Unit : Compilation_Unit_Graph;
 
    begin
       Error_Package.Clear;
       Test_Package.Save (FILENAME, The_Test.The_Code);
-
-      if Generate then
-         Ada.Text_IO.New_Line;
-         Ada.Text_IO.Put_Line ("<test>");
-         Ada.Text_IO.Put_Line
-           ("<name>" & To_String (The_Test.The_Name) & "</name>");
-
-         Test_Package.List (The_Test.The_Code, XML_Format => True);
-      end if;
 
       Source_Package.Open (FILENAME);
 
@@ -187,173 +181,331 @@ package body Semantics_Package.Semantics_Test is
 
       Source_Package.Close;
 
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " syntax errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " syntax warnngs.");
-      end if;
-
-      Parse (The_Unit);
-
-      if Dump then
-         List_Package.List (FILENAME, XML_Format => False);
-      end if;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " semantic errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " semantic warnngs.");
-      end if;
-
-      if not Generate then
-         Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Set_Output (The_File);
-      end if;
-
       if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
+         Semantics_Package.Parse (The_Unit);
 
-         if Generate then
-            Graph_Package.Dump
-              (The_Unit,
-               Semantic_Dump => True,
-               Full_Dump     => True,
-               XML_Format    => True);
+         if Dump then
+            List_Package.List (FILENAME, XML_Format => False);
+
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+
+         elsif Generate then
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+
+            -- generate file opened by calling test procedure
+            Ada.Text_IO.New_Line;
+            Ada.Text_IO.Put_Line ("<test>");
+            Ada.Text_IO.Put_Line
+              ("<name>" & To_String (The_Test.The_Name) & "</name>");
+
+            Test_Package.List (The_Test.The_Code, XML_Format => True);
+
+            if Error_Test then
+               Error_Package.List_Messages (XML_Format => True);
+            else
+               Graph_Package.Dump
+                 (The_Unit,
+                  Semantic_Dump => True,
+                  Full_Dump     => True,
+                  XML_Format    => True);
+            end if;
+
+            Ada.Text_IO.Put_Line ("</test>");
+
+         else -- Run
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+
+            if Error_Test then
+               -- create (temporary) listing file
+               Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
+               Ada.Text_IO.Set_Output (The_File);
+
+               -- Save errors to listing file for comparison
+               Error_Package.List_Messages (XML_Format => False);
+
+               Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
+               Ada.Text_IO.Close(The_File);
+
+               Result := Test_Package.Compare_First_Line_Of_File_To_String
+                 (LISTNAME, To_String (Element (The_Test.The_Listing, 1)));
+
+               -- Delete listing file
+               Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, LISTNAME);
+               Ada.Text_IO.Delete (The_File);
+
+               AUnit.Assertions.Assert
+                 (Result, "Test " & The_Message & " error.");
+            else
+               -- create (temporary) listing file
+               Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
+               Ada.Text_IO.Set_Output (The_File);
+
+               -- Save nodes to listing file for comparison
+               Graph_Package.Dump
+                 (The_Unit,
+                  Semantic_Dump => True,
+                  Full_Dump     => True,
+                  XML_Format    => False);
+
+               Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
+               Ada.Text_IO.Close(The_File);
+
+               Result := Test_Package.Compare_File_To_Strings_Vector
+                 (LISTNAME, The_Test.The_Listing);
+
+               -- Delete listing file
+               Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, LISTNAME);
+               Ada.Text_IO.Delete (The_File);
+
+               AUnit.Assertions.Assert
+                 (Count (The_Unit) =
+                      Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
+                  "Test " & The_Message & " node count.");
+
+               -- Compare listing file to test listing
+               AUnit.Assertions.Assert
+                 (Result, "Test " & The_Message & " listing.");
+            end if;
+         end if;
+
+      else -- syntax error found
+         if Dump then
+            List_Package.List (FILENAME, XML_Format => False);
+
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+            AUnit.Assertions.Assert
+              (The_Number_Of_Errors = 0,
+               "Test " & The_Message & " syntax errors.");
+            AUnit.Assertions.Assert
+              (The_Number_Of_Warnings = 0,
+               "Test " & The_Message & " syntax warnngs.");
 
          else
-            Graph_Package.Dump
-              (The_Unit,
-               Semantic_Dump => True,
-               Full_Dump     => True,
-               XML_Format    => False);
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+            AUnit.Assertions.Assert
+              (The_Number_Of_Errors = 0,
+               "Test " & The_Message & " syntax errors.");
+            AUnit.Assertions.Assert
+              (The_Number_Of_Warnings = 0,
+               "Test " & The_Message & " syntax warnngs.");
          end if;
       end if;
 
-      if not Generate then
-         Ada.Text_IO.Close (The_File);
-         Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
-      end if;
-
-      if not (Dump or Generate) then
-
-         AUnit.Assertions.Assert
-           (Count (The_Unit) =
-                Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
-            "Test " & The_Message & " node count.");
-
-         AUnit.Assertions.Assert
-           (Test_Package.Compare_File_To_Strings_Vector
-              (LISTNAME,
-               The_Test.The_Listing),
-            "Test " & The_Message & " listing.");
-      end if;
-
       Dispose (The_Unit);
+   end Run_Test;
 
-      Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
-      Ada.Text_IO.Delete (The_File);
-
-      if Generate then
-         Ada.Text_IO.Put_Line ("</test>");
-      else
-         Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Delete (The_File);
-      end if;
-   end Run_Tests;
-
-   ---------------------
-   -- Run_Error_Tests --
-   ---------------------
-
-   procedure Run_Error_Tests
-     (The_Test    : XML_Package.XML_Record;
-      The_Message : String;
-      Dump        : Boolean;
-      Generate    : Boolean) with
-     Pre => not (Dump and Generate) is
-      use XML_Package.Strings_Vector;
-
-      The_File : Ada.Text_IO.File_Type;
-      The_Unit : Compilation_Unit_Graph;
-   begin
-      Error_Package.Clear;
-      Test_Package.Save (FILENAME, The_Test.The_Code);
-
-      if Generate then
-         Ada.Text_IO.New_Line;
-         Ada.Text_IO.Put_Line ("<test>");
-         Ada.Text_IO.Put_Line
-           ("<name>" & To_String (The_Test.The_Name) & "</name>");
-
-         Test_Package.List (The_Test.The_Code, XML_Format => True);
-      end if;
-
-      Source_Package.Open (FILENAME);
-
-      Scanner_Package.Next_Symbol;
-      Syntax_Package.Parse (The_Unit);
-
-      Source_Package.Close;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " syntax errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " syntax warnngs.");
-      end if;
-
-      Semantics_Package.Parse (The_Unit);
-
-      if Dump then
-         List_Package.List (FILENAME, XML_Format => False);
-      end if;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors > 0 or The_Number_Of_Warnings > 0,
-            "Test " & The_Message & " semantic errors and warnings.");
-      end if;
-
-      if Generate then
-         Error_Package.List_Messages (XML_Format => True);
-
-      else
-         Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Set_Output (The_File);
-
-         Error_Package.List_Messages (XML_Format => False);
-
-         Ada.Text_IO.Close (The_File);
-         Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
-      end if;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (Test_Package.Compare_First_Line_Of_File_To_String
-              (LISTNAME,
-               To_String (Element (The_Test.The_Listing, 1))),
-            "Test " & The_Message & " error.");
-      end if;
-
-      Dispose (The_Unit);
-
-      Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
-      Ada.Text_IO.Delete (The_File);
-
-      if Generate then
-         Ada.Text_IO.Put_Line ("</test>");
-      else
-         Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Delete (The_File);
-      end if;
-   end Run_Error_Tests;
+   --     ---------------
+   --     -- Run_Test --
+   --     ---------------
+   --
+   --     procedure Run_Test
+   --       (The_Test    : XML_Package.XML_Record;
+   --        The_Message : String;
+   --        Dump        : Boolean;
+   --        Generate    : Boolean) with
+   --       Pre => not (Dump and Generate) is
+   --        use XML_Package.Strings_Vector;
+   --
+   --        The_File : Ada.Text_IO.File_Type;
+   --        The_Unit : Compilation_Unit_Graph;
+   --
+   --     begin
+   --        Error_Package.Clear;
+   --        Test_Package.Save (FILENAME, The_Test.The_Code);
+   --
+   --        if Generate then
+   --           Ada.Text_IO.New_Line;
+   --           Ada.Text_IO.Put_Line ("<test>");
+   --           Ada.Text_IO.Put_Line
+   --             ("<name>" & To_String (The_Test.The_Name) & "</name>");
+   --
+   --           Test_Package.List (The_Test.The_Code, XML_Format => True);
+   --        end if;
+   --
+   --        Source_Package.Open (FILENAME);
+   --
+   --        Scanner_Package.Next_Symbol;
+   --        Syntax_Package.Parse (The_Unit);
+   --
+   --        Source_Package.Close;
+   --
+   --        if not (Dump or Generate) then
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Errors = 0,
+   --              "Test " & The_Message & " syntax errors.");
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Warnings = 0,
+   --              "Test " & The_Message & " syntax warnngs.");
+   --        end if;
+   --
+   --        Parse (The_Unit);
+   --
+   --        if Dump then
+   --           List_Package.List (FILENAME, XML_Format => False);
+   --        end if;
+   --
+   --        if not (Dump or Generate) then
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Errors = 0,
+   --              "Test " & The_Message & " semantic errors.");
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Warnings = 0,
+   --              "Test " & The_Message & " semantic warnngs.");
+   --        end if;
+   --
+   --        if not Generate then
+   --           Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
+   --           Ada.Text_IO.Set_Output (The_File);
+   --        end if;
+   --
+   --        if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
+   --
+   --           if Generate then
+   --              Graph_Package.Dump
+   --                (The_Unit,
+   --                 Semantic_Dump => True,
+   --                 Full_Dump     => True,
+   --                 XML_Format    => True);
+   --
+   --           else
+   --              Graph_Package.Dump
+   --                (The_Unit,
+   --                 Semantic_Dump => True,
+   --                 Full_Dump     => True,
+   --                 XML_Format    => False);
+   --           end if;
+   --        end if;
+   --
+   --        if not Generate then
+   --           Ada.Text_IO.Close (The_File);
+   --           Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
+   --        end if;
+   --
+   --        if not (Dump or Generate) then
+   --
+   --           AUnit.Assertions.Assert
+   --             (Count (The_Unit) =
+   --                  Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
+   --              "Test " & The_Message & " node count.");
+   --
+   --           AUnit.Assertions.Assert
+   --             (Test_Package.Compare_File_To_Strings_Vector
+   --                (LISTNAME,
+   --                 The_Test.The_Listing),
+   --              "Test " & The_Message & " listing.");
+   --        end if;
+   --
+   --        Dispose (The_Unit);
+   --
+   --        Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+   --        Ada.Text_IO.Delete (The_File);
+   --
+   --        if Generate then
+   --           Ada.Text_IO.Put_Line ("</test>");
+   --        else
+   --           Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
+   --           Ada.Text_IO.Delete (The_File);
+   --        end if;
+   --     end Run_Test;
+   --
+   --     ---------------------
+   --     -- Run_Test --
+   --     ---------------------
+   --
+   --     procedure Run_Test
+   --       (The_Test    : XML_Package.XML_Record;
+   --        The_Message : String;
+   --        Dump        : Boolean;
+   --        Generate    : Boolean) with
+   --       Pre => not (Dump and Generate) is
+   --        use XML_Package.Strings_Vector;
+   --
+   --        The_File : Ada.Text_IO.File_Type;
+   --        The_Unit : Compilation_Unit_Graph;
+   --     begin
+   --        Error_Package.Clear;
+   --        Test_Package.Save (FILENAME, The_Test.The_Code);
+   --
+   --        if Generate then
+   --           Ada.Text_IO.New_Line;
+   --           Ada.Text_IO.Put_Line ("<test>");
+   --           Ada.Text_IO.Put_Line
+   --             ("<name>" & To_String (The_Test.The_Name) & "</name>");
+   --
+   --           Test_Package.List (The_Test.The_Code, XML_Format => True);
+   --        end if;
+   --
+   --        Source_Package.Open (FILENAME);
+   --
+   --        Scanner_Package.Next_Symbol;
+   --        Syntax_Package.Parse (The_Unit);
+   --
+   --        Source_Package.Close;
+   --
+   --        if not (Dump or Generate) then
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Errors = 0,
+   --              "Test " & The_Message & " syntax errors.");
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Warnings = 0,
+   --              "Test " & The_Message & " syntax warnngs.");
+   --        end if;
+   --
+   --        Semantics_Package.Parse (The_Unit);
+   --
+   --        if Dump then
+   --           List_Package.List (FILENAME, XML_Format => False);
+   --        end if;
+   --
+   --        if not (Dump or Generate) then
+   --           AUnit.Assertions.Assert
+   --             (The_Number_Of_Errors > 0 or The_Number_Of_Warnings > 0,
+   --              "Test " & The_Message & " semantic errors and warnings.");
+   --        end if;
+   --
+   --        if Generate then
+   --           Error_Package.List_Messages (XML_Format => True);
+   --
+   --        else
+   --           Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
+   --           Ada.Text_IO.Set_Output (The_File);
+   --
+   --           Error_Package.List_Messages (XML_Format => False);
+   --
+   --           Ada.Text_IO.Close (The_File);
+   --           Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
+   --        end if;
+   --
+   --        if not (Dump or Generate) then
+   --           AUnit.Assertions.Assert
+   --             (Test_Package.Compare_First_Line_Of_File_To_String
+   --                (LISTNAME,
+   --                 To_String (Element (The_Test.The_Listing, 1))),
+   --              "Test " & The_Message & " error.");
+   --        end if;
+   --
+   --        Dispose (The_Unit);
+   --
+   --        Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+   --        Ada.Text_IO.Delete (The_File);
+   --
+   --        if Generate then
+   --           Ada.Text_IO.Put_Line ("</test>");
+   --        else
+   --           Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
+   --           Ada.Text_IO.Delete (The_File);
+   --        end if;
+   --     end Run_Test;
 
    --------------------------
    -- Create_Generate_File --
@@ -389,9 +541,12 @@ package body Semantics_Package.Semantics_Test is
    procedure Replace_XMLFile
      (The_XMLName  : String;
       The_Listname : String) is
+      The_File : Ada.Text_IO.File_Type;
    begin
       Ada.Directories.Copy_File (The_XMLName, The_XMLName & ".nxml");
       Ada.Directories.Copy_File (The_Listname, The_XMLName);
+      Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, The_Listname);
+      Ada.Text_IO.Delete(The_File);
    end Replace_XMLFile;
 
 
@@ -415,11 +570,12 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Procedure.")),
          "procedure",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -452,11 +608,12 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Discreate.")),
          "discreate declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -489,11 +646,12 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -525,19 +683,21 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Without_Range.")),
          "mod without range declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -569,27 +729,30 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Discreate.")),
          "discreate range declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar range declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod range declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -621,11 +784,12 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Declaration.")),
          "array declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -657,27 +821,30 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Declaration.")),
          "identifier declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expression_Declaration.")),
          "identifier expression declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant_Declaration.")),
          "identifier constant declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -709,35 +876,39 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("In_Parameter.")),
          "in parameter",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Out_Parameter.")),
          "out parameter",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("In_Out_Parameter.")),
          "in out parameter",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -769,35 +940,39 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Assignment.")),
          "assignment",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter assignment",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array.")),
          "array assignment",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Variable_Index.")),
          "array assignment with variable index",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -829,19 +1004,21 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then.")),
          "if then",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then_Else.")),
          "if then else",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -873,19 +1050,21 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("For.")),
          "for",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("For_Reverse.")),
          "for reverse",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -919,149 +1098,167 @@ package body Semantics_Package.Semantics_Test is
 
       -- Boolean operators
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not.")),
          "not",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("And.")),
          "and",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element (The_Tests, To_Unbounded_String ("Or.")),
          "or",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Xor.")),
          "xor",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Relation operators
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Equals.")),
          "equals",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_Equals.")),
          "not equals",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Less_Than.")),
          "less than",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Greater_Than.")),
          "greater than",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Less_Than_Equals.")),
          "less than equals",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Greater_Than_Equals.")),
          "greater than equals",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Arithmetic Operators
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Plus.")),
          "plus",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Minus.")),
          "minus",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Addition.")),
          "addition",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Subtraction.")),
          "subtraction",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Times.")),
          "times",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Divide.")),
          "divide",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Remainder.")),
          "remainder",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Modulas.")),
          "modulas",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1093,91 +1290,102 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("And_Not.")),
          "and not precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_And.")),
          "not and precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Xor.")),
          "xor precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Or.")),
          "or precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Minus.")),
          "minus precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Plus.")),
          "plus precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Paren.")),
          "paren precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Times.")),
          "times precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Divide.")),
          "divide precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Rem.")),
          "rem precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod precedence",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1209,75 +1417,84 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Unary-Boolean.")),
          "unary boolean",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Unary-Integer.")),
          "unary integer",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Unary-Mod.")),
          "unary mod",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Relation.")),
          "binary boolean",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Boolean.")),
          "binary boolean",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Integer.")),
          "binary integer",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Binary-Mod.")),
          "binary mod",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index.")),
          "index expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1311,207 +1528,231 @@ package body Semantics_Package.Semantics_Test is
 
       -- Type array attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Array_Length.")),
          "type array length attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Array_First.")),
          "type array first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Array_Last.")),
          "type array last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Array_Size.")),
          "type array size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Type scalar attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Scalar_First.")),
          "type Scalar first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Scalar_Last.")),
          "type Scalar last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Scalar_Size.")),
          "type Scalar size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Variable array attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Array_Length.")),
          "variable array length attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Array_First.")),
          "variable array first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Array_Last.")),
          "variable array last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Array_Size.")),
          "variable array size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Variable scalar attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Scalar_First.")),
          "variable Scalar first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Scalar_Last.")),
          "variable Scalar last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Scalar_Size.")),
          "variable Scalar size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Parameter array attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Array_Length.")),
          "parameter array length attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Array_First.")),
          "parameter array first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Array_Last.")),
          "parameter array last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Array_Size.")),
          "parameter array size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Parameter scalar attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Scalar_First.")),
          "parameter Scalar first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Scalar_Last.")),
          "parameter Scalar last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Scalar_Size.")),
          "parameter Scalar size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
       -- Index attributes
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_First.")),
          "index first attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Last.")),
          "index last attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Size.")),
          "index size attribute",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1548,19 +1789,21 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Package_Identifier.")),
          "package identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Package_End.")),
          "package end identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1593,19 +1836,21 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Procedure_Identifier.")),
          "procedure identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Procedure_End.")),
          "procedure end identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1638,35 +1883,39 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Identifier.")),
          "parameter identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Excessive.")),
          "parameter excessive",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Expected.")),
          "parameter expected",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter_Undefined.")),
          "parameter undefined",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1699,11 +1948,12 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Identifier.")),
          "type identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1736,75 +1986,84 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier.")),
          "identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Excessive.")),
          "identifier excessive",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expected.")),
          "identifier expected",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Undefined.")),
          "identifier undefined",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Not_Compatiable_Type.")),
          "identifier not compatiable type",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Not_Compatiable.")),
          "identifier not compatiable",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant.")),
          "identifier constant",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Array.")),
          "identifier array",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant_Value.")),
          "identifier constant value",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1837,67 +2096,75 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Expected.")),
          "range expected",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Undefined.")),
          "range undefined",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable_Type-First.")),
          "range not compatiable type (first)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable-First.")),
          "range not compatiable (first)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Constant-First.")),
          "range first constant (first)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable_Type-Last.")),
          "range last not compatiable type (last)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Not_Compatiable-Last.")),
          "range not compatiable (last)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Range_Constant-Last.")),
          "range last constant (last)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1930,27 +2197,30 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Not_Compatiable_Type.")),
          "mod not compatiable type",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Not_Compatiable.")),
          "mod not compatiable",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Constant.")),
          "mod constant",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1983,115 +2253,129 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Excessive-Index.")),
          "array excessive index",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Scalar-Index.")),
          "array scalar index",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Expected-Index.")),
          "array expected index",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Undefined-Index.")),
          "array undefined index",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constraint-First.")),
          "array constraint first",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Not_Compatiable-First.")),
          "array index not compatiable first",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constant-First.")),
          "array constant first",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constraint-Last.")),
          "array constraint last",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Not_Compatiable-Last.")),
          "array index not compatiable last",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Constant-Last.")),
          "array constant last",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Excessive-Element.")),
          "array excessive element",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Scalar-Element.")),
          "array scalar element",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Expected-Element.")),
          "array expected element",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array_Undefined-Element.")),
          "array undefined element",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2124,35 +2408,39 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "assignment to in parameter",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "assignment to constant",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constraint.")),
          "assignment not within constraint",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Not_Compatiable.")),
          "assignment not compatiable with identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2185,59 +2473,66 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Undefined.")),
          "variable undefined",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Scalar.")),
          "variable scalar",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Constant.")),
          "variable or constant variable",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Not_Within.")),
          "variable not within constraint",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Not_Compatiable.")),
          "variable not compatiable",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Array.")),
          "array variable or parameter",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Parameter.")),
          "variable or parameter",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2270,11 +2565,12 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Condition_Error.")),
          "boolean condition",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2307,51 +2603,57 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Expected.")),
          "index identifier expected",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Undefined.")),
          "index type undefined",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Constraint-First.")),
          "index not within type constraint (first)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Not_Compatiable-First.")),
          "index not compatiable with type (first)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Constraint-Last.")),
          "index not within type constraint (last)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Not_Compatiable-Last.")),
          "index not compatiable with type (last)",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2384,35 +2686,39 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Type.")),
          "not within unary operator type",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Compatiable.")),
          "not compatiable with unary operator",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Type.")),
          "not within unary operator type",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Compatiable.")),
          "not compatiable with unary operator",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2445,51 +2751,57 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Expressions_Not_Compatiable.")),
          "expressions not compatiable",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Error-Boolean.")),
          "not within binary operator",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Error.")),
          "not compatiable with binary operator",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Type_Error-Integer.")),
          "not within binary operator",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Error.")),
          "not compatiable with binary operator",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Operands_Not_Compatiable.")),
          "operands not compatiable",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -2522,27 +2834,30 @@ package body Semantics_Package.Semantics_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Undefined_Identifier.")),
          "undefined identifier",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Length_Requires_Array.")),
          "length requires array",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Expected_Attribute.")),
          "expected attribute",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 

@@ -377,6 +377,24 @@ package body Test_Package is
    is
       use Strings_Vector;
 
+      -- Translate latin string into safe html string
+
+      function Encode (The_String : String) return String is
+         The_Encoded : Unbounded_String := Null_Unbounded_String;
+      begin
+         for I in The_String'First .. The_String'Last loop
+            case The_String(I) is
+            when '<' => The_Encoded := The_Encoded & "&lt;";
+            when '>' => The_Encoded := The_Encoded & "&gt;";
+            when '"' => The_Encoded := The_Encoded & "&quot;";
+            when '&' => The_Encoded := The_Encoded & "&amp;";
+            when others => The_Encoded := The_Encoded & The_String(I);
+            end case;
+         end loop;
+
+         return To_String(The_Encoded);
+      end Encode;
+
       The_Cursor : Strings_Vector.Cursor;
    begin
       The_Cursor := First (The_Code);
@@ -390,7 +408,11 @@ package body Test_Package is
             Ada.Text_IO.Put ("<ln>");
          end if;
 
-         Ada.Text_IO.Put (To_String (Element (The_Cursor)));
+         if XML_Format then
+            Ada.Text_IO.Put (Encode(To_String (Element (The_Cursor))));
+         else
+            Ada.Text_IO.Put (To_String (Element (The_Cursor)));
+         end if;
 
          if XML_Format then
             Ada.Text_IO.Put ("</ln>");

@@ -156,33 +156,27 @@ package body Optimize_Package.Optimize_Test is
       null;
    end Tear_Down_Case;
 
-   ---------------
-   -- Run_Tests --
-   ---------------
+   --------------
+   -- Run_Test --
+   --------------
 
-   procedure Run_Tests
+   procedure Run_Test
      (The_Test    : XML_Package.XML_Record;
       The_Message : String;
+      Error_Test  : Boolean;
       Dump        : Boolean;
-      Generate    : Boolean) with
-     Pre => not (Dump and Generate) is
+      Generate    : Boolean) is
+
       use XML_Package.Strings_Vector;
 
+      Run : constant Boolean := not (Dump or Generate);
+      Result : Boolean := False;
       The_File : Ada.Text_IO.File_Type;
       The_Unit : Compilation_Unit_Graph;
 
    begin
       Error_Package.Clear;
       Test_Package.Save (FILENAME, The_Test.The_Code);
-
-      if Generate then
-         Ada.Text_IO.New_Line;
-         Ada.Text_IO.Put_Line ("<test>");
-         Ada.Text_IO.Put_Line
-           ("<name>" & To_String (The_Test.The_Name) & "</name>");
-
-         Test_Package.List (The_Test.The_Code, XML_Format => True);
-      end if;
 
       Source_Package.Open (FILENAME);
 
@@ -191,197 +185,158 @@ package body Optimize_Package.Optimize_Test is
 
       Source_Package.Close;
 
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " syntax errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " syntax warnngs.");
-      end if;
-
-      --        if The_Number_Of_Errors /= 0 and The_Number_Of_Warnings /= 0 then
-      Semantics_Package.Parse (The_Unit);
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " semantic errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " semantic warnngs.");
-      end if;
-      --        if The_Number_Of_Errors /= 0 and The_Number_Of_Warnings /= 0 then
-
-      Optimize (The_Unit);
-
-      if Dump then
-         List_Package.List (FILENAME, XML_Format => False);
-      end if;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " optimize errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " optimize warnngs.");
-      end if;
-
-      if not Generate then
-         Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Set_Output (The_File);
-      end if;
-
       if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
+         Semantics_Package.Parse (The_Unit);
+         if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
 
-         if Generate then
-            Graph_Package.Dump
-              (The_Unit,
-               Semantic_Dump => True,
-               Full_Dump     => True,
-               XML_Format    => True);
+            Optimize (The_Unit);
+
+            if Dump then
+               List_Package.List (FILENAME, XML_Format => False);
+
+               -- Delete code file
+               Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+               Ada.Text_IO.Delete (The_File);
+
+            elsif Generate then
+               -- Delete code file
+               Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+               Ada.Text_IO.Delete (The_File);
+
+               -- generate file opened by calling test procedure
+               Ada.Text_IO.New_Line;
+               Ada.Text_IO.Put_Line ("<test>");
+               Ada.Text_IO.Put_Line
+                 ("<name>" & To_String (The_Test.The_Name) & "</name>");
+
+               Test_Package.List (The_Test.The_Code, XML_Format => True);
+
+               if Error_Test then
+                  Error_Package.List_Messages (XML_Format => True);
+               else
+                  Graph_Package.Dump
+                    (The_Unit,
+                     Semantic_Dump => True,
+                     Full_Dump     => True,
+                     XML_Format    => True);
+               end if;
+
+               Ada.Text_IO.Put_Line ("</test>");
+
+            else -- Run
+               -- Delete code file
+               Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+               Ada.Text_IO.Delete (The_File);
+
+               if Error_Test then
+                  -- create (temporary) listing file
+                  Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
+                  Ada.Text_IO.Set_Output (The_File);
+
+                  -- Save errors to listing file for comparison
+                  Error_Package.List_Messages (XML_Format => False);
+
+                  Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
+                  Ada.Text_IO.Close(The_File);
+
+                  Result := Test_Package.Compare_First_Line_Of_File_To_String
+                    (LISTNAME, To_String (Element (The_Test.The_Listing, 1)));
+
+                  -- Delete listing file
+                  Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, LISTNAME);
+                  Ada.Text_IO.Delete (The_File);
+
+                  AUnit.Assertions.Assert
+                    (Result, "Test " & The_Message & " error.");
+               else
+                  -- create (temporary) listing file
+                  Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
+                  Ada.Text_IO.Set_Output (The_File);
+
+                  -- Save nodes to listing file for comparison
+                  Graph_Package.Dump
+                    (The_Unit,
+                     Semantic_Dump => True,
+                     Full_Dump     => True,
+                     XML_Format    => False);
+
+                  Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
+                  Ada.Text_IO.Close(The_File);
+
+                  Result := Test_Package.Compare_File_To_Strings_Vector
+                    (LISTNAME, The_Test.The_Listing);
+
+                  -- Delete listing file
+                  Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, LISTNAME);
+                  Ada.Text_IO.Delete (The_File);
+
+                  AUnit.Assertions.Assert
+                    (Count (The_Unit) =
+                         Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
+                     "Test " & The_Message & " node count.");
+
+                  -- Compare listing file to test listing
+                  AUnit.Assertions.Assert
+                    (Result, "Test " & The_Message & " listing.");
+               end if;
+            end if;
+
+         else -- semantic error found
+            if Dump then
+               List_Package.List (FILENAME, XML_Format => False);
+
+               -- Delete code file
+               Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+               Ada.Text_IO.Delete (The_File);
+               AUnit.Assertions.Assert
+                 (The_Number_Of_Errors = 0,
+                  "Test " & The_Message & " semantic errors.");
+               AUnit.Assertions.Assert
+                 (The_Number_Of_Warnings = 0,
+                  "Test " & The_Message & " semantic warnngs.");
+
+            else
+               -- Delete code file
+               Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+               Ada.Text_IO.Delete (The_File);
+               AUnit.Assertions.Assert
+                 (The_Number_Of_Errors = 0,
+                  "Test " & The_Message & " semantic errors.");
+               AUnit.Assertions.Assert
+                 (The_Number_Of_Warnings = 0,
+                  "Test " & The_Message & " semantic warnngs.");
+            end if;
+         end if;
+
+      else -- syntax error found
+         if Dump then
+            List_Package.List (FILENAME, XML_Format => False);
+
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+            AUnit.Assertions.Assert
+              (The_Number_Of_Errors = 0,
+               "Test " & The_Message & " syntax errors.");
+            AUnit.Assertions.Assert
+              (The_Number_Of_Warnings = 0,
+               "Test " & The_Message & " syntax warnngs.");
 
          else
-            Graph_Package.Dump
-              (The_Unit,
-               Semantic_Dump => True,
-               Full_Dump     => True,
-               XML_Format    => False);
+            -- Delete code file
+            Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
+            Ada.Text_IO.Delete (The_File);
+            AUnit.Assertions.Assert
+              (The_Number_Of_Errors = 0,
+               "Test " & The_Message & " syntax errors.");
+            AUnit.Assertions.Assert
+              (The_Number_Of_Warnings = 0,
+               "Test " & The_Message & " syntax warnngs.");
          end if;
       end if;
 
-      if not Generate then
-         Ada.Text_IO.Close (The_File);
-         Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
-      end if;
-
-      if not (Dump or Generate) then
-
-         AUnit.Assertions.Assert
-           (Count (The_Unit) =
-                Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
-            "Test " & The_Message & " node count.");
-
-         AUnit.Assertions.Assert
-           (Test_Package.Compare_File_To_Strings_Vector
-              (LISTNAME,
-               The_Test.The_Listing),
-            "Test " & The_Message & " listing.");
-      end if;
-
       Dispose (The_Unit);
-
-      Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
-      Ada.Text_IO.Delete (The_File);
-
-      if Generate then
-         Ada.Text_IO.Put_Line ("</test>");
-      else
-         Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Delete (The_File);
-      end if;
-   end Run_Tests;
-
-   ---------------------
-   -- Run_Error_Tests --
-   ---------------------
-
-   procedure Run_Error_Tests
-     (The_Test    : XML_Package.XML_Record;
-      The_Message : String;
-      Dump        : Boolean;
-      Generate    : Boolean) with
-     Pre => not (Dump and Generate) is
-      use XML_Package.Strings_Vector;
-
-      The_File : Ada.Text_IO.File_Type;
-      The_Unit : Compilation_Unit_Graph;
-   begin
-      Error_Package.Clear;
-      Test_Package.Save (FILENAME, The_Test.The_Code);
-
-      if Generate then
-         Ada.Text_IO.New_Line;
-         Ada.Text_IO.Put_Line ("<test>");
-         Ada.Text_IO.Put_Line
-           ("<name>" & To_String (The_Test.The_Name) & "</name>");
-
-         Test_Package.List (The_Test.The_Code, XML_Format => True);
-      end if;
-
-      Source_Package.Open (FILENAME);
-
-      Scanner_Package.Next_Symbol;
-      Syntax_Package.Parse (The_Unit);
-
-      Source_Package.Close;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " syntax errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " syntax warnngs.");
-      end if;
-
-      Semantics_Package.Parse (The_Unit);
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors = 0,
-            "Test " & The_Message & " semantic errors.");
-         AUnit.Assertions.Assert
-           (The_Number_Of_Warnings = 0,
-            "Test " & The_Message & " semantic warnngs.");
-      end if;
-
-      Optimize (The_Unit);
-
-      if Dump then
-         List_Package.List (FILENAME, XML_Format => False);
-      end if;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (The_Number_Of_Errors > 0 or The_Number_Of_Warnings > 0,
-            "Test " & The_Message & " optimize errors and warnings.");
-      end if;
-
-      if Generate then
-         Error_Package.List_Messages (XML_Format => True);
-
-      else
-         Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Set_Output (The_File);
-
-         Error_Package.List_Messages (XML_Format => False);
-
-         Ada.Text_IO.Close (The_File);
-         Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
-      end if;
-
-      if not (Dump or Generate) then
-         AUnit.Assertions.Assert
-           (Test_Package.Compare_First_Line_Of_File_To_String
-              (LISTNAME,
-               To_String (Element (The_Test.The_Listing, 1))),
-            "Test " & The_Message & " error.");
-      end if;
-
-      Dispose (The_Unit);
-
-      Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
-      Ada.Text_IO.Delete (The_File);
-
-      if Generate then
-         Ada.Text_IO.Put_Line ("</test>");
-      else
-         Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
-         Ada.Text_IO.Delete (The_File);
-      end if;
-   end Run_Error_Tests;
+   end Run_Test;
 
    --------------------------
    -- Create_Generate_File --
@@ -417,9 +372,12 @@ package body Optimize_Package.Optimize_Test is
    procedure Replace_XMLFile
      (The_XMLName  : String;
       The_Listname : String) is
+      The_File : Ada.Text_IO.File_Type;
    begin
       Ada.Directories.Copy_File (The_XMLName, The_XMLName & ".nxml");
       Ada.Directories.Copy_File (The_Listname, The_XMLName);
+      Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, The_Listname);
+      Ada.Text_IO.Delete(The_File);
    end Replace_XMLFile;
 
 
@@ -443,11 +401,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Procedure.")),
          "procedure",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -480,11 +439,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar type",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -517,19 +477,21 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod type",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod_Without_Range.")),
          "mod type without range",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -562,19 +524,21 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Scalar.")),
          "scalar range type",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Mod.")),
          "mod range type",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -607,11 +571,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Array.")),
          "array type",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -644,27 +609,30 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier.")),
          "identifier declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Expression.")),
          "identifier expression declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Identifier_Constant.")),
          "identifier constant declaration",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -697,27 +665,30 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Assignment.")),
          "scalar assignment",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant_Index.")),
          "array constant index assignment",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Index.")),
          "array variable index assignment",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -750,19 +721,21 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then.")),
          "if then",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("If_Then_Else.")),
          "if then else",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -795,11 +768,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("For.")),
          "for statement",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -832,35 +806,39 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Constant.")),
          "unary boolean constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Boolean_Variable.")),
          "unary boolean variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Constant.")),
          "unary integer constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Integer_Variable.")),
          "unary integer variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -893,19 +871,21 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary relation constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary relation variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -938,51 +918,57 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary and constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("False_And_Variable.")),
          "binary and variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_And_False.")),
          "binary and variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("True_And_Variable.")),
          "binary and variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_And_True.")),
          "binary and variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary and variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1015,51 +1001,57 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary or constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("False_Or_Variable.")),
          "binary or variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Or_False.")),
          "binary or variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("True_Or_Variable.")),
          "binary or variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Or_True.")),
          "binary or variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary or variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1092,51 +1084,57 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary xor constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("False_Xor_Variable.")),
          "binary xor variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Xor_False.")),
          "binary xor variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("True_Xor_Variable.")),
          "binary xor variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Xor_True.")),
          "binary xor variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary xor variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1169,51 +1167,57 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary addition constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Plus_Variable.")),
          "binary addition variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Plus_Zero.")),
          "binary addition variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Plus_Variable.")),
          "binary addition variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Plus_One.")),
          "binary addition variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary addition variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1246,51 +1250,57 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary subtraction constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Minus_Variable.")),
          "binary subtraction variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Minus_Zero.")),
          "binary subtraction variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Minus_Variable.")),
          "binary subtraction variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Minus_One.")),
          "binary subtraction variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary subtraction variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1323,67 +1333,75 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary multiplication constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Times_Variable.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Times_Zero.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Times_Variable.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Times_One.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Two_Times_Variable.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Times_Two.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary multiplication variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1416,59 +1434,66 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Constant.")),
          "binary division constant expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Zero_Divide_Variable.")),
          "binary division variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("One_Divide_Variable.")),
          "binary division variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Divide_One.")),
          "binary division variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Two_Divide_Variable.")),
          "binary division variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable_Divide_Two.")),
          "binary division variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Variable.")),
          "binary division variable expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1501,11 +1526,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Parameter.")),
          "parameter expression",
+         Error_Test => False,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1538,13 +1564,14 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index.")),
          "index expression",
-         Dump     => Test_Package.Dump_Flag,
-         Generate => Test_Package.Generate_Flag);
+         Error_Test => False,
+         Dump       => Test_Package.Dump_Flag,
+         Generate   => Test_Package.Generate_Flag);
 
       if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
@@ -1590,11 +1617,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
             To_Unbounded_String ("Index_Range.")),
          "not within array index",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
@@ -1623,19 +1651,12 @@ package body Optimize_Package.Optimize_Test is
          Create_Generate_File (The_File, LISTNAME);
       end if;
 
-      --        Run_Error_Tests
-      --          (XML_Package.Tests_Map.Element
-      --             (The_Tests,
-      --              To_Unbounded_String ("Unary_Boolean.")),
-      --           "not within boolean type",
-      --           Dump     => Test_Package.Dump_Flag,
-      --           Generate => Test_Package.Generate_Flag);
-
-      Run_Error_Tests
+      Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
-            To_Unbounded_String ("Unary_Integer.")),
-         "not within integer type",
+            To_Unbounded_String ("Unary_Boolean.")),
+         "not within boolean type",
+         Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 

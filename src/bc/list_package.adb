@@ -1,8 +1,9 @@
 -- BC Boolean Compiler
 -- Copyright (c) 2016 Paul Estep
 
-with Ada.Text_IO;         use Ada.Text_IO;
-with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Integer_Text_IO;   use Ada.Integer_Text_IO;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --
 with Source_Package; use Source_Package;
 with Error_Package;  use Error_Package;
@@ -19,6 +20,22 @@ package body List_Package is
       The_File      : File_Type;                    -- source program file.
       The_Line      : Line_Number := 1;             -- current line number.
       The_Character : Character;                    -- last character.
+
+      -- Translate latin string into safe html string
+
+      function Encode (The_Character : Character) return String is
+         The_Encoded : Unbounded_String := Null_Unbounded_String;
+      begin
+         case The_Character is
+            when '<' => The_Encoded := To_Unbounded_String("&lt;");
+            when '>' => The_Encoded := To_Unbounded_String("&gt;");
+            when '"' => The_Encoded := To_Unbounded_String("&quot;");
+            when '&' => The_Encoded := To_Unbounded_String("&amp;");
+            when others => The_Encoded := To_Unbounded_String("" & The_Character);
+         end case;
+
+         return To_String(The_Encoded);
+      end Encode;
 
       procedure Listing
         (The_Position : Source_Position;
@@ -39,7 +56,7 @@ package body List_Package is
 
             while not End_Of_File (The_File) and not End_Of_Line (The_File) loop
                Get (The_File, The_Character);
-               Put (The_Character);
+               Put (Encode(The_Character));
             end loop;
 
             if XML_Format then
@@ -78,7 +95,7 @@ package body List_Package is
    begin
 
       Open (The_File, In_File, The_Source_File_Name);
-      Iterate (Listing'Access);
+      Error_Package.Iterate (Listing'Access);
 
       if XML_Format then
          Put_Line ("<listing>");
@@ -95,7 +112,7 @@ package body List_Package is
 
          while not End_Of_File (The_File) and not End_Of_Line (The_File) loop
             Get (The_File, The_Character);
-            Put (The_Character);
+            Put (Encode(The_Character));
          end loop;
 
          if XML_Format then

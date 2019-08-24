@@ -40,6 +40,8 @@ package XML_Package is
       Equivalent_Keys => "=");
    use Tests_Map;
 
+  function Encode (The_String : String) return String;
+
    procedure Load
      (The_Source_File_Name :     String;
       The_Tests            : out Tests_Map.Map);

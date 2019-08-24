@@ -61,7 +61,7 @@ package body List_Package.List_Test is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine(The_Test, Test_Listing'Access, "test_listing!");
-  end Register_Tests;
+   end Register_Tests;
 
    -----------------
    -- Set_Up_Case --
