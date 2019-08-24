@@ -96,24 +96,6 @@ package body XML_Package is
       end if;
    end End_Element;
 
-   -- Translate latin string into safe html string
-
-   function Encode (The_String : String) return String is
-      The_Encoded : Unbounded_String := Null_Unbounded_String;
-   begin
-      for I in The_String'First .. The_String'Last loop
-         case The_String(I) is
-            when '<' => The_Encoded := The_Encoded & "&lt;";
-            when '>' => The_Encoded := The_Encoded & "&gt;";
-            when '"' => The_Encoded := The_Encoded & "&quot;";
-            when '&' => The_Encoded := The_Encoded & "&amp;";
-            when others => The_Encoded := The_Encoded & The_String(I);
-         end case;
-      end loop;
-
-      return To_String(The_Encoded);
-   end Encode;
-
    -- Load a saved file of input operand lengths.
 
    procedure Load
