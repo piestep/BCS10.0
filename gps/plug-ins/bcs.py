@@ -506,7 +506,7 @@ def renumber_errors():
    GPS.Console("Messages").write("Renumbering errors: ")
    default = GPS.Project.root().get_attribute_as_string("Error_Pattern", package="PTest")
    if default == "":
-      default = "(\".*)(\([0-9]+\))(\.\")"
+      default = "(\".*)\(([SO]{0,1})[0-9]+\)\.\""
    pattern = GPS.MDI.input_dialog("Please enter pattern", "Pattern="+default)
    if pattern:
       rexp = re.compile(pattern[0])
@@ -525,12 +525,13 @@ def renumber_errors():
                   s = buf.get_chars(loc[0], loc[1])
                   match = rexp.match(s)
                   key = match.group(1).strip()
+                  letter = match.group(2)
                   if key not in dict:
                      dict[key] = 1
                   else:
                      dict[key] = dict[key] + 1
                   buf.delete(loc[0], loc[1].forward_char(-1))
-                  buf.insert(loc[0], key + " ("+str(dict[key])+").\"")
+                  buf.insert(loc[0], key + " ("+letter+str(dict[key])+").\"")
 
                   count = count + 1
                   loc = loc[1].search(pattern[0], regexp=True, dialog_on_failure=False)
