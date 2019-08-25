@@ -17,9 +17,9 @@ with Identifier_Package; use Identifier_Package;
 with Type_Package;       use Type_Package;
 with Operand_Package;    use Operand_Package;
 --
-with Type_Package.Image_Package;       use Type_Package.Image_Package;
-with Identifier_Package.Image_Package; use Identifier_Package.Image_Package;
-with Operand_Package.Image_Package;    use Operand_Package.Image_Package;
+with Type_Package.Image_Of;
+with Identifier_Package.Image_Of;
+with Operand_Package.Image_Of;
 --
 
 -- Error messages:

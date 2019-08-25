@@ -15,7 +15,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 27: Expression value not compatiable with base type (3).</ln>
+<ln>3, 27: Expression value not compatiable with base type (S3).</ln>
 </listing>
 </test>
 
@@ -34,7 +34,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 29: Base type not compatiable with expression (3).</ln>
+<ln>4, 29: Base type not compatiable with expression (S3).</ln>
 </listing>
 </test>
 
@@ -55,7 +55,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 26: Expression must be constant (4).</ln>
+<ln>6, 26: Expression must be constant (S4).</ln>
 </listing>
 </test>
 </body>

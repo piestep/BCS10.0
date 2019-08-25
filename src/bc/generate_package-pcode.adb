@@ -20,7 +20,7 @@ with Operand_Package;    use Operand_Package;
 --
 with PCode_Package.IO_Package; use PCode_Package.IO_Package;
 --
-with Operand_Package.Image_Package; use Operand_Package.Image_Package;
+with Operand_Package; use Operand_Package;
 --
 
 separate (Generate_Package)
@@ -179,14 +179,14 @@ is
                The_Type :=
                  Type_Identifier
                    (Parameter_Node (The_Parameter.all).The_Definition
-                      .The_Pointer.all)
-                   .The_Type;
+                    .The_Pointer.all)
+                 .The_Type;
                The_Address :=
                  Address
                    (Parameter_Identifier
                       (Parameter_Node (The_Parameter.all).The_Identifier
-                         .The_Pointer.all)
-                      .The_Address);
+                       .The_Pointer.all)
+                    .The_Address);
 
                if Is_Array (The_Type) then
 
@@ -202,8 +202,8 @@ is
                      The_Size    => ADDRESS_SIZE,
                      The_Operand =>
                        Array_Type (The_Type.all).The_Last -
-                       Array_Type (The_Type.all).The_First +
-                       1);
+                         Array_Type (The_Type.all).The_First +
+                         1);
                   Code (rdb_op, The_Size => Size_Of (The_Element));
 
                   Code
@@ -211,8 +211,8 @@ is
                      The_Size    => ADDRESS_SIZE,
                      The_Operand =>
                        Array_Type (The_Type.all).The_Last -
-                       Array_Type (The_Type.all).The_First +
-                       1);
+                         Array_Type (The_Type.all).The_First +
+                         1);
                   Code (stob_op, The_Size => Size_Of (The_Element));
 
                else
@@ -240,14 +240,14 @@ is
                The_Type :=
                  Type_Identifier
                    (Parameter_Node (The_Parameter.all).The_Definition
-                      .The_Pointer.all)
-                   .The_Type;
+                    .The_Pointer.all)
+                 .The_Type;
                The_Address :=
                  Address
                    (Parameter_Identifier
                       (Parameter_Node (The_Parameter.all).The_Identifier
-                         .The_Pointer.all)
-                      .The_Address);
+                       .The_Pointer.all)
+                    .The_Address);
 
                if Is_Array (The_Type) then
 
@@ -263,8 +263,8 @@ is
                      The_Size    => ADDRESS_SIZE,
                      The_Operand =>
                        Array_Type (The_Type.all).The_Last -
-                       Array_Type (The_Type.all).The_First +
-                       1);
+                         Array_Type (The_Type.all).The_First +
+                         1);
 
                   Code
                     (lodb_op,
@@ -276,8 +276,8 @@ is
                      The_Size    => ADDRESS_SIZE,
                      The_Operand =>
                        Array_Type (The_Type.all).The_Last -
-                       Array_Type (The_Type.all).The_First +
-                       1);
+                         Array_Type (The_Type.all).The_First +
+                         1);
                   Code (wrtb_op, The_Size => Size_Of (The_Element));
 
                else
@@ -328,17 +328,17 @@ is
             The_Type :=
               Type_Identifier
                 (Parameter_Node (The_Parameter.all).The_Definition
-                   .The_Pointer.all)
-                .The_Type;
+                 .The_Pointer.all)
+              .The_Type;
             The_Storage := Storage_Of (The_Type);
 
             if PCode_Dump then
                Put (Integer (The_Data), 4);
                Put
                  (" : " &
-                  To_Lower
+                    To_Lower
                     (To_String
-                       (Parameter_Node (The_Parameter.all).The_Identifier
+                         (Parameter_Node (The_Parameter.all).The_Identifier
                           .The_String)));
                if The_Storage /= 1 then
                   New_Line;
@@ -353,9 +353,9 @@ is
 
             Parameter_Identifier
               (Parameter_Node (The_Parameter.all).The_Identifier
-                 .The_Pointer.all)
+               .The_Pointer.all)
               .The_Address :=
-              Natural (The_Address);
+                Natural (The_Address);
 
             Debug (PCode_Debug, "end In_Parameter");
          end if;
@@ -416,7 +416,7 @@ is
 
          The_Type :=
            Type_Identifier (The_Declaration.The_Definition.The_Pointer.all)
-             .The_Type;
+           .The_Type;
          The_Storage := Storage_Of (The_Type);
 
          -- identifier declaration expression.
@@ -429,9 +429,9 @@ is
                   Put (Integer (The_Data), 4);
                   Put
                     (" : " &
-                     To_Lower
+                       To_Lower
                        (To_String
-                          (The_Declaration.The_Identifier.The_String)));
+                            (The_Declaration.The_Identifier.The_String)));
                   if The_Storage /= 1 then
                      New_Line;
                   else
@@ -446,7 +446,7 @@ is
                Variable_Identifier
                  (The_Declaration.The_Identifier.The_Pointer.all)
                  .The_Address :=
-                 Natural (The_Address);
+                   Natural (The_Address);
 
                -- variable address.
                Code (lit_op, ADDRESS_SIZE, Natural (The_Address));
@@ -458,9 +458,9 @@ is
                      The_Operand =>
                        Constant_Operand
                          (The_Declaration.The_Expression.The_Result.all)
-                         .The_Value);
-                    else
---  Don't think this is possiable.
+                     .The_Value);
+               else
+                  --  Don't think this is possiable.
                   Generate (The_Declaration.The_Expression);
                end if;
 
@@ -473,7 +473,7 @@ is
                Put (Integer (The_Data), 4);
                Put
                  (" : " &
-                  To_Lower
+                    To_Lower
                     (To_String (The_Declaration.The_Identifier.The_String)));
                if The_Storage /= 1 then
                   New_Line;
@@ -489,7 +489,7 @@ is
             Variable_Identifier
               (The_Declaration.The_Identifier.The_Pointer.all)
               .The_Address :=
-              Natural (The_Address);
+                Natural (The_Address);
          end if;
 
          Debug (PCode_Debug, "end Identifier_Declaration");
@@ -535,7 +535,7 @@ is
                  Size_Of (The_Statement.The_Variable.The_Result.The_Type),
                The_Operand =>
                  Constant_Operand (The_Statement.The_Expression.The_Result.all)
-                   .The_Value);
+               .The_Value);
          else
             Generate (The_Statement.The_Expression);
          end if;
@@ -562,20 +562,20 @@ is
 
             The_Type :=
               Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
-                .The_Type;
+              .The_Type;
 
             The_Address :=
               Address
                 (Addressable_Identifier
                    (The_Variable.The_Identifier.The_Pointer.all)
-                   .The_Address);
+                 .The_Address);
 
             if Is_Constant (The_Variable.The_Expression.The_Result) then
 
                -- literal (index-first)*size+address
                The_Value :=
                  Constant_Operand (The_Variable.The_Expression.The_Result.all)
-                   .The_Value;
+                 .The_Value;
                The_Size := Storage_Of (Array_Type (The_Type.all).The_Element);
 
                Code
@@ -583,7 +583,7 @@ is
                   The_Size    => ADDRESS_SIZE,
                   The_Operand =>
                     (The_Value - First_Of (The_Type)) * The_Size +
-                    Natural (The_Address));
+                      Natural (The_Address));
             else
                Generate (The_Variable.The_Expression);
 
@@ -622,9 +622,9 @@ is
                ADDRESS_SIZE,
                Natural
                  (Addressable_Identifier
-                    (Variable_Node (The_Variable.all).The_Identifier
+                      (Variable_Node (The_Variable.all).The_Identifier
                        .The_Pointer.all)
-                    .The_Address));
+                  .The_Address));
 
          else
             raise Critical_Error;
@@ -647,30 +647,30 @@ is
       The_Jump    : Address;
       The_Address : Address;
    begin
-        if Generate_PCode then
-            Debug (PCode_Debug, "begin If_Statement");
+      if Generate_PCode then
+         Debug (PCode_Debug, "begin If_Statement");
 
-            Generate (The_Statement.The_Expression);
+         Generate (The_Statement.The_Expression);
 
-            The_Jump := The_Length;
-            Code (jz_op, 0, 0);
+         The_Jump := The_Length;
+         Code (jz_op, 0, 0);
 
-            Generate (The_Statement.The_Statements);
+         Generate (The_Statement.The_Statements);
 
-            if The_Statement.The_Alternates /= null then
+         if The_Statement.The_Alternates /= null then
 
-                The_Address := The_Length;
-                Code (jmp_op, 0, 0);
-                The_Code (The_Jump).The_Operand := Word (The_Length);
-                The_Jump                        := The_Address;
-
-                Generate (The_Statement.The_Alternates);
-            end if;
-
+            The_Address := The_Length;
+            Code (jmp_op, 0, 0);
             The_Code (The_Jump).The_Operand := Word (The_Length);
+            The_Jump                        := The_Address;
 
-            Debug (PCode_Debug, "end If_Statement");
-        end if;
+            Generate (The_Statement.The_Alternates);
+         end if;
+
+         The_Code (The_Jump).The_Operand := Word (The_Length);
+
+         Debug (PCode_Debug, "end If_Statement");
+      end if;
    end Generate;
 
    procedure Generate (The_Statement : For_Statement_Graph) is
@@ -695,7 +695,7 @@ is
          if The_Statement.The_Definition /= null then
             The_Type :=
               Type_Identifier (The_Statement.The_Definition.The_Pointer.all)
-                .The_Type;
+              .The_Type;
          else
             The_Type := Type_Package.Integer_Type;
          end if;
@@ -714,7 +714,7 @@ is
                The_Size    => Size_Of (The_Type),
                The_Operand =>
                  Constant_Operand (The_Statement.The_First.The_Result.all)
-                   .The_Value);
+               .The_Value);
          else
             Generate (The_Statement.The_First);
          end if;
@@ -739,7 +739,7 @@ is
                The_Size    => Size_Of (The_Type),
                The_Operand =>
                  Constant_Operand (The_Statement.The_Last.The_Result.all)
-                   .The_Value);
+               .The_Value);
          else
             Generate (The_Statement.The_Last);
          end if;
@@ -754,7 +754,7 @@ is
 
          Index_Identifier (The_Statement.The_Index.The_Pointer.all)
            .The_Address :=
-           Natural (The_Index);
+             Natural (The_Index);
 
          Comment;
 
@@ -891,7 +891,7 @@ is
 
          case The_Expression.The_Operator is
             when Not_Symbol =>
-                Code
+               Code
                  (not_op,
                   The_Size => Size_Of (The_Expression.The_Result.The_Type));
             when Minus_Symbol =>
@@ -914,7 +914,7 @@ is
         (The_Operator : Symbol;
          The_Type     : Type_Pointer)
       is
-        begin
+      begin
          case The_Operator is
             when Equal_Symbol =>
                Code (equ_op, The_Size => Size_Of (The_Type));
@@ -983,23 +983,23 @@ is
 
          case The_Expression.The_Operator is
             when Equal_Symbol           |
-              Not_Equal_Symbol          |
-              Less_Than_Symbol          |
-              Less_Than_Equal_Symbol    |
-              Greater_Than_Symbol       |
-              Greater_Than_Equal_Symbol =>
+                 Not_Equal_Symbol          |
+                 Less_Than_Symbol          |
+                 Less_Than_Equal_Symbol    |
+                 Greater_Than_Symbol       |
+                 Greater_Than_Equal_Symbol =>
                The_Type :=
                  Best_Of
                    (The_Expression.The_Left.The_Result.The_Type,
                     The_Expression.The_Right.The_Result.The_Type);
             when And_Symbol |
-              Or_Symbol     |
-              Xor_Symbol    |
-              Plus_Symbol   |
-              Minus_Symbol  |
-              Times_Symbol  |
-              Divide_Symbol |
-              Rem_Symbol =>
+                 Or_Symbol     |
+                 Xor_Symbol    |
+                 Plus_Symbol   |
+                 Minus_Symbol  |
+                 Times_Symbol  |
+                 Divide_Symbol |
+                 Rem_Symbol =>
                The_Type := The_Expression.The_Result.The_Type;
             when others =>
                raise Critical_Error;
@@ -1011,7 +1011,7 @@ is
                The_Size    => Size_Of (The_Type),
                The_Operand =>
                  Constant_Operand (The_Expression.The_Left.The_Result.all)
-                   .The_Value);
+               .The_Value);
          else
             Generate (The_Expression.The_Left);
          end if;
@@ -1022,7 +1022,7 @@ is
                The_Size    => Size_Of (The_Type),
                The_Operand =>
                  Constant_Operand (The_Expression.The_Right.The_Result.all)
-                   .The_Value);
+               .The_Value);
          else
             Generate (The_Expression.The_Right);
          end if;

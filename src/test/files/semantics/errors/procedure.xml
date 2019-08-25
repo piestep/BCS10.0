@@ -13,7 +13,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 18: Identifier already defined (2).</ln>
+<ln>3, 18: Identifier already defined (S2).</ln>
 </listing>
 </test>
 
@@ -29,7 +29,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 9: Expected procedure identifier (1).</ln>
+<ln>6, 9: Expected procedure identifier (S1).</ln>
 </listing>
 </test>
 </body>

@@ -16,7 +16,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 8: Identifier already defined (5).</ln>
+<ln>4, 8: Identifier already defined (S5).</ln>
 </listing>
 </test>
 
@@ -34,7 +34,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 15: Warning: Integer type may cause excessive BCode compilation (2).</ln>
+<ln>3, 15: Warning: Integer type may cause excessive BCode compilation (S2).</ln>
 </listing>
 </test>
 
@@ -52,7 +52,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 12: Expected type identifier (2).</ln>
+<ln>3, 12: Expected type identifier (S2).</ln>
 </listing>
 </test>
 
@@ -70,7 +70,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 18: Undefined type identifier (2).</ln>
+<ln>3, 18: Undefined type identifier (S2).</ln>
 </listing>
 </test>
 
@@ -90,7 +90,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 25: Expression value not compatiable with identifier type (1).</ln>
+<ln>5, 25: Expression value not compatiable with identifier type (S1).</ln>
 </listing>
 </test>
 
@@ -110,7 +110,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 26: Identifier not compatiable with expression (1).</ln>
+<ln>5, 26: Identifier not compatiable with expression (S1).</ln>
 </listing>
 </test>
 
@@ -131,7 +131,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 23: Expression must be constant (1).</ln>
+<ln>6, 23: Expression must be constant (S1).</ln>
 </listing>
 </test>
 
@@ -152,7 +152,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 29: Arrays can not be initialized (1).</ln>
+<ln>6, 29: Arrays can not be initialized (S1).</ln>
 </listing>
 </test>
 
@@ -172,7 +172,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 27: Expected expression for constant variable (1).</ln>
+<ln>5, 27: Expected expression for constant variable (S1).</ln>
 </listing>
 </test>
 </body>

@@ -36,7 +36,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 46: Expected scalar type (1).</ln>
+<ln>5, 46: Expected scalar type (S1).</ln>
 </listing>
 </test>
 
@@ -55,7 +55,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 40: Expected type identifier (4).</ln>
+<ln>4, 40: Expected type identifier (S4).</ln>
 </listing>
 </test>
 
@@ -74,7 +74,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 37: Undefined type identifier (4).</ln>
+<ln>4, 37: Undefined type identifier (S4).</ln>
 </listing>
 </test>
 
@@ -93,7 +93,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 54: Expression value not within type constraint (1).</ln>
+<ln>4, 54: Expression value not within type constraint (S1).</ln>
 </listing>
 </test>
 
@@ -116,7 +116,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 54: Expression not compatiable with type (1).</ln>
+<ln>8, 54: Expression not compatiable with type (S1).</ln>
 </listing>
 </test>
 
@@ -138,7 +138,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 54: Expression must be constant (5).</ln>
+<ln>7, 54: Expression must be constant (S5).</ln>
 </listing>
 </test>
 
@@ -157,7 +157,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 60: Expression value not within type constraint (2).</ln>
+<ln>4, 60: Expression value not within type constraint (S2).</ln>
 </listing>
 </test>
 
@@ -180,7 +180,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 59: Expression not compatiable with type (2).</ln>
+<ln>8, 59: Expression not compatiable with type (S2).</ln>
 </listing>
 </test>
 
@@ -202,8 +202,8 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 23: Expression value not compatiable with identifier type (1).</ln>
-<ln>7, 59: Expression must be constant (6).</ln>
+<ln>5, 23: Expression value not compatiable with identifier type (S1).</ln>
+<ln>7, 59: Expression must be constant (S6).</ln>
 </listing>
 </test>
 
@@ -242,7 +242,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 75: Expected scalar type (2).</ln>
+<ln>5, 75: Expected scalar type (S2).</ln>
 </listing>
 </test>
 
@@ -261,7 +261,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 68: Expected type identifier (5).</ln>
+<ln>4, 68: Expected type identifier (S5).</ln>
 </listing>
 </test>
 
@@ -280,7 +280,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 65: Undefined type identifier (5).</ln>
+<ln>4, 65: Undefined type identifier (S5).</ln>
 </listing>
 </test>
 </body>

@@ -3,8 +3,8 @@
 
 with Ada.Text_IO; use Ada.Text_IO;
 --
-with Type_Package.Image_Package;       use Type_Package.Image_Package;
-with Identifier_Package.Image_Package; use Identifier_Package.Image_Package;
+with Type_Package.Image_Of;
+with Identifier_Package.Image_Of;
 --
 
 package body Block_Package.Dump_Package is

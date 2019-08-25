@@ -10,7 +10,7 @@ with Scanner_Package;    use Scanner_Package;
 with Type_Package;       use Type_Package;
 with Identifier_Package; use Identifier_Package;
 --
-with Operand_Package.Image_Package;
+with Operand_Package.Image_Of;
 with Ada.Text_IO;
 
 -- NOTES:
@@ -708,8 +708,8 @@ package body Optimize_Package is
 
          when And_Symbol | Or_Symbol | Xor_Symbol =>
 
-            Debug(True, "1 " & Operand_Package.Image_Package.Image_Of(The_Left));
-            Debug(True, "2 " & Operand_Package.Image_Package.Image_Of(The_Right));
+            Debug(True, "1 " & Operand_Package.Image_Of(The_Left));
+            Debug(True, "2 " & Operand_Package.Image_Of(The_Right));
             Debug(True, Integer'Image(Error_Package.The_Number_Of_Errors));
             The_Type := Best_Of (The_Left.The_Type, The_Right.The_Type);
 

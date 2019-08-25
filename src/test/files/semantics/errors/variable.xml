@@ -13,7 +13,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 8: Undefined identifier (1).</ln>
+<ln>5, 8: Undefined identifier (S1).</ln>
 </listing>
 </test>
 
@@ -33,7 +33,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 8: Expected scalar variable (1).</ln>
+<ln>9, 8: Expected scalar variable (S1).</ln>
 </listing>
 </test>
 
@@ -49,7 +49,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 11: Expected variable or constant variable (1).</ln>
+<ln>5, 11: Expected variable or constant variable (S1).</ln>
 </listing>
 </test>
 
@@ -69,7 +69,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 11: Expression not within array index type (1).</ln>
+<ln>9, 11: Expression not within array index type (S1).</ln>
 </listing>
 </test>
 
@@ -91,7 +91,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>11, 10: Expression not compatiable with array index (1).</ln>
+<ln>11, 10: Expression not compatiable with array index (S1).</ln>
 </listing>
 </test>
 
@@ -112,7 +112,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>10, 10: Expected array type variable or parameter (1).</ln>
+<ln>10, 10: Expected array type variable or parameter (S1).</ln>
 </listing>
 </test>
 
@@ -128,7 +128,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 13: Expected variable or parameter (1).</ln>
+<ln>5, 13: Expected variable or parameter (S1).</ln>
 </listing>
 </test>
 </body>

@@ -15,7 +15,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 26: Expected type identifier (3).</ln>
+<ln>3, 26: Expected type identifier (S3).</ln>
 </listing>
 </test>
 
@@ -33,7 +33,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 32: Undefined type identifier (3).</ln>
+<ln>3, 32: Undefined type identifier (S3).</ln>
 </listing>
 </test>
 
@@ -52,7 +52,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 41: Expression value not compatiable with base type (1).</ln>
+<ln>4, 41: Expression value not compatiable with base type (S1).</ln>
 </listing>
 </test>
 
@@ -71,7 +71,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 45: Base type not compatiable with expression (1).</ln>
+<ln>4, 45: Base type not compatiable with expression (S1).</ln>
 </listing>
 </test>
 
@@ -92,7 +92,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>6, 45: Expression must be constant (2).</ln>
+<ln>6, 45: Expression must be constant (S2).</ln>
 </listing>
 </test>
 
@@ -111,7 +111,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 46: Expression value not compatiable with base type (2).</ln>
+<ln>4, 46: Expression value not compatiable with base type (S2).</ln>
 </listing>
 </test>
 
@@ -130,7 +130,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>4, 50: Base type not compatiable with expression (2).</ln>
+<ln>4, 50: Base type not compatiable with expression (S2).</ln>
 </listing>
 </test>
 

@@ -15,7 +15,7 @@
 <ln>end SYNTAX;</ln>
 </code>
 <listing>
-<ln>7, 23: Undefined identifier for attribute (1).</ln>
+<ln>7, 23: Undefined identifier for attribute (S1).</ln>
 </listing>
 </test>
 
@@ -35,7 +35,7 @@
 <ln>end SYNTAX;</ln>
 </code>
 <listing>
-<ln>9, 20: Length attribute requires array type (1).</ln>
+<ln>9, 20: Length attribute requires array type (S1).</ln>
 </listing>
 </test>
 
@@ -53,7 +53,7 @@
 <ln>end SYNTAX;</ln>
 </code>
 <listing>
-<ln>7, 31: Expected attribute (1).</ln>
+<ln>7, 31: Expected attribute (S1).</ln>
 </listing>
 </test>
 </body>

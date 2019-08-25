@@ -5,8 +5,8 @@ with Ada.Unchecked_Deallocation;
 --
 with Debug_Package; use Debug_Package;
 --
-with Identifier_Package.Image_Package; use Identifier_Package.Image_Package;
-with Scope_Package.Dump_Package;       use Scope_Package.Dump_Package;
+with Identifier_Package.Image_Of;
+with Scope_Package.Dump;
 --
 
 package body Scope_Package is

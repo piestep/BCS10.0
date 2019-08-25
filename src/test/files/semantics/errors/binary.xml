@@ -18,7 +18,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>10, 17: Expressions not compatiable (1).</ln>
+<ln>10, 17: Expressions not compatiable (S1).</ln>
 </listing>
 </test>
 
@@ -38,7 +38,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 21: Expression not within type (4).</ln>
+<ln>9, 21: Expression not within type (S4).</ln>
 </listing>
 </test>
 
@@ -57,7 +57,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 19: Operands not compatiable with boolean operator (1).</ln>
+<ln>8, 19: Operands not compatiable with boolean operator (S1).</ln>
 </listing>
 </test>
 
@@ -77,7 +77,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 17: Expression not within type (5).</ln>
+<ln>9, 17: Expression not within type (S5).</ln>
 </listing>
 </test>
 
@@ -95,7 +95,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 17: Operand not compatiable with integer operator (1).</ln>
+<ln>7, 17: Operand not compatiable with integer operator (S1).</ln>
 </listing>
 </test>
 
@@ -116,7 +116,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>10, 17: Operands are not compatiable (1).</ln>
+<ln>10, 17: Operands are not compatiable (S1).</ln>
 </listing>
 </test>
 </body>

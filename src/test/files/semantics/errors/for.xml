@@ -15,7 +15,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 20: Expected type identifier (6).</ln>
+<ln>5, 20: Expected type identifier (S6).</ln>
 </listing>
 </test>
 
@@ -33,7 +33,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 17: Undefined type identifier (6).</ln>
+<ln>5, 17: Undefined type identifier (S6).</ln>
 </listing>
 </test>
 
@@ -53,7 +53,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 34: Expression value not within index constraint (1).</ln>
+<ln>7, 34: Expression value not within index constraint (S1).</ln>
 </listing>
 </test>
 
@@ -73,7 +73,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 37: Expression not compatiable with index (1).</ln>
+<ln>7, 37: Expression not compatiable with index (S1).</ln>
 </listing>
 </test>
 
@@ -93,7 +93,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 40: Expression value not within index constraint (2).</ln>
+<ln>7, 40: Expression value not within index constraint (S2).</ln>
 </listing>
 </test>
 
@@ -113,7 +113,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>7, 42: Expression not compatiable with index (2).</ln>
+<ln>7, 42: Expression not compatiable with index (S2).</ln>
 </listing>
 </test>
 </body>

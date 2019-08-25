@@ -11,8 +11,8 @@ with System_Package;     use System_Package;
 with Type_Package;       use Type_Package;
 with Identifier_Package; use Identifier_Package;
 --
-with Identifier_Package.Image_Package; use Identifier_Package.Image_Package;
-with Operand_Package.Image_Package;    use Operand_Package.Image_Package;
+with Identifier_Package.Image_Of;
+with Operand_Package.Image_Of;
 --
 
 -- Dump a Boolean Compiler (BC) graph to standard output.

@@ -15,8 +15,8 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>5, 37: Undefined type identifier (1).</ln>
-<ln>7, 8: Assignment to in mode parameter not allowed (1).</ln>
+<ln>5, 37: Undefined type identifier (S1).</ln>
+<ln>7, 8: Assignment to in mode parameter not allowed (S1).</ln>
 </listing>
 </test>
 
@@ -35,7 +35,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 8: Expected variable (1).</ln>
+<ln>8, 8: Expected variable (S1).</ln>
 </listing>
 </test>
 
@@ -54,7 +54,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>8, 13: Expression not within type (1).</ln>
+<ln>8, 13: Expression not within type (S1).</ln>
 </listing>
 </test>
 
@@ -74,7 +74,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 13: Identifier not compatiable with expression (2).</ln>
+<ln>9, 13: Identifier not compatiable with expression (S2).</ln>
 </listing>
 </test>
 </body>

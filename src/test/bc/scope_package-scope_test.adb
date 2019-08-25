@@ -13,7 +13,7 @@ with BC_Package;         use BC_Package;
 with Identifier_Package; use Identifier_Package;
 with Type_Package;       use Type_Package;
 --
-with Scope_Package.Dump_Package;
+with Scope_Package.Dump;
 --
 
 package body Scope_Package.Scope_Test is
@@ -41,7 +41,7 @@ package body Scope_Package.Scope_Test is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine(The_Test, Test_Scope'Access, "test_scope!");
-  end Register_Tests;
+   end Register_Tests;
 
    -----------------
    -- Set_Up_Case --
@@ -148,7 +148,7 @@ package body Scope_Package.Scope_Test is
       Scope_Package.Enter (Variable_B_PRIME);
       Scope_Package.Enter (Type_D);
 
---          Scope_Package.Dump_Package.Dump;
+      --          Scope_Package.Dump_Package.Dump;
 
       -- assert scope 3
       Assert

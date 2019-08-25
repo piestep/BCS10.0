@@ -13,7 +13,7 @@
 <ln>end INTEGER;</ln>
 </code>
 <listing>
-<ln>1, 21: Identifier already defined (1).</ln>
+<ln>1, 21: Identifier already defined (S1).</ln>
 </listing>
 </test>
 
@@ -29,7 +29,7 @@
 <ln>end T;</ln>
 </code>
 <listing>
-<ln>7, 6: Expected package identifier (1).</ln>
+<ln>7, 6: Expected package identifier (S1).</ln>
 </listing>
 </test>
 </body>

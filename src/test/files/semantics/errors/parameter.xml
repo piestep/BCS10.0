@@ -13,8 +13,8 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 24: Identifier already defined (3).</ln>
-<ln>3, 37: Warning: Integer type may cause excessive BCode compilation (1).</ln>
+<ln>3, 24: Identifier already defined (S3).</ln>
+<ln>3, 37: Warning: Integer type may cause excessive BCode compilation (S1).</ln>
 </listing>
 </test>
 
@@ -30,7 +30,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 34: Warning: Integer type may cause excessive BCode compilation (1).</ln>
+<ln>3, 34: Warning: Integer type may cause excessive BCode compilation (S1).</ln>
 </listing>
 </test>
 
@@ -46,7 +46,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 31: Expected type identifier (1).</ln>
+<ln>3, 31: Expected type identifier (S1).</ln>
 </listing>
 </test>
 
@@ -62,7 +62,7 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>3, 37: Undefined type identifier (1).</ln>
+<ln>3, 37: Undefined type identifier (S1).</ln>
 </listing>
 </test>
 </body>
