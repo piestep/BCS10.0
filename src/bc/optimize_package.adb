@@ -636,7 +636,6 @@ package body Optimize_Package is
             else
                The_Operand :=
                  new Variable_Operand'(The_Type => The_Right.The_Type);
-
                The_Expression.The_Result := Copy (The_Operand);
             end if;
 
@@ -708,9 +707,6 @@ package body Optimize_Package is
 
          when And_Symbol | Or_Symbol | Xor_Symbol =>
 
-            Debug(True, "1 " & Operand_Package.Image_Of(The_Left));
-            Debug(True, "2 " & Operand_Package.Image_Of(The_Right));
-            Debug(True, Integer'Image(Error_Package.The_Number_Of_Errors));
             The_Type := Best_Of (The_Left.The_Type, The_Right.The_Type);
 
             if (The_Right /= null and The_Left /= null)

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Optimize.</name>
+<code>
+<ln>package body SYNTAX is</ln>
+<ln></ln>
+<ln>   type ID_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : ID_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      A := 1 + (A *  0);</ln>
+<ln>   end MAIN;</ln>
+<ln>end SYNTAX;</ln>
+</code>
+<graph>
+<ln></ln>
+</graph>
+</test>
+
+</body>

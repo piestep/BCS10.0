@@ -53,4 +53,6 @@ package Optimize_Package.Optimize_Test is
    procedure Test_Unary_Expression_Errors (The_Test : in out Test_Case'Class);
    procedure Test_Binary_Expression_Errors (The_Test : in out Test_Case'Class);
 
+   procedure Test_Optimize (The_Test : in out Test_Case'Class);
+
 end Optimize_Package.Optimize_Test;

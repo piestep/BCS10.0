@@ -2,27 +2,47 @@
 <body>
 
 <test>
-<name>Binary_Boolean.</name>
+<name>Binary_Constant_Boolean.</name>
 <code>
 <ln>package body TEST is</ln>
 <ln></ln>
-<ln>   type FALSE_TYPE is new BOOLEAN range FALSE .. FALSE;</ln>
-<ln>   A : FALSE_TYPE := FALSE;</ln>
-<ln>   B : FALSE_TYPE;</ln>
+<ln>   type TRUE_TYPE is new BOOLEAN range TRUE .. TRUE;</ln>
+<ln>   A : TRUE_TYPE;</ln>
+<ln>   B : TRUE_TYPE;</ln>
 <ln></ln>
 <ln>   procedure MAIN is</ln>
 <ln>   begin</ln>
-<ln>      B := FALSE OR (A OR TRUE);</ln>
+<ln>      B := (A OR TRUE) AND FALSE;</ln>
 <ln>   end MAIN;</ln>
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 28: Expression not within type (O1).</ln>
+<ln>9, 33: Expression not within type (O2).</ln>
 </listing>
 </test>
 
 <test>
-<name>Binary_OR_Boolean.</name>
+<name>Binary_And_Right_Boolean.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type TRUE_TYPE is new BOOLEAN range TRUE .. TRUE;</ln>
+<ln>   A : TRUE_TYPE;</ln>
+<ln>   B : TRUE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := A AND FALSE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 23: Expression not within type (O3).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_Or_Left_Boolean.</name>
 <code>
 <ln>package body TEST is</ln>
 <ln></ln>
@@ -37,8 +57,127 @@
 <ln>end TEST;</ln>
 </code>
 <listing>
-<ln>9, 28: Expression not within type (O1).</ln>
+<ln>9, 21: Expression not within type (O4).</ln>
 </listing>
 </test>
 
+<test>
+<name>Binary_And_Left_Boolean.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type TRUE_TYPE is new BOOLEAN range TRUE .. TRUE;</ln>
+<ln>   A : TRUE_TYPE;</ln>
+<ln>   B : TRUE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := FALSE AND A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 23: Expression not within type (O5).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_Or_Right_Boolean.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type FALSE_TYPE is new BOOLEAN range FALSE .. FALSE;</ln>
+<ln>   A : FALSE_TYPE := FALSE;</ln>
+<ln>   B : FALSE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := TRUE OR A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 21: Expression not within type (O6).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_Times_Right_Integer.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INT_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : INT_TYPE := 1;</ln>
+<ln>   B : INT_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := A * 0;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 17: Expression not within type (O8).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_Divide_By_Zero.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INT_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : INT_TYPE := 1;</ln>
+<ln>   B : INT_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := A / 0;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 17: Expression divided by zero (O1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_Times_Left_Integer.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INT_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : INT_TYPE := 1;</ln>
+<ln>   B : INT_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := 0 * A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 17: Expression not within type (O9).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_Divide_Right_Integer.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type INT_TYPE is new INTEGER range 1 .. 10;</ln>
+<ln>   A : INT_TYPE := 1;</ln>
+<ln>   B : INT_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := 0 / A;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 17: Expression not within type (O10).</ln>
+</listing>
+</test>
 </body>

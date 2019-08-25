@@ -24,25 +24,25 @@ with Operand_Package.Image_Of;
 
 -- Error messages:
 --
--- Base type not compatiable with expression       --
--- Expected scalar type \()([[:digit:]]+)(\).")                            --
--- Expected type identifier \()([[:digit:]]+)(\).") 		             --
--- Expression must be constant \()([[:digit:]]+)(\).") 	             --
--- Expression not compatiable with index \()([[:digit:]]+)(\).")           --
--- Expression not compatiable with type \()([[:digit:]]+)(\).")            --
--- Expression not within type \()([[:digit:]]+)(\).") 	             --
--- ("Expression value not compatiable with base type \()([[:digit:]]+)(\).") --
--- ("Expression value not within index constraint \()([[:digit:]]+)(\).")    --
--- ("Expression value not within type constraint \()([[:digit:]]+)(\).")     --
--- ("Identifier already defined \()([[:digit:]]+)(\).") 		     --
--- ("Identifier not compatiable with expression \()([[:digit:]]+)(\).")      --
--- ("Undefined type identifier \()([[:digit:]]+)(\).")
--- ("Length attribute requires array type \()([[:digit:]]+)(\).")
--- ("Expected attribute \()([[:digit:]]+)(\).")
+-- Base type not compatiable with expression.
+-- Expected scalar type.
+-- Expected type identifier.
+-- Expression must be constant.
+-- Expression not compatiable with index.
+-- Expression not compatiable with type.
+-- Expression not within type.
+-- Expression value not compatiable with base type.
+-- Expression value not within index constraint.
+-- Expression value not within type constraint.
+-- Identifier already defined.
+-- Identifier not compatiable with expression.
+-- Undefined type identifier.
+-- Length attribute requires array type.
+-- Expected attribute.
 --
 -- Warning messages that require error codes:
 --
--- ("Integer type may cause excessive BCode compilation \()([[:digit:]]+)(\).") --
+-- Integer type may cause excessive BCode compilation.
 
 package body Semantics_Package is
 

@@ -83,6 +83,7 @@ package body Optimize_Package.Optimize_Test is
       Register_Routine(The_Test, Test_Variable_Errors'Access, "test_variable_errors!");
       Register_Routine(The_Test, Test_Unary_Expression_Errors'Access, "test_unary_expression_errors!");
       Register_Routine(The_Test, Test_Binary_Expression_Errors'Access, "test_binary_expression_errors!");
+      Register_Routine(The_Test, Test_Optimize'Access, "test_optimize!");
    end Register_Tests;
 
    ------------
@@ -1688,8 +1689,80 @@ package body Optimize_Package.Optimize_Test is
       Run_Test
         (XML_Package.Tests_Map.Element
            (The_Tests,
-            To_Unbounded_String ("Binary_Boolean.")),
+            To_Unbounded_String ("Binary_Constant_Boolean.")),
          "not within boolean type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_And_Right_Boolean.")),
+         "not within boolean type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Or_Left_Boolean.")),
+         "not within boolean type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_And_Left_Boolean.")),
+         "not within boolean type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Or_Right_Boolean.")),
+         "not within boolean type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Times_Right_Integer.")),
+         "not within integer type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Divide_By_Zero.")),
+         "divide by zero",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Times_Left_Integer.")),
+         "not within integer type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Divide_Right_Integer.")),
+         "not within integer type",
          Error_Test => True,
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
@@ -1702,5 +1775,39 @@ package body Optimize_Package.Optimize_Test is
          end if;
       end if;
    end Test_Binary_Expression_Errors;
+
+   procedure Test_Optimize (The_Test : in out Test_Case'Class) is
+      pragma Unreferenced (The_Test);
+
+      XMLNAME : constant String :=
+        Test_Package.FILES & "/" & "optimize/optimize.xml";
+
+      The_Tests : XML_Package.Tests_Map.Map;
+      The_File  : Ada.Text_IO.File_Type;
+
+   begin
+      XML_Package.Load (XMLNAME, The_Tests);
+
+      if Test_Package.Generate_Flag then
+         Create_Generate_File (The_File, LISTNAME);
+      end if;
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Optimize.")),
+         "optimize",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      if Test_Package.Generate_Flag then
+         Close_Generate_File (The_File);
+
+         if Test_Package.Replace_Flag then
+            Replace_XMLfile (XMLNAME, LISTNAME);
+         end if;
+      end if;
+   end Test_Optimize;
 
 end Optimize_Package.Optimize_Test;
