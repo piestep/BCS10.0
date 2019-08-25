@@ -1671,8 +1671,36 @@ package body Optimize_Package.Optimize_Test is
 
    procedure Test_Binary_Expression_Errors (The_Test : in out Test_Case'Class) is
       pragma Unreferenced (The_Test);
+
+      XMLNAME : constant String :=
+        Test_Package.FILES & "/" & "optimize/errors/binary.xml";
+
+      The_Tests : XML_Package.Tests_Map.Map;
+      The_File  : Ada.Text_IO.File_Type;
+
    begin
-      null;
+      XML_Package.Load (XMLNAME, The_Tests);
+
+      if Test_Package.Generate_Flag then
+         Create_Generate_File (The_File, LISTNAME);
+      end if;
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Binary_Boolean.")),
+         "not within boolean type",
+         Error_Test => True,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      if Test_Package.Generate_Flag then
+         Close_Generate_File (The_File);
+
+         if Test_Package.Replace_Flag then
+            Replace_XMLfile (XMLNAME, LISTNAME);
+         end if;
+      end if;
    end Test_Binary_Expression_Errors;
 
 end Optimize_Package.Optimize_Test;

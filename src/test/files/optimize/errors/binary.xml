@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<body>
+
+<test>
+<name>Binary_Boolean.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type FALSE_TYPE is new BOOLEAN range FALSE .. FALSE;</ln>
+<ln>   A : FALSE_TYPE := FALSE;</ln>
+<ln>   B : FALSE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := FALSE OR (A OR TRUE);</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 28: Expression not within type (O1).</ln>
+</listing>
+</test>
+
+<test>
+<name>Binary_OR_Boolean.</name>
+<code>
+<ln>package body TEST is</ln>
+<ln></ln>
+<ln>   type FALSE_TYPE is new BOOLEAN range FALSE .. FALSE;</ln>
+<ln>   A : FALSE_TYPE := FALSE;</ln>
+<ln>   B : FALSE_TYPE;</ln>
+<ln></ln>
+<ln>   procedure MAIN is</ln>
+<ln>   begin</ln>
+<ln>      B := A OR TRUE;</ln>
+<ln>   end MAIN;</ln>
+<ln>end TEST;</ln>
+</code>
+<listing>
+<ln>9, 28: Expression not within type (O1).</ln>
+</listing>
+</test>
+
+</body>
