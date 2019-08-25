@@ -736,7 +736,7 @@ package body Optimize_Package is
                   Optimize_Error
                     (Position_Of
                        (Binary_Expression_Node (The_Expression.all).The_Right),
-                     "Expression not within type (3).");
+                     "Expression not within type (O1).");
                end if;
 
             elsif The_Right /= null and then Is_Constant (The_Right) then
@@ -763,7 +763,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (4).");
+                              "Expression not within type (O1).");
                         end if;
 
                      elsif Constant_Operand (The_Right.all).The_Value =
@@ -799,7 +799,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (5).");
+                              "Expression not within type (O1).");
                         end if;
                      end if;
 
@@ -834,7 +834,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (6).");
+                              "Expression not within type (O1).");
                         end if;
 
                      elsif Constant_Operand (The_Left.all).The_Value =
@@ -870,7 +870,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (7).");
+                              "Expression not within type (O1).");
                         end if;
                      end if;
 
@@ -915,7 +915,7 @@ package body Optimize_Package is
                   Optimize_Error
                     (Position_Of
                        (Binary_Expression_Node (The_Expression.all).The_Right),
-                     "Expression not within type (8).");
+                     "Expression not within type (O1).");
                end if;
 
             elsif The_Right /= null and then Is_Constant (The_Right) then
@@ -960,7 +960,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (9).");
+                              "Expression not within type (O1).");
                         end if;
 
                      elsif Constant_Operand (The_Right.all).The_Value = 1 then
@@ -979,7 +979,7 @@ package body Optimize_Package is
                           (Position_Of
                              (Binary_Expression_Node (The_Expression.all)
                               .The_Right),
-                           "Expression divided by zero (1).");
+                           "Expression divided by zero (O1).");
 
                      elsif Constant_Operand (The_Right.all).The_Value = 1 then
                         Assign_Left (The_Expression);
@@ -1052,7 +1052,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (10).");
+                              "Expression not within type (O1).");
                         end if;
 
                      elsif Constant_Operand (The_Left.all).The_Value = 1 then
@@ -1083,7 +1083,7 @@ package body Optimize_Package is
                              (Position_Of
                                 (Binary_Expression_Node (The_Expression.all)
                                  .The_Right),
-                              "Expression not within type (11).");
+                              "Expression not within type (O1).");
                         end if;
 
                      else
