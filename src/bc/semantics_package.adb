@@ -126,7 +126,7 @@ package body Semantics_Package is
       if Scope_Package.Is_Identifier (The_Package.The_Name.The_String) then
          Semenatics_Error
            (The_Package.The_Name.The_Position,
-            "Identifier already defined (1).");
+            "Identifier already defined (S1).");
       else
          The_Identifier :=
            new Package_Identifier'
@@ -146,7 +146,7 @@ package body Semantics_Package is
       else
          Semenatics_Error
            (The_Package.The_Identifier.The_Position,
-            "Expected package identifier (1).");
+            "Expected package identifier (S1).");
       end if;
 
       Scope_Package.Close;
@@ -164,7 +164,7 @@ package body Semantics_Package is
       if Scope_Package.Is_Identifier (The_Procedure.The_Name.The_String) then
          Semenatics_Error
            (The_Procedure.The_Name.The_Position,
-            "Identifier already defined (2).");
+            "Identifier already defined (S2).");
       else
          The_Identifier :=
            new Procedure_Identifier'
@@ -184,7 +184,7 @@ package body Semantics_Package is
       else
          Semenatics_Error
            (The_Procedure.The_Identifier.The_Position,
-            "Expected procedure identifier (1).");
+            "Expected procedure identifier (S1).");
       end if;
 
       Scope_Package.Close;
@@ -209,7 +209,7 @@ package body Semantics_Package is
          then
             Semenatics_Error
               (The_Parameter.The_Identifier.The_Position,
-               "Identifier already defined (3).");
+               "Identifier already defined (S3).");
             Duplicate_Identifier := True;
          end if;
 
@@ -229,12 +229,12 @@ package body Semantics_Package is
                if The_Type = Integer_Type then
                   Semenatics_Warning
                     (The_Parameter.The_Definition.The_Position,
-                     "Integer type may cause excessive BCode compilation (1).");
+                     "Integer type may cause excessive BCode compilation (S1).");
                end if;
             else
                Semenatics_Error
                  (The_Parameter.The_Definition.The_Position,
-                  "Expected type identifier (1).");
+                  "Expected type identifier (S1).");
             end if;
          else
             Scope_Package.Enter
@@ -244,7 +244,7 @@ package body Semantics_Package is
 
             Semenatics_Error
               (The_Parameter.The_Definition.The_Position,
-               "Undefined type identifier (1).");
+               "Undefined type identifier (S1).");
          end if;
 
          -- enter identifier.
@@ -316,7 +316,7 @@ package body Semantics_Package is
       then
          Semenatics_Error
            (The_Declaration.The_Identifier.The_Position,
-            "Identifier already defined (4).");
+            "Identifier already defined (S4).");
          Duplicate_Identifier := True;
       end if;
 
@@ -361,7 +361,7 @@ package body Semantics_Package is
       then
          Semenatics_Error
            (The_Declaration.The_Identifier.The_Position,
-            "Identifier already defined (5).");
+            "Identifier already defined (S5).");
          Duplicate_Identifier := True;
       end if;
 
@@ -382,12 +382,12 @@ package body Semantics_Package is
             if The_Type = Integer_Type then
                Semenatics_Warning
                  (The_Declaration.The_Definition.The_Position,
-                  "Integer type may cause excessive BCode compilation (2).");
+                  "Integer type may cause excessive BCode compilation (S2).");
             end if;
          else
             Semenatics_Error
               (The_Declaration.The_Definition.The_Position,
-               "Expected type identifier (2).");
+               "Expected type identifier (S2).");
          end if;
       else
          Scope_Package.Enter
@@ -397,7 +397,7 @@ package body Semantics_Package is
 
          Semenatics_Error
            (The_Declaration.The_Definition.The_Position,
-            "Undefined type identifier (2).");
+            "Undefined type identifier (S2).");
       end if;
 
       -- identifier declaration expression.
@@ -428,22 +428,22 @@ package body Semantics_Package is
                      else
                         Semenatics_Error
                           (Position_Of (The_Declaration.The_Expression),
-                           "Expression value not compatiable with identifier type (1).");
+                           "Expression value not compatiable with identifier type (S1).");
                      end if;
                   else
                      Semenatics_Error
                        (Position_Of (The_Declaration.The_Expression),
-                        "Identifier not compatiable with expression (1).");
+                        "Identifier not compatiable with expression (S1).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Declaration.The_Expression),
-                     "Expression must be constant (1).");
+                     "Expression must be constant (S1).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Declaration.The_Expression),
-                  "Arrays can not be initialized (1).");
+                  "Arrays can not be initialized (S1).");
             end if;
          end if;
 
@@ -451,7 +451,7 @@ package body Semantics_Package is
          if The_Declaration.Is_Constant then
             Semenatics_Error
               (Position_Of (The_Declaration),
-               "Expected expression for constant variable (1).");
+               "Expected expression for constant variable (S1).");
          end if;
       end if;
 
@@ -549,7 +549,7 @@ package body Semantics_Package is
          else
             Semenatics_Error
               (The_Definition.The_Identifier.The_Position,
-               "Expected type identifier (3).");
+               "Expected type identifier (S3).");
          end if;
       else
          Scope_Package.Enter
@@ -559,7 +559,7 @@ package body Semantics_Package is
 
          Semenatics_Error
            (The_Definition.The_Identifier.The_Position,
-            "Undefined type identifier (3).");
+            "Undefined type identifier (S3).");
       end if;
 
       -- range definition expressions.
@@ -584,17 +584,17 @@ package body Semantics_Package is
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_First),
-                        "Expression value not compatiable with base type (1).");
+                        "Expression value not compatiable with base type (S1).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Definition.The_First),
-                     "Base type not compatiable with expression (1).");
+                     "Base type not compatiable with expression (S1).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Definition.The_First),
-                  "Expression must be constant (2).");
+                  "Expression must be constant (S2).");
             end if;
          end if;
 
@@ -615,12 +615,12 @@ package body Semantics_Package is
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_Last),
-                        "Expression value not compatiable with base type (2).");
+                        "Expression value not compatiable with base type (S2).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Definition.The_Last),
-                     "Base type not compatiable with expression (2).");
+                     "Base type not compatiable with expression (S2).");
                end if;
             else
                Semenatics_Error
@@ -774,17 +774,17 @@ package body Semantics_Package is
                     (Position_Of
                        (Mod_Definition_Node (The_Definition.all)
                         .The_Expression),
-                     "Expression value not compatiable with base type (3).");
+                     "Expression value not compatiable with base type (S3).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Definition.The_Expression),
-                  "Base type not compatiable with expression (3).");
+                  "Base type not compatiable with expression (S3).");
             end if;
          else
             Semenatics_Error
               (Position_Of (The_Definition.The_Expression),
-               "Expression must be constant (4).");
+               "Expression must be constant (S4).");
          end if;
       end if;
 
@@ -824,12 +824,12 @@ package body Semantics_Package is
             else
                Semenatics_Error
                  (The_Definition.The_Index.The_Position,
-                  "Expected scalar type (1).");
+                  "Expected scalar type (S1).");
             end if;
          else
             Semenatics_Error
               (The_Definition.The_Index.The_Position,
-               "Expected type identifier (4).");
+               "Expected type identifier (S4).");
          end if;
       else
          Scope_Package.Enter
@@ -839,7 +839,7 @@ package body Semantics_Package is
 
          Semenatics_Error
            (The_Definition.The_Index.The_Position,
-            "Undefined type identifier (4).");
+            "Undefined type identifier (S4).");
       end if;
 
       -- first and last operands.
@@ -865,17 +865,17 @@ package body Semantics_Package is
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_First),
-                        "Expression value not within type constraint (1).");
+                        "Expression value not within type constraint (S1).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Definition.The_First),
-                     "Expression not compatiable with type (1).");
+                     "Expression not compatiable with type (S1).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Definition.The_First),
-                  "Expression must be constant (5).");
+                  "Expression must be constant (S5).");
             end if;
          end if;
 
@@ -894,17 +894,17 @@ package body Semantics_Package is
                   then
                      Semenatics_Error
                        (Position_Of (The_Definition.The_Last),
-                        "Expression value not within type constraint (2).");
+                        "Expression value not within type constraint (S2).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Definition.The_Last),
-                     "Expression not compatiable with type (2).");
+                     "Expression not compatiable with type (S2).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Definition.The_Last),
-                  "Expression must be constant (6).");
+                  "Expression must be constant (S6).");
             end if;
          end if;
       end if;
@@ -933,12 +933,12 @@ package body Semantics_Package is
             else
                Semenatics_Error
                  (The_Definition.The_Element.The_Position,
-                  "Expected scalar type (2).");
+                  "Expected scalar type (S2).");
             end if;
          else
             Semenatics_Error
               (The_Definition.The_Element.The_Position,
-               "Expected type identifier (5).");
+               "Expected type identifier (S5).");
          end if;
       else
          Scope_Package.Enter
@@ -948,7 +948,7 @@ package body Semantics_Package is
 
          Semenatics_Error
            (The_Definition.The_Element.The_Position,
-            "Undefined type identifier (5).");
+            "Undefined type identifier (S5).");
       end if;
 
       if
@@ -1018,12 +1018,12 @@ package body Semantics_Package is
                if not Parameter_Identifier (The_Identifier.all).Is_Out then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_Variable),
-                     "Assignment to in mode parameter not allowed (1).");
+                     "Assignment to in mode parameter not allowed (S1).");
                end if;
             elsif not Is_Variable (The_Identifier) then
                Semenatics_Error
                  (Position_Of (The_Statement.The_Variable),
-                  "Expected variable (1).");
+                  "Expected variable (S1).");
             end if;
          end if;
       end if;
@@ -1046,13 +1046,13 @@ package body Semantics_Package is
                then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_Expression),
-                     "Expression not within type (1).");
+                     "Expression not within type (S1).");
                end if;
             end if;
          else
             Semenatics_Error
               (Position_Of (The_Statement.The_Expression),
-               "Identifier not compatiable with expression (2).");
+               "Identifier not compatiable with expression (S2).");
          end if;
       end if;
 
@@ -1084,7 +1084,7 @@ package body Semantics_Package is
                The_Type    => null,
                The_Value   => 0,
                The_Address => 0));
-         Semenatics_Error (Position_Of (The_Variable), "Undefined identifier (1).");
+         Semenatics_Error (Position_Of (The_Variable), "Undefined identifier (S1).");
          Undefined_Identifier := True;
       end if;
 
@@ -1105,12 +1105,12 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Variable),
-                     "Expected scalar variable (1).");
+                     "Expected scalar variable (S1).");
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Variable),
-                  "Expected variable or constant variable (1).");
+                  "Expected variable or constant variable (S1).");
             end if;
          end if;
       else
@@ -1155,7 +1155,7 @@ package body Semantics_Package is
                            else
                               Semenatics_Error
                                 (Position_Of (The_Variable.The_Expression),
-                                 "Expression not within array index type (1).");
+                                 "Expression not within array index type (S1).");
                            end if;
                         else
                            The_Variable.The_Result :=
@@ -1171,18 +1171,18 @@ package body Semantics_Package is
                      else
                         Semenatics_Error
                           (Position_Of (The_Variable.The_Expression),
-                           "Expression not compatiable with array index (1).");
+                           "Expression not compatiable with array index (S1).");
                      end if;
                   else
                      Semenatics_Error
                        (Position_Of (The_Variable.The_Expression),
-                        "Expected array type variable or parameter (1).");
+                        "Expected array type variable or parameter (S1).");
                   end if;
                end if;
             else
                Semenatics_Error
                  (Position_Of (The_Variable.The_Expression),
-                  "Expected variable or parameter (1).");
+                  "Expected variable or parameter (S1).");
             end if;
          end if;
       end if;
@@ -1236,7 +1236,7 @@ package body Semantics_Package is
          then
             Semenatics_Error
               (Position_Of (The_Statement.The_Expression),
-               "Expected boolean condition (1).");
+               "Expected boolean condition (S1).");
          end if;
       end if;
 
@@ -1270,12 +1270,12 @@ package body Semantics_Package is
          else
             Semenatics_Error
               (The_Statement.The_Definition.The_Position,
-               "Expected type identifier (6).");
+               "Expected type identifier (S6).");
          end if;
       else
          Semenatics_Error
            (The_Statement.The_Definition.The_Position,
-            "Undefined type identifier (6).");
+            "Undefined type identifier (S6).");
       end if;
 
       -- first and last operands.
@@ -1298,13 +1298,13 @@ package body Semantics_Package is
                then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_First),
-                     "Expression value not within index constraint (1).");
+                     "Expression value not within index constraint (S1).");
                end if;
             end if;
          else
             Semenatics_Error
               (Position_Of (The_Statement.The_First),
-               "Expression not compatiable with index (1).");
+               "Expression not compatiable with index (S1).");
          end if;
       end if;
 
@@ -1323,13 +1323,13 @@ package body Semantics_Package is
                then
                   Semenatics_Error
                     (Position_Of (The_Statement.The_Last),
-                     "Expression value not within index constraint (2).");
+                     "Expression value not within index constraint (S2).");
                end if;
             end if;
          else
             Semenatics_Error
               (Position_Of (The_Statement.The_Last),
-               "Expression not compatiable with index (2).");
+               "Expression not compatiable with index (S2).");
          end if;
       end if;
 
@@ -1540,7 +1540,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Expressions not compatiable (1).");
+                     "Expressions not compatiable (S1).");
                end if;
 
             when And_Symbol | Or_Symbol | Xor_Symbol =>
@@ -1576,7 +1576,7 @@ package body Semantics_Package is
                      else
                         Semenatics_Error
                           (Position_Of (The_Expression.The_Right),
-                           "Expression not within type (4).");
+                           "Expression not within type (S4).");
                      end if;
                   else
                      The_Expression.The_Result :=
@@ -1586,7 +1586,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Operands not compatiable with boolean operator (1).");
+                     "Operands not compatiable with boolean operator (S1).");
                end if;
 
             when Plus_Symbol |
@@ -1637,7 +1637,7 @@ package body Semantics_Package is
                         else
                            Semenatics_Error
                              (Position_Of (The_Expression.The_Right),
-                              "Expression not within type (5).");
+                              "Expression not within type (S5).");
                         end if;
 
                      else
@@ -1648,12 +1648,12 @@ package body Semantics_Package is
                   else
                      Semenatics_Error
                        (Position_Of (The_Expression.The_Right),
-                        "Operand not compatiable with integer operator (1).");
+                        "Operand not compatiable with integer operator (S1).");
                   end if;
                else
                   Semenatics_Error
                     (Position_Of (The_Expression.The_Right),
-                     "Operands are not compatiable (1).");
+                     "Operands are not compatiable (S1).");
                end if;
             when others =>
                raise Critical_Error;
@@ -1766,7 +1766,7 @@ package body Semantics_Package is
                The_Address => 0));
          Semenatics_Error
            (Position_Of (The_Expression),
-            "Undefined identifier for attribute (1).");
+            "Undefined identifier for attribute (S1).");
          Undefined_Identifier := True;
       end if;
 
@@ -1794,7 +1794,7 @@ package body Semantics_Package is
                else
                   Semenatics_Error
                     (Position_Of (The_Expression),
-                     "Length attribute requires array type (1).");
+                     "Length attribute requires array type (S1).");
                end if;
 
             elsif To_String (The_Expression.The_String) = "FIRST" then
@@ -1817,7 +1817,7 @@ package body Semantics_Package is
             else
                Semenatics_Error
                  (Position_Of (The_Expression),
-                  "Expected attribute (1).");
+                  "Expected attribute (S1).");
             end if;
 
          else
