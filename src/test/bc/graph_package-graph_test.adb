@@ -72,7 +72,6 @@ package body Graph_Package.Graph_Test is
       pragma Unreferenced (The_Test);
 
    begin
-
       The_Unmarked_Operand_Allocations :=
         Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool);
       The_Unmarked_Graph_Allocations :=
@@ -89,6 +88,28 @@ package body Graph_Package.Graph_Test is
    begin
       null;
    end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    ----------------------------------
    -- Test_Identifier_Symbol_Graph --

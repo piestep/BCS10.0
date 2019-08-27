@@ -31,7 +31,7 @@ package body Error_Package.Error_Test is
 
    COMPILER_ERROR_POSITION_MESSAGE : constant Test_Package
      .Array_Of_Unbounded_Strings :=
-     (1 => To_Unbounded_String ("*** 1, 1: A compiler error."));
+       (1 => To_Unbounded_String ("*** 1, 1: A compiler error."));
 
    type Test_Message is record
       The_Position : Source_Position;
@@ -68,7 +68,7 @@ package body Error_Package.Error_Test is
       Register_Routine(The_Test, Test_List_Messages'Access, "test_list_messages!");
       Register_Routine(The_Test, Test_Iterate'Access, "test_iterate!");
       Register_Routine(The_Test, Test_Is_Less_Than_Equal'Access, "test_is_less_than_equal!");
-  end Register_Tests;
+   end Register_Tests;
 
    -----------------
    -- Set_Up_Case --
@@ -91,6 +91,28 @@ package body Error_Package.Error_Test is
    begin
       Error_Package.Clear;
    end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    ------------
    -- Assert --

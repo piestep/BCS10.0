@@ -40,10 +40,10 @@ package body BC_Test_Suite is
       Result.Add_Test (Graph_Package_Test_Suite.Suite);
       Result.Add_Test (Syntax_Package_Test_Suite.Suite);
       Result.Add_Test (Semantics_Package_Test_Suite.Suite);
-      Result.Add_Test (Optimize_Package_Test_Suite.Suite);
-      Result.Add_Test (Generate_Package_Parameters_Test_Suite.Suite);
-      Result.Add_Test (Generate_Package_PCode_Test_Suite.Suite);
-      Result.Add_Test (Generate_Package_BCode_Test_Suite.Suite);
+      --        Result.Add_Test (Optimize_Package_Test_Suite.Suite);
+      --        Result.Add_Test (Generate_Package_Parameters_Test_Suite.Suite);
+      --        Result.Add_Test (Generate_Package_PCode_Test_Suite.Suite);
+      --        Result.Add_Test (Generate_Package_BCode_Test_Suite.Suite);
       return Result;
    end Suite;
 

@@ -73,6 +73,10 @@ package Type_Package is
 
    Integer_Type : constant Type_Pointer;
 
+   -- Dispose type.
+
+   procedure Dispose (The_Type : in out Type_Pointer);
+
    -- Return true if array type.
 
    function Is_Array (The_Type : Type_Pointer) return Boolean;

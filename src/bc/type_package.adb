@@ -1,12 +1,25 @@
 -- BC Boolean Compiler
 -- Copyright (c) 2016 Paul Estep
 
+with Ada.Unchecked_Deallocation;
+--
 with Ada.Text_IO; use Ada.Text_IO;
 --
 with Debug_Package; use Debug_Package;
 --
 
 package body Type_Package is
+
+   -- Dispose type.
+
+   procedure Dispose (The_Type : in out Type_Pointer) is
+
+      procedure Deallocate is new Ada.Unchecked_Deallocation
+        (Type_Record'Class,
+         Type_Pointer);
+   begin
+      Deallocate (The_Type);
+   end Dispose;
 
    -- Return true if scalar type.
 
@@ -129,9 +142,9 @@ package body Type_Package is
            SYSNatural'Max
              (0,
               (Array_Type (The_Type.all).The_Last -
-               Array_Type (The_Type.all).The_First +
-               1) *
-              Size_Of (Array_Type (The_Type.all).The_Element));
+                 Array_Type (The_Type.all).The_First +
+                 1) *
+                  Size_Of (Array_Type (The_Type.all).The_Element));
          return The_Size;
       else
          raise Critical_Error;

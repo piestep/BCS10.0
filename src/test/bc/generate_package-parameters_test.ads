@@ -16,6 +16,8 @@ package Generate_Package.Parameters_Test is
 
    overriding procedure Set_Up_Case (The_Test : in out Test);
    overriding procedure Tear_Down_Case (The_Test : in out Test);
+   overriding procedure Set_Up (The_Test : in out Test);
+   overriding procedure Tear_Down (The_Test : in out Test);
 
    procedure Test_Parameters (The_Test : in out Test_Case'Class);
 

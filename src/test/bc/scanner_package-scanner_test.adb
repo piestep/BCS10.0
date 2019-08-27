@@ -88,7 +88,47 @@ package body Scanner_Package.Scanner_Test is
    begin
       -- Repeat for each test routine:
       Register_Routine(The_Test, Test_Scanner'Access, "test_scanner!");
-  end Register_Tests;
+   end Register_Tests;
+
+   -----------------
+   -- Set_Up_Case --
+   -----------------
+
+   overriding procedure Set_Up_Case (The_Test : in out Test) is
+   begin
+      null;
+   end Set_Up_Case;
+
+   --------------------
+   -- Tear_Down_Case --
+   --------------------
+
+   overriding procedure Tear_Down_Case (The_Test : in out Test) is
+   begin
+      null;
+   end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    -------------------
    -- Assert_Symbol --
@@ -103,16 +143,16 @@ package body Scanner_Package.Scanner_Test is
       AUnit.Assertions.Assert
         (Scanner_Package.The_Symbol = The_Symbol,
          The_Test & " Scanner (symbol). " &
-         Symbol'Image (Scanner_Package.The_Symbol) &
-         " -- " &
+           Symbol'Image (Scanner_Package.The_Symbol) &
+           " -- " &
            Symbol'Image (The_Symbol));
 
       AUnit.Assertions.Assert
         (Scanner_Package.The_Position = The_Position,
          The_Test & " Scanner (position). " &
-         Image_Of (Scanner_Package.The_Position) &
-         " -- " &
-         Image_Of (The_Position));
+           Image_Of (Scanner_Package.The_Position) &
+           " -- " &
+           Image_Of (The_Position));
    end Assert_Symbol;
 
    -----------------------
@@ -128,23 +168,23 @@ package body Scanner_Package.Scanner_Test is
       AUnit.Assertions.Assert
         (The_Symbol = Identifier_Symbol,
          The_Test & " Scanner (symbol). " &
-         Symbol'Image (The_Symbol) &
-         " -- " &
+           Symbol'Image (The_Symbol) &
+           " -- " &
            Symbol'Image (Identifier_Symbol));
 
       AUnit.Assertions.Assert
         (Scanner_Package.The_Position = The_Position,
          The_Test & " Scanner (position). " &
-         Image_Of (Scanner_Package.The_Position) &
-         " -- " &
-         Image_Of (The_Position));
+           Image_Of (Scanner_Package.The_Position) &
+           " -- " &
+           Image_Of (The_Position));
 
       AUnit.Assertions.Assert
         (To_String (Scanner_Package.The_String) = The_String,
          The_Test & " Scanner (identifier). """ &
-         To_String (Scanner_Package.The_String) &
-         """ -- """ &
-         The_String &
+           To_String (Scanner_Package.The_String) &
+           """ -- """ &
+           The_String &
            """");
    end Assert_Identifier;
 
@@ -161,23 +201,23 @@ package body Scanner_Package.Scanner_Test is
       AUnit.Assertions.Assert
         (The_Symbol = Integer_Symbol,
          The_Test & " Scanner (symbol). " &
-         Symbol'Image (The_Symbol) &
-         " -- " &
+           Symbol'Image (The_Symbol) &
+           " -- " &
            Symbol'Image (Integer_Symbol));
 
       AUnit.Assertions.Assert
         (Scanner_Package.The_Position = The_Position,
          The_Test & " Scanner (position). " &
-         Image_Of (Scanner_Package.The_Position) &
-         " -- " &
-         Image_Of (The_Position));
+           Image_Of (Scanner_Package.The_Position) &
+           " -- " &
+           Image_Of (The_Position));
 
       AUnit.Assertions.Assert
         (To_String (Scanner_Package.The_String) = The_String,
          The_Test & " Scanner (integer). """ &
-         To_String (Scanner_Package.The_String) &
-         """ -- """ &
-         The_String &
+           To_String (Scanner_Package.The_String) &
+           """ -- """ &
+           The_String &
            """");
    end Assert_Integer;
 

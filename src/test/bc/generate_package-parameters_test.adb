@@ -47,6 +47,28 @@ package body Generate_Package.Parameters_Test is
       null;
    end Tear_Down_Case;
 
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
+
    ---------------------
    -- Test_Parameters --
    ---------------------

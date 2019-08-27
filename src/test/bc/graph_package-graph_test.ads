@@ -16,6 +16,8 @@ package Graph_Package.Graph_Test is
 
    overriding procedure Set_Up_Case (The_Test : in out Test);
    overriding procedure Tear_Down_Case (The_Test : in out Test);
+   overriding procedure Set_Up (The_Test : in out Test);
+   overriding procedure Tear_Down (The_Test : in out Test);
 
    --  Identifier_Symbol_Graph
 

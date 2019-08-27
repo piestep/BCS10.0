@@ -16,6 +16,8 @@ package Syntax_Package.Syntax_Test is
 
    overriding procedure Set_Up_Case (The_Test : in out Test);
    overriding procedure Tear_Down_Case (The_Test : in out Test);
+   overriding procedure Set_Up (The_Test : in out Test);
+   overriding procedure Tear_Down (The_Test : in out Test);
 
    procedure Test_Procedure (The_Test : in out Test_Case'Class);
    procedure Test_Scalar_Declarations (The_Test : in out Test_Case'Class);

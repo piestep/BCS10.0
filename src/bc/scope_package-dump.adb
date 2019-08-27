@@ -28,5 +28,6 @@ procedure Scope_Package.Dump is
    end Dump_Identifiers;
 
 begin
+   Put_Line("DUMP");
    Iterate (The_Table, Dump_Identifiers'Access);
 end Scope_Package.Dump;

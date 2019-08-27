@@ -1,11 +1,28 @@
 -- BC Boolean Compiler
 -- Copyright (c) 2016 Paul Estep
 
+with Ada.Unchecked_Deallocation;
+--
 with Ada.Text_IO; use Ada.Text_IO;
 --
 with Debug_Package; use Debug_Package;
 --
+
 package body Identifier_Package is
+
+   -- Dispose identifier.
+
+   procedure Dispose (The_Identifier : in out Identifier_Pointer) is
+
+      procedure Deallocate is new Ada.Unchecked_Deallocation
+        (Identifier_Record'Class,
+         Identifier_Pointer);
+   begin
+      if Is_Type (The_Identifier) then
+         Dispose (Type_Identifier(The_Identifier.all).The_Type);
+      end if;
+      Deallocate (The_Identifier);
+   end Dispose;
 
    -- Return true if identifier is a package identifier.
 

@@ -28,11 +28,15 @@ with Graph_Package;      use Graph_Package;
 with Syntax_Package;     use Syntax_Package;
 with Scope_Package;      use Scope_Package;
 --
+with Scope_Package.Dump;
+with Operand_Package;
 
 package body Semantics_Package.Semantics_Test is
 
    FILENAME : constant String := Test_Package.FILES & "/" & "semantics.bc";
    LISTNAME : constant String := Test_Package.FILES & "/" & "semantics.tmp";
+
+   The_Unmarked_Graph_Allocations   : SYSNatural;
 
    ----------
    -- Name --
@@ -84,11 +88,11 @@ package body Semantics_Package.Semantics_Test is
       Register_Routine(The_Test, Test_Attribute_Errors'Access, "test_attribute_errors!");
    end Register_Tests;
 
-   ------------
-   -- Set_Up --
-   ------------
+   -----------------
+   -- Set_Up_Case --
+   -----------------
 
-   overriding procedure Set_Up (The_Test : in out Test) is
+   overriding procedure Set_Up_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
    begin
@@ -117,28 +121,6 @@ package body Semantics_Package.Semantics_Test is
         (new Identifier_Package.Type_Identifier'
            (The_String => Scanner_Package.Integer_String,
             The_Type   => Type_Package.Integer_Type));
-   end Set_Up;
-
-   ---------------
-   -- Tear_Down --
-   ---------------
-
-   overriding procedure Tear_Down (The_Test : in out Test) is
-      pragma Unreferenced (The_Test);
-
-   begin
-      Scope_Package.Close;
-   end Tear_Down;
-
-   -----------------
-   -- Set_Up_Case --
-   -----------------
-
-   overriding procedure Set_Up_Case (The_Test : in out Test) is
-      pragma Unreferenced (The_Test);
-
-   begin
-      null;
    end Set_Up_Case;
 
    --------------------
@@ -149,8 +131,50 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      null;
+      Scope_Package.Close;
    end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      --        pragma Unreferenced (The_Test);
+
+   begin
+      Ada.Text_IO.Put_Line("Semantics_Package.Semantics_Test " & Name(The_Test).all);
+      Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Operand_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      --        pragma Unreferenced (The_Test);
+
+   begin
+      Ada.Text_IO.Put_Line("Semantics_Package.Semantics_Test " & Name(The_Test).all);
+      Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Operand_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
+      null;
+   end Tear_Down;
 
    --------------
    -- Run_Test --
@@ -303,209 +327,6 @@ package body Semantics_Package.Semantics_Test is
 
       Dispose (The_Unit);
    end Run_Test;
-
-   --     ---------------
-   --     -- Run_Test --
-   --     ---------------
-   --
-   --     procedure Run_Test
-   --       (The_Test    : XML_Package.XML_Record;
-   --        The_Message : String;
-   --        Dump        : Boolean;
-   --        Generate    : Boolean) with
-   --       Pre => not (Dump and Generate) is
-   --        use XML_Package.Strings_Vector;
-   --
-   --        The_File : Ada.Text_IO.File_Type;
-   --        The_Unit : Compilation_Unit_Graph;
-   --
-   --     begin
-   --        Error_Package.Clear;
-   --        Test_Package.Save (FILENAME, The_Test.The_Code);
-   --
-   --        if Generate then
-   --           Ada.Text_IO.New_Line;
-   --           Ada.Text_IO.Put_Line ("<test>");
-   --           Ada.Text_IO.Put_Line
-   --             ("<name>" & To_String (The_Test.The_Name) & "</name>");
-   --
-   --           Test_Package.List (The_Test.The_Code, XML_Format => True);
-   --        end if;
-   --
-   --        Source_Package.Open (FILENAME);
-   --
-   --        Scanner_Package.Next_Symbol;
-   --        Syntax_Package.Parse (The_Unit);
-   --
-   --        Source_Package.Close;
-   --
-   --        if not (Dump or Generate) then
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Errors = 0,
-   --              "Test " & The_Message & " syntax errors.");
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Warnings = 0,
-   --              "Test " & The_Message & " syntax warnngs.");
-   --        end if;
-   --
-   --        Parse (The_Unit);
-   --
-   --        if Dump then
-   --           List_Package.List (FILENAME, XML_Format => False);
-   --        end if;
-   --
-   --        if not (Dump or Generate) then
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Errors = 0,
-   --              "Test " & The_Message & " semantic errors.");
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Warnings = 0,
-   --              "Test " & The_Message & " semantic warnngs.");
-   --        end if;
-   --
-   --        if not Generate then
-   --           Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
-   --           Ada.Text_IO.Set_Output (The_File);
-   --        end if;
-   --
-   --        if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
-   --
-   --           if Generate then
-   --              Graph_Package.Dump
-   --                (The_Unit,
-   --                 Semantic_Dump => True,
-   --                 Full_Dump     => True,
-   --                 XML_Format    => True);
-   --
-   --           else
-   --              Graph_Package.Dump
-   --                (The_Unit,
-   --                 Semantic_Dump => True,
-   --                 Full_Dump     => True,
-   --                 XML_Format    => False);
-   --           end if;
-   --        end if;
-   --
-   --        if not Generate then
-   --           Ada.Text_IO.Close (The_File);
-   --           Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
-   --        end if;
-   --
-   --        if not (Dump or Generate) then
-   --
-   --           AUnit.Assertions.Assert
-   --             (Count (The_Unit) =
-   --                  Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
-   --              "Test " & The_Message & " node count.");
-   --
-   --           AUnit.Assertions.Assert
-   --             (Test_Package.Compare_File_To_Strings_Vector
-   --                (LISTNAME,
-   --                 The_Test.The_Listing),
-   --              "Test " & The_Message & " listing.");
-   --        end if;
-   --
-   --        Dispose (The_Unit);
-   --
-   --        Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
-   --        Ada.Text_IO.Delete (The_File);
-   --
-   --        if Generate then
-   --           Ada.Text_IO.Put_Line ("</test>");
-   --        else
-   --           Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
-   --           Ada.Text_IO.Delete (The_File);
-   --        end if;
-   --     end Run_Test;
-   --
-   --     ---------------------
-   --     -- Run_Test --
-   --     ---------------------
-   --
-   --     procedure Run_Test
-   --       (The_Test    : XML_Package.XML_Record;
-   --        The_Message : String;
-   --        Dump        : Boolean;
-   --        Generate    : Boolean) with
-   --       Pre => not (Dump and Generate) is
-   --        use XML_Package.Strings_Vector;
-   --
-   --        The_File : Ada.Text_IO.File_Type;
-   --        The_Unit : Compilation_Unit_Graph;
-   --     begin
-   --        Error_Package.Clear;
-   --        Test_Package.Save (FILENAME, The_Test.The_Code);
-   --
-   --        if Generate then
-   --           Ada.Text_IO.New_Line;
-   --           Ada.Text_IO.Put_Line ("<test>");
-   --           Ada.Text_IO.Put_Line
-   --             ("<name>" & To_String (The_Test.The_Name) & "</name>");
-   --
-   --           Test_Package.List (The_Test.The_Code, XML_Format => True);
-   --        end if;
-   --
-   --        Source_Package.Open (FILENAME);
-   --
-   --        Scanner_Package.Next_Symbol;
-   --        Syntax_Package.Parse (The_Unit);
-   --
-   --        Source_Package.Close;
-   --
-   --        if not (Dump or Generate) then
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Errors = 0,
-   --              "Test " & The_Message & " syntax errors.");
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Warnings = 0,
-   --              "Test " & The_Message & " syntax warnngs.");
-   --        end if;
-   --
-   --        Semantics_Package.Parse (The_Unit);
-   --
-   --        if Dump then
-   --           List_Package.List (FILENAME, XML_Format => False);
-   --        end if;
-   --
-   --        if not (Dump or Generate) then
-   --           AUnit.Assertions.Assert
-   --             (The_Number_Of_Errors > 0 or The_Number_Of_Warnings > 0,
-   --              "Test " & The_Message & " semantic errors and warnings.");
-   --        end if;
-   --
-   --        if Generate then
-   --           Error_Package.List_Messages (XML_Format => True);
-   --
-   --        else
-   --           Ada.Text_IO.Create (The_File, Ada.Text_IO.Out_File, LISTNAME);
-   --           Ada.Text_IO.Set_Output (The_File);
-   --
-   --           Error_Package.List_Messages (XML_Format => False);
-   --
-   --           Ada.Text_IO.Close (The_File);
-   --           Ada.Text_IO.Set_Output (Ada.Text_IO.Standard_Output);
-   --        end if;
-   --
-   --        if not (Dump or Generate) then
-   --           AUnit.Assertions.Assert
-   --             (Test_Package.Compare_First_Line_Of_File_To_String
-   --                (LISTNAME,
-   --                 To_String (Element (The_Test.The_Listing, 1))),
-   --              "Test " & The_Message & " error.");
-   --        end if;
-   --
-   --        Dispose (The_Unit);
-   --
-   --        Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, FILENAME);
-   --        Ada.Text_IO.Delete (The_File);
-   --
-   --        if Generate then
-   --           Ada.Text_IO.Put_Line ("</test>");
-   --        else
-   --           Ada.Text_IO.Open (The_File, Ada.Text_IO.Out_File, LISTNAME);
-   --           Ada.Text_IO.Delete (The_File);
-   --        end if;
-   --     end Run_Test;
 
    --------------------------
    -- Create_Generate_File --

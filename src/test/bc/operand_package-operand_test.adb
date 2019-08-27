@@ -3,6 +3,10 @@
 
 with AUnit.Assertions;
 --
+with Ada.Unchecked_Deallocation;
+--
+with Ada.Text_IO;
+--
 with Ada.Tags;              use Ada.Tags;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --
@@ -23,7 +27,9 @@ package body Operand_Package.Operand_Test is
    An_Identifier : Operand_Pointer;
    An_Array      : Operand_Pointer;
 
-   The_Unmarked_Operand_Allocations : SYSNatural;
+   The_Unmarked_Type_Allocations       : SYSNatural;
+   The_Unmarked_Identifier_Allocations : SYSNatural;
+   The_Unmarked_Operand_Allocations    : SYSNatural;
 
    ----------
    -- Name --
@@ -86,6 +92,10 @@ package body Operand_Package.Operand_Test is
            The_Index      =>
               new Constant_Operand'(The_Type => The_Type, The_Value => 0));
 
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
       The_Unmarked_Operand_Allocations :=
         Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool);
    end Set_Up_Case;
@@ -97,9 +107,56 @@ package body Operand_Package.Operand_Test is
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
+      procedure Deallocate is new Ada.Unchecked_Deallocation
+        (Type_Record'Class,
+         Type_Pointer);
+
+      procedure Deallocate is new Ada.Unchecked_Deallocation
+        (Identifier_Record'Class,
+         Identifier_Pointer);
+
+   begin
+      Deallocate(The_Type);
+      Deallocate(The_Identifier);
+
+      Dispose(A_Constant);
+      Dispose(A_Variable);
+      Dispose(An_Identifier);
+      Dispose(An_Array);
+
+      Ada.Text_IO.Put_Line("Operand_Package.Operand_Test");
+      Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Operand_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
+   end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
    begin
       null;
-   end Tear_Down_Case;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    ------------
    -- Assert --
@@ -219,6 +276,14 @@ package body Operand_Package.Operand_Test is
       Dispose (The_Operand);
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
@@ -269,6 +334,14 @@ package body Operand_Package.Operand_Test is
       Dispose (The_Operand);
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
          "Test dispose (array).");
@@ -299,6 +372,14 @@ package body Operand_Package.Operand_Test is
          The_Expected => False,
          The_Test     => "Test is constant (array).");
 
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
@@ -331,6 +412,14 @@ package body Operand_Package.Operand_Test is
          The_Test     => "Test is variable (array).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
@@ -362,6 +451,14 @@ package body Operand_Package.Operand_Test is
          The_Test     => "Test is identifier (array).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
          "Incorrect operand allocations.");
@@ -392,6 +489,14 @@ package body Operand_Package.Operand_Test is
          The_Expected => True,
          The_Test     => "Test is array (array).");
 
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
@@ -426,6 +531,14 @@ package body Operand_Package.Operand_Test is
          The_Expected => -1,
          The_Test     => "Test constant uniary operation (- 1).");
 
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,
@@ -627,6 +740,14 @@ package body Operand_Package.Operand_Test is
          The_Expected => 3,
          The_Test     => "Test constant binary operation (mod 3, 4).");
 
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
              The_Unmarked_Operand_Allocations,

@@ -3,6 +3,8 @@
 
 with AUnit.Assertions;
 --
+with Ada.Unchecked_Deallocation;
+--
 with Ada.Characters.Latin_1; use Ada.Characters.Latin_1;
 with Ada.Text_IO;            use Ada.Text_IO;
 --
@@ -15,14 +17,12 @@ with Type_Package;       use Type_Package;
 --
 with Scope_Package.Dump;
 --
+with Pool_Package;
 
 package body Scope_Package.Scope_Test is
 
-   Variable_A       : Identifier_Pointer;
-   Variable_B       : Identifier_Pointer;
-   Variable_B_PRIME : Identifier_Pointer;
-   Constant_C       : Identifier_Pointer;
-   Type_D           : Identifier_Pointer;
+   The_Unmarked_Type_Allocations       : SYSNatural;
+   The_Unmarked_Identifier_Allocations : SYSNatural;
 
    ----------
    -- Name --
@@ -51,32 +51,10 @@ package body Scope_Package.Scope_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      Variable_A :=
-        new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE_A"),
-           The_Type    => null,
-           The_Address => 0,
-           The_Value   => 0);
-      Variable_B :=
-        new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE_B"),
-           The_Type    => null,
-           The_Address => 0,
-           The_Value   => 0);
-      Constant_C :=
-        new Constant_Identifier'
-          (The_String => To_Unbounded_String ("CONSTANT_C"),
-           The_Type   => null,
-           The_Value  => 0);
-      Variable_B_PRIME :=
-        new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE_B"),
-           The_Type    => null,
-           The_Address => 0,
-           The_Value   => 1);
-      Type_D :=
-        new Type_Identifier'
-          (The_String => To_Unbounded_String ("TYPE_A"), The_Type => null);
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
    end Set_Up_Case;
 
    --------------------
@@ -85,10 +63,36 @@ package body Scope_Package.Scope_Test is
 
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
+
+   begin
+      Ada.Text_IO.Put_Line("Scope_Package.Scope_Test");
+      Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+   end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
    begin
       null;
+   end Set_Up;
 
-   end Tear_Down_Case;
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Tear_Down;
 
    ----------------
    -- Test_Scope --
@@ -97,9 +101,23 @@ package body Scope_Package.Scope_Test is
    procedure Test_Scope (The_Test : in out Test_Case'Class) is
       pragma Unreferenced (The_Test);
 
+      Variable_A       : Identifier_Pointer;
+      Variable_B       : Identifier_Pointer;
+      Variable_B_PRIME : Identifier_Pointer;
+      Constant_C       : Identifier_Pointer;
+      Type_D           : Identifier_Pointer;
+
    begin
       -- open scope 1
       Open;
+
+      Variable_A :=
+        new Variable_Identifier'
+          (The_String  => To_Unbounded_String ("VARIABLE_A"),
+           The_Type    => Type_Package.Integer_Type,
+           The_Address => 0,
+           The_Value   => 0);
+
       Scope_Package.Enter (Variable_A);
 
       -- assert scope 1
@@ -110,6 +128,19 @@ package body Scope_Package.Scope_Test is
 
       -- open scope 2
       Open;
+
+      Variable_B :=
+        new Variable_Identifier'
+          (The_String  => To_Unbounded_String ("VARIABLE_B"),
+           The_Type    => Type_Package.Integer_Type,
+           The_Address => 0,
+           The_Value   => 0);
+      Constant_C :=
+        new Constant_Identifier'
+          (The_String => To_Unbounded_String ("CONSTANT_C"),
+           The_Type   => Type_Package.Integer_Type,
+           The_Value  => 0);
+
       Scope_Package.Enter (Variable_B);
       Scope_Package.Enter (Constant_C);
 
@@ -145,10 +176,24 @@ package body Scope_Package.Scope_Test is
 
       -- open scope 3
       Open;
+
+      Variable_B_PRIME :=
+        new Variable_Identifier'
+          (The_String  => To_Unbounded_String ("VARIABLE_B"),
+           The_Type    => Type_Package.Integer_Type,
+           The_Address => 0,
+           The_Value   => 1);
+      Type_D :=
+        new Type_Identifier'
+          (The_String => To_Unbounded_String ("TYPE_A"),
+           The_Type => new Signed_Type'
+             (The_Base  => Integer_Type,
+              The_First => -2,
+              The_Last  => 1,
+              The_Size  => 2));
+
       Scope_Package.Enter (Variable_B_PRIME);
       Scope_Package.Enter (Type_D);
-
-      --          Scope_Package.Dump_Package.Dump;
 
       -- assert scope 3
       Assert
@@ -243,6 +288,14 @@ package body Scope_Package.Scope_Test is
       -- close scope 1
       Close;
 
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Incorrect identifier allocations.");
    end Test_Scope;
 
 end Scope_Package.Scope_Test;

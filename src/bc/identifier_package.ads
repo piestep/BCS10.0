@@ -75,6 +75,10 @@ package Identifier_Package is
       Is_Out : Boolean := False;     -- out parameter.
    end record;
 
+   -- Dispose identifier.
+
+   procedure Dispose (The_Identifier : in out Identifier_Pointer);
+
    -- Return true if identifier is a package identifier.
 
    function Is_Package (The_Identifier : Identifier_Pointer) return Boolean;

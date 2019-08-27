@@ -5,7 +5,7 @@ with AUnit.Assertions;
 --
 with Ada.Unchecked_Deallocation;
 --
---  with Ada.Text_IO;
+with Ada.Text_IO;
 --
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --
@@ -19,6 +19,7 @@ with Boolean_Package;    use Boolean_Package;
 with Number_Package;     use Number_Package;
 with Word_Package;       use Word_Package;
 --
+with Type_Package;
 
 package body Block_Package.Block_Test is
 
@@ -117,7 +118,38 @@ package body Block_Package.Block_Test is
       Deallocate (Identifier_C);
       Deallocate (Identifier_D);
       Deallocate (Identifier_E);
+
+      Ada.Text_IO.Put_Line("Identifier_Package.Identifier_Test");
+      Ada.Text_IO.Put_Line
+        ("Block_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Block_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Number_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Number_Package.The_Pool)));
    end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+   begin
+      null;
+   end Tear_Down;
 
    ----------------
    -- Test_Block --
@@ -130,21 +162,17 @@ package body Block_Package.Block_Test is
       Word_B       : Word_Type;
       Word_B_Prime : Word_Type;
       Word_C       : Word_Type;
+
    begin
-      -- 1 word/2 equations 2 numbers
-      Create_Variable (Word_A, 2, 0);
-
-      -- 1 word/2 equations 2 numbers
-      Create_Variable (Word_B, 2, 2);
-
-      -- 1 word/2 equations 2 numbers
-      Create_Variable (Word_B_Prime, 2, 4);
-
-      -- 1 word/2 equations 2 numbers
-      Create_Variable (Word_C, 2, 6);
 
       -- open block 1
       Open;
+
+      -- 1 word/2 equations 2 numbers
+      Create_Variable (Word_A, 2, 0);
+      -- 1 word/2 equations 2 numbers
+      Create_Variable (Word_B, 2, 2);
+
       Assign (Identifier_A, Word_A);
       Assign (Identifier_B, Word_B);
 
@@ -176,6 +204,13 @@ package body Block_Package.Block_Test is
 
       -- open block 2
       Open;
+
+      -- 1 word/2 equations 2 numbers
+      Create_Variable (Word_B_Prime, 2, 4);
+
+      -- 1 word/2 equations 2 numbers
+      Create_Variable (Word_C, 2, 6);
+
       Assign (Identifier_B, Word_B_Prime);
       Assign (Identifier_C, Word_C);
 

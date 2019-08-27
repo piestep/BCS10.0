@@ -31,13 +31,15 @@ with Syntax_Package;     use Syntax_Package;
 with Semantics_Package;  use Semantics_Package;
 with Scope_Package;      use Scope_Package;
 --
+with Scope_Package.Dump;
 
 package body Optimize_Package.Optimize_Test is
 
    FILENAME : constant String := Test_Package.FILES & "/" & "optimize.bc";
    LISTNAME : constant String := Test_Package.FILES & "/" & "optimize.tmp";
 
-   The_Unmarked_Graph_Allocations : SYSNatural;
+   The_Unmarked_Graph_Allocations   : SYSNatural;
+   The_Unmarked_Operand_Allocations : SYSNatural;
 
    ----------
    -- Name --
@@ -83,14 +85,14 @@ package body Optimize_Package.Optimize_Test is
       Register_Routine(The_Test, Test_Variable_Errors'Access, "test_variable_errors!");
       Register_Routine(The_Test, Test_Unary_Expression_Errors'Access, "test_unary_expression_errors!");
       Register_Routine(The_Test, Test_Binary_Expression_Errors'Access, "test_binary_expression_errors!");
-      Register_Routine(The_Test, Test_Optimize'Access, "test_optimize!");
+      --        Register_Routine(The_Test, Test_Optimize'Access, "test_optimize!");
    end Register_Tests;
 
-   ------------
-   -- Set_Up --
-   ------------
+   -----------------
+   -- Set_Up_Case --
+   -----------------
 
-   overriding procedure Set_Up (The_Test : in out Test) is
+   overriding procedure Set_Up_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
    begin
@@ -122,28 +124,8 @@ package body Optimize_Package.Optimize_Test is
 
       The_Unmarked_Graph_Allocations :=
         Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool);
-   end Set_Up;
-
-   ---------------
-   -- Tear_Down --
-   ---------------
-
-   overriding procedure Tear_Down (The_Test : in out Test) is
-      pragma Unreferenced (The_Test);
-
-   begin
-      Scope_Package.Close;
-   end Tear_Down;
-
-   -----------------
-   -- Set_Up_Case --
-   -----------------
-
-   overriding procedure Set_Up_Case (The_Test : in out Test) is
-      pragma Unreferenced (The_Test);
-
-   begin
-      null;
+      The_Unmarked_Operand_Allocations :=
+        Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool);
    end Set_Up_Case;
 
    --------------------
@@ -154,8 +136,40 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      null;
+      Scope_Package.Close;
    end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      --        pragma Unreferenced (The_Test);
+
+   begin
+      Ada.Text_IO.Put_Line("Semantics_Package.Semantics_Test " & Name(The_Test).all);
+      Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Operand_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    --------------
    -- Run_Test --
@@ -176,6 +190,10 @@ package body Optimize_Package.Optimize_Test is
       The_Unit : Compilation_Unit_Graph;
 
    begin
+      --        Ada.Text_IO.Put_Line(To_String(The_Test.The_Name));
+      --        The_Unmarked_Operand_Allocations :=
+      --          Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool);
+
       Error_Package.Clear;
       Test_Package.Save (FILENAME, The_Test.The_Code);
 
@@ -337,6 +355,10 @@ package body Optimize_Package.Optimize_Test is
       end if;
 
       Dispose (The_Unit);
+
+      --        Ada.Text_IO.Put_Line
+      --          (SYSNatural'Image(The_Unmarked_Operand_Allocations) & " - " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
    end Run_Test;
 
    --------------------------

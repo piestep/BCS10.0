@@ -4,6 +4,10 @@
 --
 with AUnit.Assertions;
 --
+with Ada.Unchecked_Deallocation;
+--
+with Ada.Text_IO;
+--
 with Test_Package; use Test_Package;
 --
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
@@ -45,6 +49,7 @@ package body Type_Package.Type_Test is
    overriding procedure Register_Tests (The_Test : in out Test) is
       use AUnit.Test_Cases.Registration;
    begin
+      Register_Routine(The_Test, Test_Dispose'Access, "test_dispose!");
       Register_Routine(The_Test, Test_Is_Array'Access, "test_is_array!");
       Register_Routine(The_Test, Test_Is_Scalar'Access, "test_is_scalar!");
       Register_Routine(The_Test, Test_Is_Discrete'Access, "test_is_discrete!");
@@ -143,9 +148,47 @@ package body Type_Package.Type_Test is
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
+      procedure Deallocate is new Ada.Unchecked_Deallocation
+        (Type_Record'Class,
+         Type_Pointer);
+
+   begin
+      Deallocate(A_Boolean);
+      Deallocate(An_Integer);
+      Deallocate(A_Modular);
+      Deallocate(An_Array);
+      Deallocate(The_Boolean);
+      Deallocate(The_Integer);
+      Deallocate(The_Array);
+      Deallocate(The_Modular);
+
+      Ada.Text_IO.Put_Line("Type_Package.Type_Test");
+      Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+   end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
    begin
       null;
-   end Tear_Down_Case;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    ------------
    -- Assert --
@@ -162,6 +205,72 @@ package body Type_Package.Type_Test is
         (The_Result = The_Expected,
          The_Test & " " & The_Text);
    end Assert;
+
+   ------------------
+   -- Test_Dispose --
+   ------------------
+
+   procedure Test_Dispose
+     (The_Test : in out AUnit.Test_Cases.Test_Case'Class)
+   is
+      pragma Unreferenced (The_Test);
+
+      The_Type : Type_Pointer;
+   begin
+      The_Type :=
+        new Discrete_Type'
+          (The_Base  => Universal_Boolean,
+           The_First => Boolean_False,
+           The_Last  => Boolean_True,
+           The_Size  => 1);
+      Dispose (The_Type);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Test dispose (array).");
+
+      The_Type :=
+        new Signed_Type'
+          (The_Base  => Integer_Type,
+           The_First => -2,
+           The_Last  => 1,
+           The_Size  => 2);
+      Dispose (The_Type);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Test dispose (integer).");
+
+      The_Type :=
+        new Modular_Type'
+          (The_Base    => Universal_Integer,
+           The_First   => 0,
+           The_Last    => 3,
+           The_Size    => 2,
+           The_Modulas => 4);
+      Dispose (The_Type);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Test dispose (modular).");
+
+      The_Type :=
+        new Array_Type'
+          (The_Base    => null,
+           The_Index   => A_Modular,
+           The_Element => An_Integer,
+           The_First   => 1,
+           The_Last    => 3);
+      Dispose (The_Type);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Test dispose (array).");
+   end Test_Dispose;
 
    -------------------
    -- Test_Is_Array --

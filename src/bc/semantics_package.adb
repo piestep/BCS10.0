@@ -150,7 +150,6 @@ package body Semantics_Package is
       end if;
 
       Scope_Package.Close;
-
       Debug (Semenatics_Debug, "end Package_Body");
    end Parse;
 

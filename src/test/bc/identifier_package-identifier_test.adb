@@ -3,6 +3,10 @@
 
 with AUnit.Assertions;
 --
+with Ada.Unchecked_Deallocation;
+--
+with Ada.Text_IO;
+--
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --
 with Test_Package; use Test_Package;
@@ -15,9 +19,10 @@ package body Identifier_Package.Identifier_Test is
    A_Type      : Identifier_Pointer;
    A_Constant  : Identifier_Pointer;
    A_Variable  : Identifier_Pointer;
-   An_Index     : Identifier_Pointer;
+   An_Index    : Identifier_Pointer;
    A_Parameter : Identifier_Pointer;
 
+   The_Unmarked_Type_Allocations : Natural;
    The_Unmarked_Identifier_Allocations : Natural;
 
    ----------
@@ -36,6 +41,7 @@ package body Identifier_Package.Identifier_Test is
    overriding procedure Register_Tests (The_Test : in out Test) is
       use AUnit.Test_Cases.Registration;
    begin
+      Register_Routine(The_Test, Test_Dispose'Access, "test_dispose!");
       Register_Routine(The_Test, Test_Is_Package'Access, "test_is_package!");
       Register_Routine(The_Test, Test_Is_Procedure'Access, "test_is_procedure!");
       Register_Routine(The_Test, Test_Is_Type'Access, "test_is_type!");
@@ -45,7 +51,7 @@ package body Identifier_Package.Identifier_Test is
       Register_Routine(The_Test, Test_Is_Variable'Access, "test_is_variable!");
       Register_Routine(The_Test, Test_Is_Index'Access, "test_is_index!");
       Register_Routine(The_Test, Test_Is_Parameter'Access, "test_is_parameter!");
-  end Register_Tests;
+   end Register_Tests;
 
    -----------------
    -- Set_Up_Case --
@@ -62,31 +68,38 @@ package body Identifier_Package.Identifier_Test is
           (The_String => To_Unbounded_String ("PROCEDUE"));
       A_Type :=
         new Type_Identifier'
-          (The_String => To_Unbounded_String ("TYPE"), The_Type => null);
+          (The_String => To_Unbounded_String ("TYPE"),
+           The_Type => new Signed_Type'
+             (The_Base  => Integer_Type,
+              The_First => -2,
+              The_Last  => 1,
+              The_Size  => 2));
       A_Constant :=
         new Constant_Identifier'
           (The_String => To_Unbounded_String ("CONSTANT"),
-           The_Type   => null,
+           The_Type   => Type_Package.Integer_Type,
            The_Value  => 0);
       A_Variable :=
         new Variable_Identifier'
           (The_String  => To_Unbounded_String ("VARIABLE"),
-           The_Type    => null,
+           The_Type    => Type_Package.Integer_Type,
            The_Address => 0,
            The_Value   => 0);
       An_Index :=
         new Index_Identifier'
           (The_String  => To_Unbounded_String ("INDEX"),
-           The_Type    => null,
+           The_Type    => Type_Package.Integer_Type,
            The_Address => 0);
       A_Parameter :=
         new Parameter_Identifier'
           (The_String  => To_Unbounded_String ("PARAMETER"),
-           The_Type    => null,
+           The_Type    => Type_Package.Integer_Type,
            The_Address => 0,
            Is_In       => True,
            Is_Out      => True);
 
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
       The_Unmarked_Identifier_Allocations :=
         Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
    end Set_Up_Case;
@@ -98,9 +111,148 @@ package body Identifier_Package.Identifier_Test is
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
+      procedure Deallocate is new Ada.Unchecked_Deallocation
+        (Identifier_Record'Class,
+         Identifier_Pointer);
+
+   begin
+      Deallocate (A_Package);
+      Deallocate (A_Procedure);
+      Deallocate (A_Type);
+      Deallocate (A_Constant);
+      Deallocate (A_Variable);
+      Deallocate (An_Index);
+      Deallocate (A_Parameter);
+
+      Ada.Text_IO.Put_Line("Identifier_Package.Identifier_Test");
+      Ada.Text_IO.Put_Line
+        ("Identifier_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+   end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
    begin
       null;
-   end Tear_Down_Case;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
+
+   ------------------
+   -- Test_Dispose --
+   ------------------
+
+   procedure Test_Dispose
+     (The_Test : in out AUnit.Test_Cases.Test_Case'Class)
+   is
+      pragma Unreferenced (The_Test);
+
+      The_Identifier : Identifier_Pointer;
+   begin
+      The_Identifier :=
+        new Package_Identifier'(The_String => To_Unbounded_String ("PACKAGE"));
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (package).");
+
+      The_Identifier :=
+        new Procedure_Identifier'
+          (The_String => To_Unbounded_String ("PROCEDUE"));
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (procedure).");
+
+      The_Identifier :=
+        new Type_Identifier'
+          (The_String => To_Unbounded_String ("TYPE"),
+           The_Type => new Signed_Type'
+             (The_Base  => Integer_Type,
+              The_First => -2,
+              The_Last  => 1,
+              The_Size  => 2));
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (type).");
+
+      The_Identifier :=
+        new Constant_Identifier'
+          (The_String => To_Unbounded_String ("CONSTANT"),
+           The_Type   => Integer_Type,
+           The_Value  => 0);
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (constant).");
+
+      The_Identifier :=
+        new Variable_Identifier'
+          (The_String  => To_Unbounded_String ("VARIABLE"),
+           The_Type    => Integer_Type,
+           The_Address => 0,
+           The_Value   => 0);
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (variable).");
+
+      The_Identifier :=
+        new Index_Identifier'
+          (The_String  => To_Unbounded_String ("INDEX"),
+           The_Type    => Integer_Type,
+           The_Address => 0);
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (index).");
+
+      The_Identifier :=
+        new Parameter_Identifier'
+          (The_String  => To_Unbounded_String ("PARAMETER"),
+           The_Type    => Integer_Type,
+           The_Address => 0,
+           Is_In       => True,
+           Is_Out      => True);
+      Dispose (The_Identifier);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test dispose (parameter).");
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+   end Test_Dispose;
 
    ---------------------
    -- Test_Is_Package --
@@ -148,8 +300,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is package (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Package;
 
@@ -199,8 +355,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is procedure (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Procedure;
 
@@ -250,8 +410,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is type (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Type;
 
@@ -301,8 +465,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is typed (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Typed;
 
@@ -352,8 +520,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is constant (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Constant;
 
@@ -403,8 +575,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is addressable (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Addressable;
 
@@ -454,8 +630,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is variable (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Variable;
 
@@ -505,8 +685,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is index (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Index;
 
@@ -556,8 +740,12 @@ package body Identifier_Package.Identifier_Test is
          The_Test     => "Test is parameter (parameter).");
 
       AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
-         The_Unmarked_Identifier_Allocations,
+             The_Unmarked_Identifier_Allocations,
          "Incorrect identifier allocations.");
    end Test_Is_Parameter;
 
