@@ -1,5 +1,5 @@
 -- BCS Boolean Compiler System
--- Copyright (c) 2017 Paul Estep
+-- Copyright (c) 2019 Paul Estep
 
 with AUnit;
 with AUnit.Test_Fixtures;
@@ -7,7 +7,7 @@ with AUnit.Test_Fixtures;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 --
 
-package PCode_Package.PCode_Test is
+package BCode_Package.IO_Package.IO_Test is
 
    type Test is new Test_Case with null record;
 
@@ -19,6 +19,6 @@ package PCode_Package.PCode_Test is
    overriding procedure Set_Up (The_Test : in out Test);
    overriding procedure Tear_Down (The_Test : in out Test);
 
-   procedure Test_String_Of (The_Test : in out Test_Case'Class);
+   procedure Test_BCode (The_Test : in out Test_Case'Class);
 
-end PCode_Package.PCode_Test;
+end BCode_Package.IO_Package.IO_Test;

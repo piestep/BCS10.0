@@ -9,6 +9,7 @@ with System_Package;  use System_Package;
 --
 
 package body PCode_Package.PCode_Test is
+
    HLT_INSTRUCTION  : constant Instruction := (hlt_op, 0, 0);
    NOP_INSTRUCTION  : constant Instruction := (nop_op, 0, 0);
    INCS_INSTRUCTION : constant Instruction := (incs_op, 0, 0);
@@ -70,6 +71,50 @@ package body PCode_Package.PCode_Test is
       -- Repeat for each test routine:
       Register_Routine (The_Test, Test_String_Of'Access, "test_string_of!");
    end Register_Tests;
+
+   -----------------
+   -- Set_Up_Case --
+   -----------------
+
+   overriding procedure Set_Up_Case (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Set_Up_Case;
+
+   --------------------
+   -- Tear_Down_Case --
+   --------------------
+
+   overriding procedure Tear_Down_Case (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down_Case;
+
+   ------------
+   -- Set_Up --
+   ------------
+
+   overriding procedure Set_Up (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      pragma Unreferenced (The_Test);
+
+   begin
+      null;
+   end Tear_Down;
 
    --------------------
    -- Test_String_Of --

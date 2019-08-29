@@ -10,6 +10,7 @@ with Parameter_Test_Suite;
 with Argument_Test_Suite;
 with BC_Test_Suite;
 with PCode_Test_Suite;
+with BCode_Test_Suite;
 --
 
 package body Test_Suite is
@@ -27,6 +28,7 @@ package body Test_Suite is
       Result.Add_Test (Argument_Test_Suite.Suite);
       Result.Add_Test (BC_Test_Suite.Suite);
       Result.Add_Test (PCode_Test_Suite.Suite);
+      Result.Add_Test (BCode_Test_Suite.Suite);
       return Result;
    end Suite;
 
