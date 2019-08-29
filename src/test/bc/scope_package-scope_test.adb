@@ -3,8 +3,6 @@
 
 with AUnit.Assertions;
 --
-with Ada.Unchecked_Deallocation;
---
 with Ada.Characters.Latin_1; use Ada.Characters.Latin_1;
 with Ada.Text_IO;            use Ada.Text_IO;
 --
@@ -106,6 +104,7 @@ package body Scope_Package.Scope_Test is
       Variable_B_PRIME : Identifier_Pointer;
       Constant_C       : Identifier_Pointer;
       Type_D           : Identifier_Pointer;
+      The_Type         : Type_Pointer;
 
    begin
       -- open scope 1
@@ -113,10 +112,12 @@ package body Scope_Package.Scope_Test is
 
       Variable_A :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE_A"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("VARIABLE_A"),
            The_Type    => Type_Package.Integer_Type,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Variable_A;
 
       Scope_Package.Enter (Variable_A);
 
@@ -131,15 +132,19 @@ package body Scope_Package.Scope_Test is
 
       Variable_B :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE_B"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("VARIABLE_B"),
            The_Type    => Type_Package.Integer_Type,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Variable_B;
       Constant_C :=
         new Constant_Identifier'
-          (The_String => To_Unbounded_String ("CONSTANT_C"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => To_Unbounded_String ("CONSTANT_C"),
            The_Type   => Type_Package.Integer_Type,
            The_Value  => 0);
+      Identifier_Package.The_Last := Constant_C;
 
       Scope_Package.Enter (Variable_B);
       Scope_Package.Enter (Constant_C);
@@ -179,18 +184,26 @@ package body Scope_Package.Scope_Test is
 
       Variable_B_PRIME :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE_B"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("VARIABLE_B"),
            The_Type    => Type_Package.Integer_Type,
            The_Address => 0,
            The_Value   => 1);
+      Identifier_Package.The_Last := Variable_B_PRIME;
+      The_Type:=
+        new Signed_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base  => Integer_Type,
+           The_First => -2,
+           The_Last  => 1,
+           The_Size  => 2);
+      Type_Package.The_Last := The_Type;
       Type_D :=
         new Type_Identifier'
-          (The_String => To_Unbounded_String ("TYPE_A"),
-           The_Type => new Signed_Type'
-             (The_Base  => Integer_Type,
-              The_First => -2,
-              The_Last  => 1,
-              The_Size  => 2));
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => To_Unbounded_String ("TYPE_A"),
+           The_Type => The_Type);
+      Identifier_Package.The_Last := Type_D;
 
       Scope_Package.Enter (Variable_B_PRIME);
       Scope_Package.Enter (Type_D);
@@ -288,10 +301,13 @@ package body Scope_Package.Scope_Test is
       -- close scope 1
       Close;
 
+      Type_Package.Clear;
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
              The_Unmarked_Type_Allocations,
          "Incorrect type allocations.");
+
+      Identifier_Package.Clear;
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
              The_Unmarked_Identifier_Allocations,

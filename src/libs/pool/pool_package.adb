@@ -2,10 +2,29 @@
 -- Copyright (c) 2018 Paul Estep
 pragma Ada_2012;
 
+with Ada.Text_IO;
+--  with Ada.Strings;
+--  with Ada.Containers;
+with Ada.Containers.Hashed_Maps;
+with Ada.Strings.Hash;
+with System.Address_Image;
+--
 with System.Storage_Elements; use System.Storage_Elements;
 --
 
 package body Pool_Package is
+
+   subtype Address_String is String(1..16);
+
+   package Address_Map is new Ada.Containers.Hashed_Maps
+     (Key_Type        => Address_String,
+      Element_Type    => Integer,
+      Hash            => Ada.Strings.Hash,
+      Equivalent_Keys => "=",
+      "="             => "=");
+
+   The_Map : Address_Map.Map := Address_Map.Empty_Map;
+   The_Next : Integer := 0;
 
    -- Mark allocations.
 
@@ -61,6 +80,16 @@ package body Pool_Package is
          The_Address,
          The_Size,
          The_Alignment);
+
+      if The_Pool.Allocate_Debug then
+         Address_Map.Include(The_Map, System.Address_Image(The_Address), The_Next);
+         Ada.Text_IO.Put_Line
+           (System.Address_Image(The_Address) & "-" &
+              Integer'Image(The_Next) &
+              ": Allocate");
+         The_Next := The_Next + 1;
+      end if;
+
    end Allocate;
 
    -- Deallocate storage
@@ -71,6 +100,7 @@ package body Pool_Package is
       The_Size      :        System.Storage_Elements.Storage_Count;
       The_Alignment :        System.Storage_Elements.Storage_Count)
    is
+      The_Integer : Integer;
    begin
       The_Pool.The_Number_Of_Deallocations :=
         The_Pool.The_Number_Of_Deallocations + 1;
@@ -83,6 +113,16 @@ package body Pool_Package is
          The_Address,
          The_Size,
          The_Alignment);
+
+      if The_Pool.Allocate_Debug then
+         The_Integer := Address_Map.Element(The_Map, System.Address_Image(The_Address));
+         Address_Map.Exclude(The_Map, System.Address_Image(The_Address));
+         Ada.Text_IO.Put_Line
+           (System.Address_Image(The_Address) & "-" &
+              Integer'Image(The_Integer) &
+              ": Deallocate");
+      end if;
+
    end Deallocate;
 
 end Pool_Package;

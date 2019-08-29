@@ -10,6 +10,18 @@ with Debug_Package; use Debug_Package;
 
 package body Identifier_Package is
 
+   -- Clear all linked identifiers.
+
+   procedure Clear is
+      The_Identifier : Identifier_Pointer;
+   begin
+      while The_Last /= null loop
+         The_Identifier := The_Last;
+         The_Last := The_Last.The_Previous;
+         Dispose(The_Identifier);
+      end loop;
+   end Clear;
+
    -- Dispose identifier.
 
    procedure Dispose (The_Identifier : in out Identifier_Pointer) is
@@ -18,9 +30,6 @@ package body Identifier_Package is
         (Identifier_Record'Class,
          Identifier_Pointer);
    begin
-      if Is_Type (The_Identifier) then
-         Dispose (Type_Identifier(The_Identifier.all).The_Type);
-      end if;
       Deallocate (The_Identifier);
    end Dispose;
 

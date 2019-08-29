@@ -17,14 +17,22 @@ package Identifier_Package is
 
    -- An abstract basic identifier.
 
-   type Identifier_Record is abstract tagged record
-      The_String : Unbounded_String;  -- string for the identifier.
-   end record;
+   type Identifier_Record is abstract tagged;
 
    -- The Identifier type.
 
    type Identifier_Pointer is access all Identifier_Record'Class;
    for Identifier_Pointer'Storage_Pool use The_Pool;
+
+   type Identifier_Record is abstract tagged record
+      The_Previous : Identifier_Pointer;
+      The_String : Unbounded_String;  -- string for the identifier.
+   end record;
+
+   -- A list of allocated identifiers.
+   -- Note: Used to deallocate all identifiers after deallocation of the graph.
+
+   The_Last : Identifier_Pointer := null;
 
    -- A package identifier.
 
@@ -74,6 +82,10 @@ package Identifier_Package is
       Is_In  : Boolean := False;     -- in parameter.
       Is_Out : Boolean := False;     -- out parameter.
    end record;
+
+   -- Clear all linked identifiers.
+
+   procedure Clear;
 
    -- Dispose identifier.
 

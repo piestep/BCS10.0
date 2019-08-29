@@ -96,31 +96,8 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      -- Open initial scope.
-
-      Scope_Package.Open;
-
-      Scope_Package.Enter
-        (new Identifier_Package.Type_Identifier'
-           (The_String => Scanner_Package.Boolean_String,
-            The_Type   => Type_Package.Boolean_Type));
-
-      Scope_Package.Enter
-        (new Identifier_Package.Constant_Identifier'
-           (The_String => Scanner_Package.False_String,
-            The_Type   => Type_Package.Universal_Boolean,
-            The_Value  => 0));
-
-      Scope_Package.Enter
-        (new Identifier_Package.Constant_Identifier'
-           (The_String => Scanner_Package.True_String,
-            The_Type   => Type_Package.Universal_Boolean,
-            The_Value  => 1));
-
-      Scope_Package.Enter
-        (new Identifier_Package.Type_Identifier'
-           (The_String => Scanner_Package.Integer_String,
-            The_Type   => Type_Package.Integer_Type));
+      The_Unmarked_Graph_Allocations :=
+        Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool);
    end Set_Up_Case;
 
    --------------------
@@ -131,7 +108,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      Scope_Package.Close;
+      null;
    end Tear_Down_Case;
 
    ------------
@@ -139,20 +116,46 @@ package body Semantics_Package.Semantics_Test is
    ------------
 
    overriding procedure Set_Up (The_Test : in out Test) is
-      --        pragma Unreferenced (The_Test);
+      pragma Unreferenced (The_Test);
+
+      The_Identifier : Identifier_Pointer;
 
    begin
-      Ada.Text_IO.Put_Line("Semantics_Package.Semantics_Test " & Name(The_Test).all);
-      Ada.Text_IO.Put_Line
-        ("Type_Allocations: " &
-           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
-      Ada.Text_IO.Put_Line
-        ("Identifier_Allocations: " &
-           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
-      Ada.Text_IO.Put_Line
-        ("Operand_Allocations: " &
-           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
-      null;
+      -- Open initial scope.
+
+      Scope_Package.Open;
+
+      The_Identifier :=
+        new Identifier_Package.Type_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => Scanner_Package.Boolean_String,
+           The_Type   => Type_Package.Boolean_Type);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+
+      The_Identifier :=
+        new Identifier_Package.Constant_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => Scanner_Package.False_String,
+           The_Type   => Type_Package.Universal_Boolean,
+           The_Value  => 0);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+
+      The_Identifier := new Identifier_Package.Constant_Identifier'
+        (The_Previous => Identifier_Package.The_Last,
+         The_String => Scanner_Package.True_String,
+         The_Type   => Type_Package.Universal_Boolean,
+         The_Value  => 1);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+
+      The_Identifier := new Identifier_Package.Type_Identifier'
+        (The_Previous => Identifier_Package.The_Last,
+         The_String => Scanner_Package.Integer_String,
+         The_Type   => Type_Package.Integer_Type);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
    end Set_Up;
 
    ---------------
@@ -160,9 +163,13 @@ package body Semantics_Package.Semantics_Test is
    ---------------
 
    overriding procedure Tear_Down (The_Test : in out Test) is
-      --        pragma Unreferenced (The_Test);
+      --              pragma Unreferenced (The_Test);
 
    begin
+      Scope_Package.Close;
+      Type_Package.Clear;
+      Identifier_Package.Clear;
+
       Ada.Text_IO.Put_Line("Semantics_Package.Semantics_Test " & Name(The_Test).all);
       Ada.Text_IO.Put_Line
         ("Type_Allocations: " &
@@ -173,7 +180,6 @@ package body Semantics_Package.Semantics_Test is
       Ada.Text_IO.Put_Line
         ("Operand_Allocations: " &
            SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
-      null;
    end Tear_Down;
 
    --------------
@@ -326,6 +332,11 @@ package body Semantics_Package.Semantics_Test is
       end if;
 
       Dispose (The_Unit);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool) =
+             The_Unmarked_Graph_Allocations,
+         "Incorrect graph allocations.");
    end Run_Test;
 
    --------------------------

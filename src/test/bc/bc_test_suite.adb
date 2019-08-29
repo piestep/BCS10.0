@@ -34,13 +34,13 @@ package body BC_Test_Suite is
       Result.Add_Test (List_Package_Test_Suite.Suite);
       Result.Add_Test (Type_Package_Test_Suite.Suite);
       Result.Add_Test (Identifier_Package_Test_Suite.Suite);
-      Result.Add_Test (Operand_Package_Test_Suite.Suite);
       Result.Add_Test (Scope_Package_Test_Suite.Suite);
       Result.Add_Test (Block_Package_Test_Suite.Suite);
+      Result.Add_Test (Operand_Package_Test_Suite.Suite);
       Result.Add_Test (Graph_Package_Test_Suite.Suite);
       Result.Add_Test (Syntax_Package_Test_Suite.Suite);
       Result.Add_Test (Semantics_Package_Test_Suite.Suite);
-      --        Result.Add_Test (Optimize_Package_Test_Suite.Suite);
+      Result.Add_Test (Optimize_Package_Test_Suite.Suite);
       --        Result.Add_Test (Generate_Package_Parameters_Test_Suite.Suite);
       --        Result.Add_Test (Generate_Package_PCode_Test_Suite.Suite);
       --        Result.Add_Test (Generate_Package_BCode_Test_Suite.Suite);

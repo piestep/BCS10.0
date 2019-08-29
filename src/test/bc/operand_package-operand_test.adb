@@ -3,8 +3,6 @@
 
 with AUnit.Assertions;
 --
-with Ada.Unchecked_Deallocation;
---
 with Ada.Text_IO;
 --
 with Ada.Tags;              use Ada.Tags;
@@ -68,17 +66,21 @@ package body Operand_Package.Operand_Test is
    begin
       The_Type :=
         new Signed_Type'
-          (The_Base  => Integer_Type,
+          (The_Previous => Type_Package.The_Last,
+           The_Base  => Integer_Type,
            The_First => -2,
            The_Last  => 1,
            The_Size  => 2);
+      Type_Package.The_Last := The_Type;
 
       The_Identifier :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("VARIABLE"),
            The_Type    => null,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := The_Identifier;
 
       A_Constant := new Constant_Operand'(The_Type => The_Type, The_Value => 0);
       A_Variable    := new Variable_Operand'(The_Type => The_Type);
@@ -107,22 +109,14 @@ package body Operand_Package.Operand_Test is
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
-      procedure Deallocate is new Ada.Unchecked_Deallocation
-        (Type_Record'Class,
-         Type_Pointer);
-
-      procedure Deallocate is new Ada.Unchecked_Deallocation
-        (Identifier_Record'Class,
-         Identifier_Pointer);
-
    begin
-      Deallocate(The_Type);
-      Deallocate(The_Identifier);
-
       Dispose(A_Constant);
       Dispose(A_Variable);
       Dispose(An_Identifier);
       Dispose(An_Array);
+
+      Type_Package.Clear;
+      Identifier_Package.Clear;
 
       Ada.Text_IO.Put_Line("Operand_Package.Operand_Test");
       Ada.Text_IO.Put_Line

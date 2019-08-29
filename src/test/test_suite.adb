@@ -4,6 +4,7 @@
 with AUnit.Tests;
 with AUnit.Test_Caller;
 --
+with Pool_Test_Suite;
 with Boolean_Test_Suite;
 with Parameter_Test_Suite;
 with Argument_Test_Suite;
@@ -20,6 +21,7 @@ package body Test_Suite is
    function Suite return Access_Test_Suite is
       Result : Access_Test_Suite := AUnit.Test_Suites.New_Suite;
    begin
+      Result.Add_Test (Pool_Test_Suite.Suite);
       Result.Add_Test (Boolean_Test_Suite.Suite);
       Result.Add_Test (Parameter_Test_Suite.Suite);
       Result.Add_Test (Argument_Test_Suite.Suite);

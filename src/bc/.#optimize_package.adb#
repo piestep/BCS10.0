@@ -645,7 +645,6 @@ package body Optimize_Package is
       end case;
 
       -- Dispose the operand.
-
       Dispose (The_Right);
 
       Debug (Optimize_Debug, "end Unary_Expression");
@@ -1106,7 +1105,6 @@ package body Optimize_Package is
       end case;
 
       -- Dispose the operands.
-
       Dispose (The_Left);
       Dispose (The_Right);
 

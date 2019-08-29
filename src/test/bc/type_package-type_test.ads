@@ -20,6 +20,7 @@ package Type_Package.Type_Test is
    overriding procedure Tear_Down (The_Test : in out Test);
 
    procedure Test_Dispose (The_Test : in out Test_Case'Class);
+   procedure Test_Clear (The_Test : in out Test_Case'Class);
    procedure Test_Is_Array (The_Test : in out Test_Case'Class);
    procedure Test_Is_Scalar (The_Test : in out Test_Case'Class);
    procedure Test_Is_Discrete (The_Test : in out Test_Case'Class);

@@ -96,32 +96,6 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      -- Open initial scope.
-
-      Scope_Package.Open;
-
-      Scope_Package.Enter
-        (new Identifier_Package.Type_Identifier'
-           (The_String => Scanner_Package.Boolean_String,
-            The_Type   => Type_Package.Boolean_Type));
-
-      Scope_Package.Enter
-        (new Identifier_Package.Constant_Identifier'
-           (The_String => Scanner_Package.False_String,
-            The_Type   => Type_Package.Universal_Boolean,
-            The_Value  => 0));
-
-      Scope_Package.Enter
-        (new Identifier_Package.Constant_Identifier'
-           (The_String => Scanner_Package.True_String,
-            The_Type   => Type_Package.Universal_Boolean,
-            The_Value  => 1));
-
-      Scope_Package.Enter
-        (new Identifier_Package.Type_Identifier'
-           (The_String => Scanner_Package.Integer_String,
-            The_Type   => Type_Package.Integer_Type));
-
       The_Unmarked_Graph_Allocations :=
         Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool);
       The_Unmarked_Operand_Allocations :=
@@ -136,7 +110,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      Scope_Package.Close;
+      null;
    end Tear_Down_Case;
 
    ------------
@@ -146,8 +120,59 @@ package body Optimize_Package.Optimize_Test is
    overriding procedure Set_Up (The_Test : in out Test) is
       --        pragma Unreferenced (The_Test);
 
+      The_Identifier : Identifier_Pointer;
+
    begin
-      Ada.Text_IO.Put_Line("Semantics_Package.Semantics_Test " & Name(The_Test).all);
+      -- Open initial scope.
+
+      Scope_Package.Open;
+
+      The_Identifier :=
+        new Identifier_Package.Type_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => Scanner_Package.Boolean_String,
+           The_Type   => Type_Package.Boolean_Type);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+
+      The_Identifier :=
+        new Identifier_Package.Constant_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => Scanner_Package.False_String,
+           The_Type   => Type_Package.Universal_Boolean,
+           The_Value  => 0);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+
+      The_Identifier := new Identifier_Package.Constant_Identifier'
+        (The_Previous => Identifier_Package.The_Last,
+         The_String => Scanner_Package.True_String,
+         The_Type   => Type_Package.Universal_Boolean,
+         The_Value  => 1);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+
+      The_Identifier := new Identifier_Package.Type_Identifier'
+        (The_Previous => Identifier_Package.The_Last,
+         The_String => Scanner_Package.Integer_String,
+         The_Type   => Type_Package.Integer_Type);
+      Identifier_Package.The_Last := The_Identifier;
+      Scope_Package.Enter (The_Identifier);
+   end Set_Up;
+
+   ---------------
+   -- Tear_Down --
+   ---------------
+
+   overriding procedure Tear_Down (The_Test : in out Test) is
+      --        pragma Unreferenced (The_Test);
+
+   begin
+      Scope_Package.Close;
+      Type_Package.Clear;
+      Identifier_Package.Clear;
+
+      Ada.Text_IO.Put_Line("Optimize_Package.Optimize_Test " & Routine_Name(The_Test).all);
       Ada.Text_IO.Put_Line
         ("Type_Allocations: " &
            SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
@@ -157,18 +182,6 @@ package body Optimize_Package.Optimize_Test is
       Ada.Text_IO.Put_Line
         ("Operand_Allocations: " &
            SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
-      null;
-   end Set_Up;
-
-   ---------------
-   -- Tear_Down --
-   ---------------
-
-   overriding procedure Tear_Down (The_Test : in out Test) is
-      pragma Unreferenced (The_Test);
-
-   begin
-      null;
    end Tear_Down;
 
    --------------
@@ -354,11 +367,16 @@ package body Optimize_Package.Optimize_Test is
          end if;
       end if;
 
-      Dispose (The_Unit);
-
       --        Ada.Text_IO.Put_Line
       --          (SYSNatural'Image(The_Unmarked_Operand_Allocations) & " - " &
       --             SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
+
+      Dispose (The_Unit);
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool) =
+             The_Unmarked_Graph_Allocations,
+         "Incorrect graph allocations.");
    end Run_Test;
 
    --------------------------
@@ -682,6 +700,10 @@ package body Optimize_Package.Optimize_Test is
       The_File  : Ada.Text_IO.File_Type;
 
    begin
+      --        Operand_Package.The_Pool.Allocate_Debug := True;
+      --        Semantics_Package.Semenatics_Debug := True;
+      --        Optimize_Package.Optimize_Debug := True;
+
       XML_Package.Load (XMLNAME, The_Tests);
 
       if Test_Package.Generate_Flag then
@@ -697,23 +719,23 @@ package body Optimize_Package.Optimize_Test is
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      Run_Test
-        (XML_Package.Tests_Map.Element
-           (The_Tests,
-            To_Unbounded_String ("Constant_Index.")),
-         "array constant index assignment",
-         Error_Test => False,
-         Dump     => Test_Package.Dump_Flag,
-         Generate => Test_Package.Generate_Flag);
-
-      Run_Test
-        (XML_Package.Tests_Map.Element
-           (The_Tests,
-            To_Unbounded_String ("Variable_Index.")),
-         "array variable index assignment",
-         Error_Test => False,
-         Dump     => Test_Package.Dump_Flag,
-         Generate => Test_Package.Generate_Flag);
+      --        Run_Test
+      --          (XML_Package.Tests_Map.Element
+      --             (The_Tests,
+      --              To_Unbounded_String ("Constant_Index.")),
+      --           "array constant index assignment",
+      --           Error_Test => False,
+      --           Dump     => Test_Package.Dump_Flag,
+      --           Generate => Test_Package.Generate_Flag);
+      --
+      --        Run_Test
+      --          (XML_Package.Tests_Map.Element
+      --             (The_Tests,
+      --              To_Unbounded_String ("Variable_Index.")),
+      --           "array variable index assignment",
+      --           Error_Test => False,
+      --           Dump     => Test_Package.Dump_Flag,
+      --           Generate => Test_Package.Generate_Flag);
 
       if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);

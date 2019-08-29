@@ -20,6 +20,7 @@ package Identifier_Package.Identifier_Test is
    overriding procedure Tear_Down (The_Test : in out Test);
 
    procedure Test_Dispose (The_Test : in out Test_Case'Class);
+   procedure Test_Clear (The_Test : in out Test_Case'Class);
    procedure Test_Is_Package (The_Test : in out Test_Case'Class);
    procedure Test_Is_Procedure (The_Test : in out Test_Case'Class);
    procedure Test_Is_Type (The_Test : in out Test_Case'Class);

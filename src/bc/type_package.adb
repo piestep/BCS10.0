@@ -10,6 +10,18 @@ with Debug_Package; use Debug_Package;
 
 package body Type_Package is
 
+   -- Clear all linked types.
+
+   procedure Clear is
+      The_Type : Type_Pointer;
+   begin
+      while The_Last /= null loop
+         The_Type := The_Last;
+         The_Last := The_Last.The_Previous;
+         Dispose(The_Type);
+      end loop;
+   end Clear;
+
    -- Dispose type.
 
    procedure Dispose (The_Type : in out Type_Pointer) is

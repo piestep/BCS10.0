@@ -20,9 +20,15 @@ package Type_Package is
    type Type_Pointer is access all Type_Record'Class;
    for Type_Pointer'Storage_Pool use The_Pool;
 
+   -- A list of allocated types.
+   -- Note: Used to deallocate all types after deallocation of the graph.
+
+   The_Last : Type_Pointer;
+
    -- A basic type.
 
    type Type_Record is tagged record
+      The_Previous : Type_Pointer;
       The_Base : Type_Pointer; --      parent type.
    end record;
 
@@ -72,6 +78,10 @@ package Type_Package is
    -- The integer type.
 
    Integer_Type : constant Type_Pointer;
+
+   -- Clear all linked types.
+
+   procedure Clear;
 
    -- Dispose type.
 
@@ -163,15 +173,18 @@ private
 
    -- Define universal types.
 
-   Universal_Boolean : constant Type_Pointer := new Type_Record'(The_Base => null);
+   Universal_Boolean : constant Type_Pointer :=
+     new Type_Record'(The_Previous => null, The_Base => null);
 
-   Universal_Integer : constant Type_Pointer := new Type_Record'(The_Base => null);
+   Universal_Integer : constant Type_Pointer :=
+     new Type_Record'(The_Previous => null, The_Base => null);
 
    -- Define boolean type.
 
    Boolean_Type : constant Type_Pointer :=
      new Discrete_Type'
-       (The_Base  => Universal_Boolean,
+       (The_Previous => null,
+        The_Base  => Universal_Boolean,
         The_First => Boolean_False,
         The_Last  => Boolean_True,
         The_Size  => 1);
@@ -180,7 +193,8 @@ private
 
    Integer_Type : constant Type_Pointer :=
      new Signed_Type'
-       (The_Base  => Universal_Integer,
+       (The_Previous => null,
+        The_Base  => Universal_Integer,
         The_First => -(2**7),
         The_Last  => (2**7) - 1,
         The_Size  => 8);

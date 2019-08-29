@@ -26,13 +26,6 @@ package body Type_Package.Type_Test is
    A_Modular  : Type_Pointer;
    An_Array   : Type_Pointer;
 
-   -- Used for is compatianle testing.
-
-   The_Boolean : Type_Pointer;
-   The_Integer : Type_Pointer;
-   The_Array   : Type_Pointer;
-   The_Modular : Type_Pointer;
-
    ----------
    -- Name --
    ----------
@@ -50,6 +43,7 @@ package body Type_Package.Type_Test is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine(The_Test, Test_Dispose'Access, "test_dispose!");
+      Register_Routine(The_Test, Test_Clear'Access, "test_clear!");
       Register_Routine(The_Test, Test_Is_Array'Access, "test_is_array!");
       Register_Routine(The_Test, Test_Is_Scalar'Access, "test_is_scalar!");
       Register_Routine(The_Test, Test_Is_Discrete'Access, "test_is_discrete!");
@@ -76,67 +70,6 @@ package body Type_Package.Type_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      A_Boolean :=
-        new Discrete_Type'
-          (The_Base  => Universal_Boolean,
-           The_First => Boolean_False,
-           The_Last  => Boolean_True,
-           The_Size  => 1);
-
-      An_Integer :=
-        new Signed_Type'
-          (The_Base  => Integer_Type,
-           The_First => -2,
-           The_Last  => 1,
-           The_Size  => 2);
-
-      A_Modular :=
-        new Modular_Type'
-          (The_Base    => Universal_Integer,
-           The_First   => 0,
-           The_Last    => 3,
-           The_Size    => 2,
-           The_Modulas => 4);
-
-      An_Array :=
-        new Array_Type'
-          (The_Base    => null,
-           The_Index   => A_Modular,
-           The_Element => An_Integer,
-           The_First   => 1,
-           The_Last    => 3);
-
-      -- Used for is compatianle testing.
-      The_Boolean :=
-        new Discrete_Type'
-          (The_Base  => Universal_Boolean,
-           The_First => Boolean_False,
-           The_Last  => Boolean_True,
-           The_Size  => 1);
-
-      The_Integer :=
-        new Signed_Type'
-          (The_Base  => Integer_Type,
-           The_First => -2,
-           The_Last  => 1,
-           The_Size  => 2);
-
-      The_Array :=
-        new Array_Type'
-          (The_Base    => null,
-           The_Index   => A_Modular,
-           The_Element => An_Integer,
-           The_First   => 1,
-           The_Last    => 3);
-
-      The_Modular :=
-        new Modular_Type'
-          (The_Base    => null,
-           The_First   => 0,
-           The_Last    => 3,
-           The_Size    => 2,
-           The_Modulas => 4);
-
       The_Unmarked_Type_Allocations :=
         Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
    end Set_Up_Case;
@@ -148,20 +81,7 @@ package body Type_Package.Type_Test is
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
-      procedure Deallocate is new Ada.Unchecked_Deallocation
-        (Type_Record'Class,
-         Type_Pointer);
-
    begin
-      Deallocate(A_Boolean);
-      Deallocate(An_Integer);
-      Deallocate(A_Modular);
-      Deallocate(An_Array);
-      Deallocate(The_Boolean);
-      Deallocate(The_Integer);
-      Deallocate(The_Array);
-      Deallocate(The_Modular);
-
       Ada.Text_IO.Put_Line("Type_Package.Type_Test");
       Ada.Text_IO.Put_Line
         ("Type_Allocations: " &
@@ -176,7 +96,43 @@ package body Type_Package.Type_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      null;
+      A_Boolean :=
+        new Discrete_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base  => Universal_Boolean,
+           The_First => Boolean_False,
+           The_Last  => Boolean_True,
+           The_Size  => 1);
+      Type_Package.The_Last := A_Boolean;
+
+      An_Integer :=
+        new Signed_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base  => Integer_Type,
+           The_First => -2,
+           The_Last  => 1,
+           The_Size  => 2);
+      Type_Package.The_Last := An_Integer;
+
+      A_Modular :=
+        new Modular_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base    => Universal_Integer,
+           The_First   => 0,
+           The_Last    => 3,
+           The_Size    => 2,
+           The_Modulas => 4);
+      Type_Package.The_Last := A_Modular;
+
+      An_Array :=
+        new Array_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base    => null,
+           The_Index   => A_Modular,
+           The_Element => An_Integer,
+           The_First   => 1,
+           The_Last    => 3);
+      Type_Package.The_Last := An_Array;
    end Set_Up;
 
    ---------------
@@ -187,7 +143,7 @@ package body Type_Package.Type_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      null;
+      Type_Package.Clear;
    end Tear_Down;
 
    ------------
@@ -215,11 +171,17 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
       The_Type : Type_Pointer;
+
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       The_Type :=
         new Discrete_Type'
-          (The_Base  => Universal_Boolean,
+          (The_Previous => null,
+           The_Base  => Universal_Boolean,
            The_First => Boolean_False,
            The_Last  => Boolean_True,
            The_Size  => 1);
@@ -232,7 +194,8 @@ package body Type_Package.Type_Test is
 
       The_Type :=
         new Signed_Type'
-          (The_Base  => Integer_Type,
+          (The_Previous => null,
+           The_Base  => Integer_Type,
            The_First => -2,
            The_Last  => 1,
            The_Size  => 2);
@@ -245,7 +208,8 @@ package body Type_Package.Type_Test is
 
       The_Type :=
         new Modular_Type'
-          (The_Base    => Universal_Integer,
+          (The_Previous => null,
+           The_Base    => Universal_Integer,
            The_First   => 0,
            The_Last    => 3,
            The_Size    => 2,
@@ -259,7 +223,8 @@ package body Type_Package.Type_Test is
 
       The_Type :=
         new Array_Type'
-          (The_Base    => null,
+          (The_Previous => null,
+           The_Base    => null,
            The_Index   => A_Modular,
            The_Element => An_Integer,
            The_First   => 1,
@@ -272,6 +237,24 @@ package body Type_Package.Type_Test is
          "Test dispose (array).");
    end Test_Dispose;
 
+   ----------------
+   -- Test_Clear --
+   ----------------
+
+   procedure Test_Clear
+     (The_Test : in out AUnit.Test_Cases.Test_Case'Class)
+   is
+      pragma Unreferenced (The_Test);
+
+   begin
+      Type_Package.Clear;
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Test clear.");
+   end Test_Clear;
+
    -------------------
    -- Test_Is_Array --
    -------------------
@@ -281,7 +264,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Array (A_Boolean),
          The_Expected => False,
@@ -317,7 +304,10 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
       Assert
         (The_Result   => Is_Scalar (A_Boolean),
          The_Expected => True,
@@ -351,9 +341,12 @@ package body Type_Package.Type_Test is
    procedure Test_Is_Discrete
      (The_Test : in out AUnit.Test_Cases.Test_Case'Class)
    is
-      pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Discrete (A_Boolean),
          The_Expected => True,
@@ -389,7 +382,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Signed (A_Boolean),
          The_Expected => False,
@@ -425,7 +422,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Modular (A_Boolean),
          The_Expected => False,
@@ -461,7 +462,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Boolean (null),
          The_Expected => True,
@@ -502,7 +507,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Integer (null),
          The_Expected => True,
@@ -543,7 +552,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Base_Of (null),
          The_Expected => null,
@@ -584,7 +597,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => First_Of (null),
          The_Expected => 0,
@@ -625,7 +642,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Last_Of (null),
          The_Expected => 0,
@@ -666,7 +687,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Size_Of (null),
          The_Expected => 0,
@@ -707,7 +732,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Within (-1, null),
          The_Expected => True,
@@ -838,7 +867,54 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Boolean : Type_Pointer;
+      The_Integer : Type_Pointer;
+      The_Array   : Type_Pointer;
+      The_Modular : Type_Pointer;
+
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Boolean :=
+        new Discrete_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base  => Universal_Boolean,
+           The_First => Boolean_False,
+           The_Last  => Boolean_True,
+           The_Size  => 1);
+      Type_Package.The_Last := The_Boolean;
+
+      The_Integer :=
+        new Signed_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base  => Integer_Type,
+           The_First => -2,
+           The_Last  => 1,
+           The_Size  => 2);
+      Type_Package.The_Last := The_Integer;
+
+      The_Array :=
+        new Array_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base    => null,
+           The_Index   => A_Modular,
+           The_Element => An_Integer,
+           The_First   => 1,
+           The_Last    => 3);
+      Type_Package.The_Last := The_Array;
+
+      The_Modular :=
+        new Modular_Type'
+          (The_Previous => Type_Package.The_Last,
+           The_Base    => null,
+           The_First   => 0,
+           The_Last    => 3,
+           The_Size    => 2,
+           The_Modulas => 4);
+      Type_Package.The_Last := The_Modular;
+
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Is_Compatiable (A_Boolean, null),
          The_Expected => True,
@@ -976,7 +1052,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Best_Of (Universal_Boolean, Boolean_Type),
          The_Expected => Boolean_Type,
@@ -1035,7 +1115,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Size_Of (0, 3),
          The_Expected => 2,
@@ -1076,7 +1160,11 @@ package body Type_Package.Type_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+
       Assert
         (The_Result   => Size_Of (0),
          The_Expected => 1,

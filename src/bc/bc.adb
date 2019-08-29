@@ -101,6 +101,10 @@ procedure BC is
    The_Inputs  : Parameter_Package.Parameter_List_Type;
    The_Outputs : Parameter_Package.Parameter_List_Type;
 
+   -- Temporary identifier
+
+   The_Identifier : Identifier_Package.Identifier_Pointer;
+
    package Size_IO is new Integer_IO (System.Storage_Elements.Storage_Count);
 
    -- Print usage information.
@@ -293,16 +297,16 @@ begin
       elsif Argument (The_Argument) = "-pc" or
         Argument (The_Argument) = "--pcode"
       then
-                  Generate_Package.Generate_PCode := True;
+         Generate_Package.Generate_PCode := True;
          Generate_Test                   := True;
       elsif Argument (The_Argument) = "-bc" or
         Argument (The_Argument) = "--bcode"
       then
-                  Generate_Package.Generate_BCode := True;
+         Generate_Package.Generate_BCode := True;
       elsif Argument (The_Argument) = "-ac" or
         Argument (The_Argument) = "--acode"
       then
-                  Generate_Package.Generate_ACode := True;
+         Generate_Package.Generate_ACode := True;
          Generate_Test                   := True;
 
       elsif Argument (The_Argument) = "--source_debug" then
@@ -318,13 +322,13 @@ begin
       elsif Argument (The_Argument) = "--optimize_debug" then
          Optimize_Package.Optimize_Debug := True;
       elsif Argument (The_Argument) = "--pcode_debug" then
-                  Generate_Package.PCode_Debug := True;
+         Generate_Package.PCode_Debug := True;
       elsif Argument (The_Argument) = "--pcode_dump" then
-                  Generate_Package.PCode_Dump := True;
+         Generate_Package.PCode_Dump := True;
       elsif Argument (The_Argument) = "--block_debug" then
          Block_Package.Block_Debug := True;
       elsif Argument (The_Argument) = "--bcode_debug" then
-                  Generate_Package.BCode_Debug := True;
+         Generate_Package.BCode_Debug := True;
 
       elsif Argument (The_Argument) = "--list_graph" then
          List_Graph := True;
@@ -358,30 +362,37 @@ begin
    -- Open initial scope.
 
    Scope_Package.Open;
+   The_Identifier := new Identifier_Package.Type_Identifier'
+     (The_Previous => Identifier_Package.The_Last,
+      The_String => Scanner_Package.Boolean_String,
+      The_Type   => Type_Package.Boolean_Type);
+   Identifier_Package.The_Last := The_Identifier;
+   Scope_Package.Enter (The_Identifier);
 
-   Scope_Package.Enter
-     (new Identifier_Package.Type_Identifier'
-        (The_String => Scanner_Package.Boolean_String,
-         The_Type   => Type_Package.Boolean_Type));
+   The_Identifier := new Identifier_Package.Constant_Identifier'
+     (The_Previous => Identifier_Package.The_Last,
+      The_String => Scanner_Package.False_String,
+      The_Type   => Type_Package.Universal_Boolean,
+      --           The_Type   => Type_Package.Boolean_Type,
+      The_Value  => 0);
+   Identifier_Package.The_Last := The_Identifier;
+   Scope_Package.Enter (The_Identifier);
 
-   Scope_Package.Enter
-     (new Identifier_Package.Constant_Identifier'
-        (The_String => Scanner_Package.False_String,
-         The_Type   => Type_Package.Universal_Boolean,
-         --           The_Type   => Type_Package.Boolean_Type,
-         The_Value  => 0));
+   The_Identifier :=new Identifier_Package.Constant_Identifier'
+     (The_Previous => Identifier_Package.The_Last,
+      The_String => Scanner_Package.True_String,
+      The_Type   => Type_Package.Universal_Boolean,
+      --           The_Type   => Type_Package.Boolean_Type,
+      The_Value  => 1);
+   Identifier_Package.The_Last := The_Identifier;
+   Scope_Package.Enter (The_Identifier);
 
-   Scope_Package.Enter
-     (new Identifier_Package.Constant_Identifier'
-        (The_String => Scanner_Package.True_String,
-         The_Type   => Type_Package.Universal_Boolean,
-         --           The_Type   => Type_Package.Boolean_Type,
-         The_Value  => 1));
-
-   Scope_Package.Enter
-     (new Identifier_Package.Type_Identifier'
-        (The_String => Scanner_Package.Integer_String,
-         The_Type   => Type_Package.Integer_Type));
+   The_Identifier := new Identifier_Package.Type_Identifier'
+     (The_Previous => Identifier_Package.The_Last,
+      The_String => Scanner_Package.Integer_String,
+      The_Type   => Type_Package.Integer_Type);
+   Identifier_Package.The_Last := The_Identifier;
+   Scope_Package.Enter (The_Identifier);
 
    -- Mark memory usage.
 

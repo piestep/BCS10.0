@@ -3,8 +3,6 @@
 
 with AUnit.Assertions;
 --
-with Ada.Unchecked_Deallocation;
---
 with Ada.Text_IO;
 --
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
@@ -64,34 +62,44 @@ package body Block_Package.Block_Test is
    begin
       Identifier_A :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("A"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("A"),
            The_Type    => null,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Identifier_A;
       Identifier_B :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("B"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("B"),
            The_Type    => null,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Identifier_B;
       Identifier_C :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("C"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("C"),
            The_Type    => null,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Identifier_C;
       Identifier_D :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("D"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("D"),
            The_Type    => null,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Identifier_D;
       Identifier_E :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("E"),
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("E"),
            The_Type    => null,
            The_Address => 0,
            The_Value   => 0);
+      Identifier_Package.The_Last := Identifier_E;
 
       The_Unmarked_Block_Allocations :=
         Pool_Package.Unmarked_Allocations (Block_Package.The_Pool);
@@ -108,16 +116,8 @@ package body Block_Package.Block_Test is
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
-      procedure Deallocate is new Ada.Unchecked_Deallocation
-        (Identifier_Record'Class,
-         Identifier_Pointer);
-
    begin
-      Deallocate (Identifier_A);
-      Deallocate (Identifier_B);
-      Deallocate (Identifier_C);
-      Deallocate (Identifier_D);
-      Deallocate (Identifier_E);
+      Identifier_package.Clear;
 
       Ada.Text_IO.Put_Line("Identifier_Package.Identifier_Test");
       Ada.Text_IO.Put_Line

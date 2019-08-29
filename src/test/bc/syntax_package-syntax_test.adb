@@ -105,7 +105,8 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      null;
+      Type_Package.Clear;
+      Identifier_Package.Clear;
    end Tear_Down;
 
    ---------------

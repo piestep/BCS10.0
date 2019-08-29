@@ -130,8 +130,10 @@ package body Semantics_Package is
       else
          The_Identifier :=
            new Package_Identifier'
-             (The_String => The_Package.The_Name.The_String);
+             (The_Previous => Identifier_Package.The_Last,
+              The_String => The_Package.The_Name.The_String);
          The_Package.The_Name.The_Pointer := The_Identifier;
+         Identifier_Package.The_Last := The_Identifier;
          Scope_Package.Enter (The_Identifier);
       end if;
 
@@ -167,7 +169,9 @@ package body Semantics_Package is
       else
          The_Identifier :=
            new Procedure_Identifier'
-             (The_String => The_Procedure.The_Name.The_String);
+             (The_Previous => Identifier_Package.The_Last,
+              The_String => The_Procedure.The_Name.The_String);
+         Identifier_Package.The_Last := The_Identifier;
          The_Procedure.The_Name.The_Pointer := The_Identifier;
          Scope_Package.Enter (The_Identifier);
       end if;
@@ -236,10 +240,13 @@ package body Semantics_Package is
                   "Expected type identifier (S1).");
             end if;
          else
-            Scope_Package.Enter
-              (new Type_Identifier'
-                 (The_String => The_Parameter.The_Definition.The_String,
-                  The_Type   => null));
+            The_Identifier :=
+              new Type_Identifier'
+                (The_Previous => Identifier_Package.The_Last,
+                 The_String => The_Parameter.The_Definition.The_String,
+                 The_Type   => null);
+            Scope_Package.Enter (The_Identifier);
+            Identifier_Package.The_Last := The_Identifier;
 
             Semenatics_Error
               (The_Parameter.The_Definition.The_Position,
@@ -252,11 +259,13 @@ package body Semantics_Package is
 
             The_Identifier :=
               new Parameter_Identifier'
-                (The_String  => The_Parameter.The_Identifier.The_String,
+                (The_Previous => Identifier_Package.The_Last,
+                 The_String  => The_Parameter.The_Identifier.The_String,
                  The_Type    => The_Type,
                  Is_In       => The_Parameter.Is_In,
                  Is_Out      => The_Parameter.Is_Out,
                  The_Address => 0);
+            Identifier_Package.The_Last := The_Identifier;
 
             The_Parameter.The_Identifier.The_Pointer := The_Identifier;
 
@@ -328,8 +337,10 @@ package body Semantics_Package is
       if not Duplicate_Identifier then
          The_Identifier :=
            new Type_Identifier'
-             (The_String => The_Declaration.The_Identifier.The_String,
+             (The_Previous => Identifier_Package.The_Last,
+              The_String => The_Declaration.The_Identifier.The_String,
               The_Type   => The_Type);
+         Identifier_Package.The_Last := The_Identifier;
 
          The_Declaration.The_Identifier.The_Pointer := The_Identifier;
 
@@ -389,10 +400,13 @@ package body Semantics_Package is
                "Expected type identifier (S2).");
          end if;
       else
-         Scope_Package.Enter
-           (new Type_Identifier'
-              (The_String => The_Declaration.The_Definition.The_String,
-               The_Type   => null));
+         The_Identifier :=
+           new Type_Identifier'
+             (The_Previous => Identifier_Package.The_Last,
+              The_String => The_Declaration.The_Definition.The_String,
+              The_Type   => null);
+         Scope_Package.Enter (The_Identifier);
+         Identifier_Package.The_Last := The_Identifier;
 
          Semenatics_Error
            (The_Declaration.The_Definition.The_Position,
@@ -460,9 +474,11 @@ package body Semantics_Package is
          if The_Declaration.Is_Constant then
             The_Identifier :=
               new Constant_Identifier'
-                (The_String => The_Declaration.The_Identifier.The_String,
+                (The_Previous => Identifier_Package.The_Last,
+                 The_String => The_Declaration.The_Identifier.The_String,
                  The_Type   => The_Type,
                  The_Value  => The_Value);
+            Identifier_Package.The_Last := The_Identifier;
 
             The_Declaration.The_Identifier.The_Pointer := The_Identifier;
 
@@ -476,10 +492,12 @@ package body Semantics_Package is
          else
             The_Identifier :=
               new Variable_Identifier'
-                (The_String  => The_Declaration.The_Identifier.The_String,
+                (The_Previous => Identifier_Package.The_Last,
+                 The_String  => The_Declaration.The_Identifier.The_String,
                  The_Type    => The_Type,
                  The_Value   => The_Value,
                  The_Address => 0);
+            Identifier_Package.The_Last := The_Identifier;
 
             The_Declaration.The_Identifier.The_Pointer := The_Identifier;
 
@@ -551,10 +569,13 @@ package body Semantics_Package is
                "Expected type identifier (S3).");
          end if;
       else
-         Scope_Package.Enter
-           (new Type_Identifier'
-              (The_String => The_Definition.The_Identifier.The_String,
-               The_Type   => null));
+         The_Identifier :=
+           new Type_Identifier'
+             (The_Previous => Identifier_Package.The_Last,
+              The_String => The_Definition.The_Identifier.The_String,
+              The_Type   => null);
+         Scope_Package.Enter (The_Identifier);
+         Identifier_Package.The_Last := The_Identifier;
 
          Semenatics_Error
            (The_Definition.The_Identifier.The_Position,
@@ -640,7 +661,8 @@ package body Semantics_Package is
                The_Modulas := Modular_Type (The_Base.all).The_Modulas;
                The_Type    :=
                  new Modular_Type'
-                   (The_Base  => The_Base,
+                   (The_previous => Type_Package.The_Last,
+                    The_Base  => The_Base,
                     The_First =>
                       Constant_Operand (The_Definition.The_First.The_Result.all)
                     .The_Value mod
@@ -656,10 +678,12 @@ package body Semantics_Package is
                          .The_Value mod
                            The_Modulas),
                     The_Modulas => The_Modulas);
+               Type_Package.The_Last := The_Type;
             elsif The_Base /= null and then Is_Signed (The_Base) then
                The_Type :=
                  new Signed_Type'
-                   (The_Base  => The_Base,
+                   (The_previous => Type_Package.The_Last,
+                    The_Base  => The_Base,
                     The_First =>
                       Constant_Operand (The_Definition.The_First.The_Result.all)
                     .The_Value,
@@ -674,10 +698,12 @@ package body Semantics_Package is
                          Constant_Operand
                            (The_Definition.The_Last.The_Result.all)
                          .The_Value));
+               Type_Package.The_Last := The_Type;
             else
                The_Type :=
                  new Discrete_Type'
-                   (The_Base  => The_Base,
+                   (The_previous => Type_Package.The_Last,
+                    The_Base  => The_Base,
                     The_First =>
                       Constant_Operand (The_Definition.The_First.The_Result.all)
                     .The_Value,
@@ -689,6 +715,7 @@ package body Semantics_Package is
                         (Constant_Operand
                            (The_Definition.The_Last.The_Result.all)
                          .The_Value));
+               Type_Package.The_Last := The_Type;
             end if;
          end if;
 
@@ -697,25 +724,31 @@ package body Semantics_Package is
             The_Modulas := Modular_Type (The_Base.all).The_Modulas;
             The_Type    :=
               new Modular_Type'
-                (The_Base    => The_Base,
+                (The_previous => Type_Package.The_Last,
+                 The_Base    => The_Base,
                  The_First   => First_Of (The_Base),
                  The_Last    => Last_Of (The_Base),
                  The_Size    => Size_Of (The_Base),
                  The_Modulas => The_Modulas);
+            Type_Package.The_Last := The_Type;
          elsif The_Base /= null and then Is_Signed (The_Base) then
             The_Type :=
               new Signed_Type'
-                (The_Base  => The_Base,
+                (The_previous => Type_Package.The_Last,
+                 The_Base  => The_Base,
                  The_First => First_Of (The_Base),
                  The_Last  => Last_Of (The_Base),
                  The_Size  => Size_Of (The_Base));
+            Type_Package.The_Last := The_Type;
          else
             The_Type :=
               new Discrete_Type'
-                (The_Base  => The_Base,
+                (The_previous => Type_Package.The_Last,
+                 The_Base  => The_Base,
                  The_First => First_Of (The_Base),
                  The_Last  => Last_Of (The_Base),
                  The_Size  => Size_Of (The_Base));
+            Type_Package.The_Last := The_Type;
          end if;
       end if;
 
@@ -756,7 +789,8 @@ package body Semantics_Package is
                          1);
                   The_Type :=
                     new Modular_Type'
-                      (The_Base  => Universal_Integer,
+                      (The_previous => Type_Package.The_Last,
+                       The_Base  => Universal_Integer,
                        The_First => 0,
                        The_Last  =>
                          Constant_Operand
@@ -768,6 +802,7 @@ package body Semantics_Package is
                          Constant_Operand
                            (The_Definition.The_Expression.The_Result.all)
                        .The_Value);
+                  Type_Package.The_Last := The_Type;
                else
                   Semenatics_Error
                     (Position_Of
@@ -831,10 +866,12 @@ package body Semantics_Package is
                "Expected type identifier (S4).");
          end if;
       else
-         Scope_Package.Enter
-           (new Type_Identifier'
-              (The_String => The_Definition.The_Index.The_String,
-               The_Type   => null));
+         The_Identifier := new Type_Identifier'
+           (The_Previous => Identifier_Package.The_Last,
+            The_String => The_Definition.The_Index.The_String,
+            The_Type   => null);
+         Scope_Package.Enter (The_Identifier);
+         Identifier_Package.The_Last := The_Identifier;
 
          Semenatics_Error
            (The_Definition.The_Index.The_Position,
@@ -940,10 +977,12 @@ package body Semantics_Package is
                "Expected type identifier (S5).");
          end if;
       else
-         Scope_Package.Enter
-           (new Type_Identifier'
-              (The_String => The_Definition.The_Element.The_String,
-               The_Type   => null));
+         The_Identifier := new Type_Identifier'
+           (The_Previous => Identifier_Package.The_Last,
+            The_String => The_Definition.The_Element.The_String,
+            The_Type   => null);
+         Scope_Package.Enter (The_Identifier);
+         Identifier_Package.The_Last := The_Identifier;
 
          Semenatics_Error
            (The_Definition.The_Element.The_Position,
@@ -960,7 +999,8 @@ package body Semantics_Package is
       then
          The_Type :=
            new Array_Type'
-             (The_Base  => null,
+             (The_Previous => Type_Package.The_Last,
+              The_Base  => null,
               The_Index => The_Index,
               The_First =>
                 Constant_Operand (The_Definition.The_First.The_Result.all)
@@ -969,6 +1009,7 @@ package body Semantics_Package is
                 Constant_Operand (The_Definition.The_Last.The_Result.all)
               .The_Value,
               The_Element => The_Type);
+         Type_Package.The_Last := The_Type;
       end if;
 
       Debug (Semenatics_Debug, "end Array_Definition");
@@ -1077,12 +1118,15 @@ package body Semantics_Package is
 
          The_Variable.The_Identifier.The_Pointer := The_Identifier;
       else
-         Scope_Package.Enter
-           (new Variable_Identifier'
-              (The_String  => The_Variable.The_Identifier.The_String,
-               The_Type    => null,
-               The_Value   => 0,
-               The_Address => 0));
+         The_Identifier := new Variable_Identifier'
+           (The_Previous => Identifier_Package.The_Last,
+            The_String  => The_Variable.The_Identifier.The_String,
+            The_Type    => null,
+            The_Value   => 0,
+            The_Address => 0);
+         Scope_Package.Enter (The_Identifier);
+         Identifier_Package.The_Last := The_Identifier;
+
          Semenatics_Error (Position_Of (The_Variable), "Undefined identifier (S1).");
          Undefined_Identifier := True;
       end if;
@@ -1336,9 +1380,11 @@ package body Semantics_Package is
 
       The_Identifier :=
         new Index_Identifier'
-          (The_String  => The_Statement.The_Index.The_String,
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => The_Statement.The_Index.The_String,
            The_Type    => The_Index,
            The_Address => 0);
+      Identifier_Package.The_Last := The_Identifier;
 
       The_Statement.The_Index.The_Pointer := The_Identifier;
 
@@ -1757,12 +1803,15 @@ package body Semantics_Package is
 
          The_Expression.The_Identifier.The_Pointer := The_Identifier;
       else
-         Scope_Package.Enter
-           (new Variable_Identifier'
-              (The_String  => The_Expression.The_Identifier.The_String,
-               The_Type    => null,
-               The_Value   => 0,
-               The_Address => 0));
+         The_Identifier := new Variable_Identifier'
+           (The_Previous => Identifier_Package.The_Last,
+            The_String  => The_Expression.The_Identifier.The_String,
+            The_Type    => null,
+            The_Value   => 0,
+            The_Address => 0);
+         Scope_Package.Enter (The_Identifier);
+         Identifier_Package.The_Last := The_Identifier;
+
          Semenatics_Error
            (Position_Of (The_Expression),
             "Undefined identifier for attribute (S1).");

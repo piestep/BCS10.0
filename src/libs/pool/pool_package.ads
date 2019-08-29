@@ -16,6 +16,7 @@ package Pool_Package is
 
    type Storage_Pool is new System.Pool_Global.Unbounded_No_Reclaim_Pool with
       record
+         Allocate_Debug                  : Boolean := False;
          The_Marked_Allocations          : SYSNatural := 0;
          The_Number_Of_Allocations       : SYSNatural := 0;
          The_Number_Of_Deallocations     : SYSNatural := 0;

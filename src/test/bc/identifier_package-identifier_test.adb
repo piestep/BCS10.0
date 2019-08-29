@@ -42,6 +42,7 @@ package body Identifier_Package.Identifier_Test is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine(The_Test, Test_Dispose'Access, "test_dispose!");
+      Register_Routine(The_Test, Test_Clear'Access, "test_clear!");
       Register_Routine(The_Test, Test_Is_Package'Access, "test_is_package!");
       Register_Routine(The_Test, Test_Is_Procedure'Access, "test_is_procedure!");
       Register_Routine(The_Test, Test_Is_Type'Access, "test_is_type!");
@@ -61,43 +62,6 @@ package body Identifier_Package.Identifier_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      A_Package :=
-        new Package_Identifier'(The_String => To_Unbounded_String ("PACKAGE"));
-      A_Procedure :=
-        new Procedure_Identifier'
-          (The_String => To_Unbounded_String ("PROCEDUE"));
-      A_Type :=
-        new Type_Identifier'
-          (The_String => To_Unbounded_String ("TYPE"),
-           The_Type => new Signed_Type'
-             (The_Base  => Integer_Type,
-              The_First => -2,
-              The_Last  => 1,
-              The_Size  => 2));
-      A_Constant :=
-        new Constant_Identifier'
-          (The_String => To_Unbounded_String ("CONSTANT"),
-           The_Type   => Type_Package.Integer_Type,
-           The_Value  => 0);
-      A_Variable :=
-        new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE"),
-           The_Type    => Type_Package.Integer_Type,
-           The_Address => 0,
-           The_Value   => 0);
-      An_Index :=
-        new Index_Identifier'
-          (The_String  => To_Unbounded_String ("INDEX"),
-           The_Type    => Type_Package.Integer_Type,
-           The_Address => 0);
-      A_Parameter :=
-        new Parameter_Identifier'
-          (The_String  => To_Unbounded_String ("PARAMETER"),
-           The_Type    => Type_Package.Integer_Type,
-           The_Address => 0,
-           Is_In       => True,
-           Is_Out      => True);
-
       The_Unmarked_Type_Allocations :=
         Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
       The_Unmarked_Identifier_Allocations :=
@@ -110,24 +74,16 @@ package body Identifier_Package.Identifier_Test is
 
    overriding procedure Tear_Down_Case (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
-
-      procedure Deallocate is new Ada.Unchecked_Deallocation
-        (Identifier_Record'Class,
-         Identifier_Pointer);
-
    begin
-      Deallocate (A_Package);
-      Deallocate (A_Procedure);
-      Deallocate (A_Type);
-      Deallocate (A_Constant);
-      Deallocate (A_Variable);
-      Deallocate (An_Index);
-      Deallocate (A_Parameter);
-
       Ada.Text_IO.Put_Line("Identifier_Package.Identifier_Test");
       Ada.Text_IO.Put_Line
+        ("Type_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Type_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
         ("Identifier_Allocations: " &
-           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations
+           (Identifier_Package.The_Pool)));
+      null;
    end Tear_Down_Case;
 
    ------------
@@ -137,8 +93,83 @@ package body Identifier_Package.Identifier_Test is
    overriding procedure Set_Up (The_Test : in out Test) is
       pragma Unreferenced (The_Test);
 
+      The_Type : Type_Pointer;
    begin
-      null;
+      --        The_Unmarked_Type_Allocations :=
+      --          Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      --        The_Unmarked_Identifier_Allocations :=
+      --          Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+      --        Ada.Text_IO.Put_Line
+      --          ("set up1: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+
+      A_Package :=
+        new Package_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => To_Unbounded_String ("PACKAGE"));
+      Identifier_Package.The_Last := A_Package;
+
+      A_Procedure :=
+        new Procedure_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => To_Unbounded_String ("PROCEDUE"));
+      Identifier_Package.The_Last := A_Procedure;
+
+      The_Type := new Signed_Type'
+        (The_Previous => Type_Package.The_Last,
+         The_Base  => Integer_Type,
+         The_First => -2,
+         The_Last  => 1,
+         The_Size  => 2);
+      Type_Package.The_Last := The_Type;
+
+      A_Type :=
+        new Type_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => To_Unbounded_String ("TYPE"),
+           The_Type => The_Type);
+      Identifier_Package.The_Last := A_Type;
+
+      A_Constant :=
+        new Constant_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String => To_Unbounded_String ("CONSTANT"),
+           The_Type   => Type_Package.Integer_Type,
+           The_Value  => 0);
+      Identifier_Package.The_Last := A_Constant;
+
+      A_Variable :=
+        new Variable_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("VARIABLE"),
+           The_Type    => Type_Package.Integer_Type,
+           The_Address => 0,
+           The_Value   => 0);
+      Identifier_Package.The_Last := A_Variable;
+
+      An_Index :=
+        new Index_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("INDEX"),
+           The_Type    => Type_Package.Integer_Type,
+           The_Address => 0);
+      Identifier_Package.The_Last := An_Index;
+
+      A_Parameter :=
+        new Parameter_Identifier'
+          (The_Previous => Identifier_Package.The_Last,
+           The_String  => To_Unbounded_String ("PARAMETER"),
+           The_Type    => Type_Package.Integer_Type,
+           The_Address => 0,
+           Is_In       => True,
+           Is_Out      => True);
+      Identifier_Package.The_Last := A_Parameter;
+
+      --        Ada.Text_IO.Put_Line
+      --          ("set up2: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
    end Set_Up;
 
    ---------------
@@ -149,7 +180,18 @@ package body Identifier_Package.Identifier_Test is
       pragma Unreferenced (The_Test);
 
    begin
-      null;
+      --        Ada.Text_IO.Put_Line
+      --          ("tear down1: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+
+      Identifier_Package.Clear;
+
+      --        Ada.Text_IO.Put_Line
+      --          ("tear down2: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+      Type_Package.Clear;
    end Tear_Down;
 
    ------------------
@@ -161,10 +203,24 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
-      The_Identifier : Identifier_Pointer;
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
+      The_Identifier                      : Identifier_Pointer;
+      The_Type                            : Type_Pointer;
    begin
+      --        Ada.Text_IO.Put_Line
+      --          ("test dispose 1: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       The_Identifier :=
-        new Package_Identifier'(The_String => To_Unbounded_String ("PACKAGE"));
+        new Package_Identifier'
+          (The_Previous => null,
+           The_String => To_Unbounded_String ("PACKAGE"));
       Dispose (The_Identifier);
 
       AUnit.Assertions.Assert
@@ -174,7 +230,8 @@ package body Identifier_Package.Identifier_Test is
 
       The_Identifier :=
         new Procedure_Identifier'
-          (The_String => To_Unbounded_String ("PROCEDUE"));
+          (The_Previous => null,
+           The_String => To_Unbounded_String ("PROCEDUE"));
       Dispose (The_Identifier);
 
       AUnit.Assertions.Assert
@@ -182,15 +239,20 @@ package body Identifier_Package.Identifier_Test is
              The_Unmarked_Identifier_Allocations,
          "Test dispose (procedure).");
 
+      The_Type := new Signed_Type'
+        (The_Previous => null,
+         The_Base  => Integer_Type,
+         The_First => -2,
+         The_Last  => 1,
+         The_Size  => 2);
+
       The_Identifier :=
         new Type_Identifier'
-          (The_String => To_Unbounded_String ("TYPE"),
-           The_Type => new Signed_Type'
-             (The_Base  => Integer_Type,
-              The_First => -2,
-              The_Last  => 1,
-              The_Size  => 2));
+          (The_Previous => null,
+           The_String => To_Unbounded_String ("TYPE"),
+           The_Type => The_Type);
       Dispose (The_Identifier);
+      Dispose (The_Type);
 
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
@@ -199,7 +261,8 @@ package body Identifier_Package.Identifier_Test is
 
       The_Identifier :=
         new Constant_Identifier'
-          (The_String => To_Unbounded_String ("CONSTANT"),
+          (The_Previous => null,
+           The_String => To_Unbounded_String ("CONSTANT"),
            The_Type   => Integer_Type,
            The_Value  => 0);
       Dispose (The_Identifier);
@@ -211,7 +274,8 @@ package body Identifier_Package.Identifier_Test is
 
       The_Identifier :=
         new Variable_Identifier'
-          (The_String  => To_Unbounded_String ("VARIABLE"),
+          (The_Previous => null,
+           The_String  => To_Unbounded_String ("VARIABLE"),
            The_Type    => Integer_Type,
            The_Address => 0,
            The_Value   => 0);
@@ -224,7 +288,8 @@ package body Identifier_Package.Identifier_Test is
 
       The_Identifier :=
         new Index_Identifier'
-          (The_String  => To_Unbounded_String ("INDEX"),
+          (The_Previous => null,
+           The_String  => To_Unbounded_String ("INDEX"),
            The_Type    => Integer_Type,
            The_Address => 0);
       Dispose (The_Identifier);
@@ -236,7 +301,8 @@ package body Identifier_Package.Identifier_Test is
 
       The_Identifier :=
         new Parameter_Identifier'
-          (The_String  => To_Unbounded_String ("PARAMETER"),
+          (The_Previous => null,
+           The_String  => To_Unbounded_String ("PARAMETER"),
            The_Type    => Integer_Type,
            The_Address => 0,
            Is_In       => True,
@@ -247,12 +313,49 @@ package body Identifier_Package.Identifier_Test is
         (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
              The_Unmarked_Identifier_Allocations,
          "Test dispose (parameter).");
-
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
              The_Unmarked_Type_Allocations,
          "Incorrect type allocations.");
    end Test_Dispose;
+
+   ----------------
+   -- Test_Clear --
+   ----------------
+
+   procedure Test_Clear
+     (The_Test : in out AUnit.Test_Cases.Test_Case'Class)
+   is
+      pragma Unreferenced (The_Test);
+
+   begin
+      --        Ada.Text_IO.Put_Line
+      --          ("test clear 1: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+
+      Identifier_Package.Clear;
+      --        Ada.Text_IO.Put_Line
+      --          ("test clear 2: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool) =
+             The_Unmarked_Identifier_Allocations,
+         "Test clear.");
+
+      Type_Package.Clear;
+
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Type_Package.The_Pool) =
+             The_Unmarked_Type_Allocations,
+         "Incorrect type allocations.");
+      --        Ada.Text_IO.Put_Line
+      --          ("test clear 3: " &
+      --             SYSNatural'Image(Pool_Package.Unmarked_Allocations
+      --             (Identifier_Package.The_Pool)));
+   end Test_Clear;
 
    ---------------------
    -- Test_Is_Package --
@@ -263,7 +366,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Package (A_Package),
          The_Expected => True,
@@ -318,7 +428,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Procedure (A_Package),
          The_Expected => False,
@@ -373,7 +490,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Type (A_Package),
          The_Expected => False,
@@ -428,7 +552,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Typed (A_Package),
          The_Expected => False,
@@ -483,7 +614,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Constant (A_Package),
          The_Expected => False,
@@ -538,7 +676,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Addressable (A_Package),
          The_Expected => False,
@@ -593,7 +738,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Variable (A_Package),
          The_Expected => False,
@@ -648,7 +800,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Index (A_Package),
          The_Expected => False,
@@ -703,7 +862,14 @@ package body Identifier_Package.Identifier_Test is
    is
       pragma Unreferenced (The_Test);
 
+      The_Unmarked_Type_Allocations       : Natural;
+      The_Unmarked_Identifier_Allocations : Natural;
    begin
+      The_Unmarked_Type_Allocations :=
+        Pool_Package.Unmarked_Allocations (Type_Package.The_Pool);
+      The_Unmarked_Identifier_Allocations :=
+        Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool);
+
       Assert
         (The_Result => Is_Parameter (A_Package),
          The_Expected => False,
