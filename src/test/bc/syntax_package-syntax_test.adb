@@ -339,7 +339,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/procedure.xml";
+        Test_Package.FILES & "/" & "syntax/test_procedure.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -376,7 +376,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/scalar.xml";
+        Test_Package.FILES & "/" & "syntax/test_scalar.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -419,7 +419,7 @@ package body Syntax_Package.Syntax_Test is
    procedure Test_Mod_Declaration (The_Test : in out Test_Case'Class) is
       pragma Unreferenced (The_Test);
 
-      XMLNAME : constant String := Test_Package.FILES & "/" & "syntax/mod.xml";
+      XMLNAME : constant String := Test_Package.FILES & "/" & "syntax/test_mod.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -455,7 +455,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/array.xml";
+        Test_Package.FILES & "/" & "syntax/test_array.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -491,7 +491,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/identifiers.xml";
+        Test_Package.FILES & "/" & "syntax/test_identifiers.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -543,7 +543,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/parameters.xml";
+        Test_Package.FILES & "/" & "syntax/test_parameters.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -611,7 +611,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/assignments.xml";
+        Test_Package.FILES & "/" & "syntax/test_assignments.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -654,7 +654,7 @@ package body Syntax_Package.Syntax_Test is
    procedure Test_Ifs (The_Test : in out Test_Case'Class) is
       pragma Unreferenced (The_Test);
 
-      XMLNAME : constant String := Test_Package.FILES & "/" & "syntax/ifs.xml";
+      XMLNAME : constant String := Test_Package.FILES & "/" & "syntax/test_ifs.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -697,7 +697,7 @@ package body Syntax_Package.Syntax_Test is
    procedure Test_Fors (The_Test : in out Test_Case'Class) is
       pragma Unreferenced (The_Test);
 
-      XMLNAME : constant String := Test_Package.FILES & "/" & "syntax/fors.xml";
+      XMLNAME : constant String := Test_Package.FILES & "/" & "syntax/test_fors.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -741,7 +741,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/statements.xml";
+        Test_Package.FILES & "/" & "syntax/test_statements.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -777,7 +777,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/operators.xml";
+        Test_Package.FILES & "/" & "syntax/test_operators.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -953,7 +953,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/precedences.xml";
+        Test_Package.FILES & "/" & "syntax/test_precedences.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1061,7 +1061,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/expressions.xml";
+        Test_Package.FILES & "/" & "syntax/test_expressions.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1098,7 +1098,7 @@ package body Syntax_Package.Syntax_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "syntax/errors.xml";
+        Test_Package.FILES & "/" & "syntax/test_errors.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;

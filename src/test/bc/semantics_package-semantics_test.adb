@@ -390,7 +390,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/procedure.xml";
+        Test_Package.FILES & "/" & "semantics/test_procedure.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -428,7 +428,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/discreate.xml";
+        Test_Package.FILES & "/" & "semantics/test_discreate.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -466,7 +466,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/scalar.xml";
+        Test_Package.FILES & "/" & "semantics/test_scalar.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -504,7 +504,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/mod.xml";
+        Test_Package.FILES & "/" & "semantics/test_mod.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -550,7 +550,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/range.xml";
+        Test_Package.FILES & "/" & "semantics/test_range.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -605,7 +605,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/array.xml";
+        Test_Package.FILES & "/" & "semantics/test_array.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -642,7 +642,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/identifiers.xml";
+        Test_Package.FILES & "/" & "semantics/test_identifiers.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -697,7 +697,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/parameters.xml";
+        Test_Package.FILES & "/" & "semantics/test_parameters.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -761,7 +761,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/assignments.xml";
+        Test_Package.FILES & "/" & "semantics/test_assignments.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -825,7 +825,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/ifs.xml";
+        Test_Package.FILES & "/" & "semantics/test_ifs.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -871,7 +871,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/fors.xml";
+        Test_Package.FILES & "/" & "semantics/test_fors.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -917,7 +917,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/operators.xml";
+        Test_Package.FILES & "/" & "semantics/test_operators.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1111,7 +1111,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/precedence.xml";
+        Test_Package.FILES & "/" & "semantics/test_precedence.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1238,7 +1238,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/expressions.xml";
+        Test_Package.FILES & "/" & "semantics/test_expressions.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1347,7 +1347,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/attributes.xml";
+        Test_Package.FILES & "/" & "semantics/test_attributes.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1609,7 +1609,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/package.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_package.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1656,7 +1656,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/procedure.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_procedure.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1703,7 +1703,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/parameter.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_parameter.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1768,7 +1768,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/type.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_type.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1806,7 +1806,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/identifier.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_identifier.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1916,7 +1916,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/range.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_range.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2017,7 +2017,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/mod.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_mod.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2073,7 +2073,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/array.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_array.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2228,7 +2228,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/assignment.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_assignment.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2293,7 +2293,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/variable.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_variable.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2385,7 +2385,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/if.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_if.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2423,7 +2423,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/for.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_for.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2506,7 +2506,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/unary.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_unary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2571,7 +2571,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/binary.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_binary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -2654,7 +2654,7 @@ package body Semantics_Package.Semantics_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "semantics/errors/attribute.xml";
+        Test_Package.FILES & "/" & "semantics/errors/test_attribute.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;

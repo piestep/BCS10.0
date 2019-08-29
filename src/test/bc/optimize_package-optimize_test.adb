@@ -430,7 +430,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/procedure.xml";
+        Test_Package.FILES & "/" & "optimize/test_procedure.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -468,7 +468,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/scalar.xml";
+        Test_Package.FILES & "/" & "optimize/test_scalar.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -506,7 +506,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/mod.xml";
+        Test_Package.FILES & "/" & "optimize/test_mod.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -553,7 +553,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/range.xml";
+        Test_Package.FILES & "/" & "optimize/test_range.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -600,7 +600,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/array.xml";
+        Test_Package.FILES & "/" & "optimize/test_array.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -638,7 +638,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/identifiers.xml";
+        Test_Package.FILES & "/" & "optimize/test_identifiers.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -694,7 +694,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/assignment.xml";
+        Test_Package.FILES & "/" & "optimize/test_assignment.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -719,23 +719,23 @@ package body Optimize_Package.Optimize_Test is
          Dump     => Test_Package.Dump_Flag,
          Generate => Test_Package.Generate_Flag);
 
-      --        Run_Test
-      --          (XML_Package.Tests_Map.Element
-      --             (The_Tests,
-      --              To_Unbounded_String ("Constant_Index.")),
-      --           "array constant index assignment",
-      --           Error_Test => False,
-      --           Dump     => Test_Package.Dump_Flag,
-      --           Generate => Test_Package.Generate_Flag);
-      --
-      --        Run_Test
-      --          (XML_Package.Tests_Map.Element
-      --             (The_Tests,
-      --              To_Unbounded_String ("Variable_Index.")),
-      --           "array variable index assignment",
-      --           Error_Test => False,
-      --           Dump     => Test_Package.Dump_Flag,
-      --           Generate => Test_Package.Generate_Flag);
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Constant_Index.")),
+         "array constant index assignment",
+         Error_Test => False,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
+
+      Run_Test
+        (XML_Package.Tests_Map.Element
+           (The_Tests,
+            To_Unbounded_String ("Variable_Index.")),
+         "array variable index assignment",
+         Error_Test => False,
+         Dump     => Test_Package.Dump_Flag,
+         Generate => Test_Package.Generate_Flag);
 
       if Test_Package.Generate_Flag then
          Close_Generate_File (The_File);
@@ -754,7 +754,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/if.xml";
+        Test_Package.FILES & "/" & "optimize/test_if.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -801,7 +801,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/for.xml";
+        Test_Package.FILES & "/" & "optimize/test_for.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -839,7 +839,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/unary.xml";
+        Test_Package.FILES & "/" & "optimize/test_unary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -904,7 +904,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/relation.xml";
+        Test_Package.FILES & "/" & "optimize/test_relation.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -951,7 +951,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/and.xml";
+        Test_Package.FILES & "/" & "optimize/test_and.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1034,7 +1034,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/or.xml";
+        Test_Package.FILES & "/" & "optimize/test_or.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1117,7 +1117,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/xor.xml";
+        Test_Package.FILES & "/" & "optimize/test_xor.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1200,7 +1200,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/addition.xml";
+        Test_Package.FILES & "/" & "optimize/test_addition.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1283,7 +1283,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/subtraction.xml";
+        Test_Package.FILES & "/" & "optimize/test_subtraction.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1366,7 +1366,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/multiplication.xml";
+        Test_Package.FILES & "/" & "optimize/test_multiplication.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1467,7 +1467,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/division.xml";
+        Test_Package.FILES & "/" & "optimize/test_division.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1559,7 +1559,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/parameter.xml";
+        Test_Package.FILES & "/" & "optimize/test_parameter.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1597,7 +1597,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/index.xml";
+        Test_Package.FILES & "/" & "optimize/test_index.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1650,7 +1650,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/errors/variable.xml";
+        Test_Package.FILES & "/" & "optimize/errors/test_variable.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1684,7 +1684,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/errors/unary.xml";
+        Test_Package.FILES & "/" & "optimize/errors/test_unary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
@@ -1718,7 +1718,7 @@ package body Optimize_Package.Optimize_Test is
       pragma Unreferenced (The_Test);
 
       XMLNAME : constant String :=
-        Test_Package.FILES & "/" & "optimize/errors/binary.xml";
+        Test_Package.FILES & "/" & "optimize/errors/test_binary.xml";
 
       The_Tests : XML_Package.Tests_Map.Map;
       The_File  : Ada.Text_IO.File_Type;
