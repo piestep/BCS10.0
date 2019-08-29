@@ -620,6 +620,26 @@ def run():
 
    return ""
 
+def vdiff():
+   """
+   Run visual diff.
+   """
+   context = GPS.current_context()
+   if context.entity_name() is not None:
+      entity = context.entity()
+      if entity.category() == 'procedure':
+         pattern = GPS.Project.root().get_attribute_as_string("Test_Pattern", package="BCS")
+         if pattern == "":
+            pattern = ".+_Package\.(.+)_Test.*"
+         match = re.match(pattern, entity.full_name())
+         if match:
+            package = match.group(1).lower()
+            case = entity.name().lower()
+            file1 = GPS.File("files/" + package + ".tmp")
+            file2 = GPS.File("files/" + package + "/" + case + ".xml")
+            GPS.Vdiff.create(file1, file2)
+
+
 def bcs_action():
     print "ACTION"
 
