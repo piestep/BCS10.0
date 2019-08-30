@@ -888,14 +888,14 @@ package body Word_Test is
                        " (" &
                        Image_Of (BCModular_To_Array (J) (0 .. The_Size - 1)) &
                        ")   ");
-               end if;
 
-               if J /= BCModular_At (0, The_Size, The_Result) then
-                  Pass := False;
-                  Ada.Text_IO.Put (" **");
-               end if;
+                  if J /= BCModular_At (0, The_Size, The_Result) then
+                     Pass := False;
+                     Ada.Text_IO.Put (" **");
+                  end if;
 
-               New_Line;
+                  New_Line;
+               end if;
 
             else
 
@@ -926,16 +926,16 @@ package body Word_Test is
                        (BCModular_To_Array (((2**The_Size - 1) - J))
                         (0 .. The_Size - 1)) &
                        ")   ");
-               end if;
 
-               if ((2**The_Size - 1) - J) /=
-                 BCModular_At (0, The_Size, The_Result)
-               then
-                  Pass := False;
-                  Ada.Text_IO.Put (" **");
-               end if;
+                  if ((2**The_Size - 1) - J) /=
+                    BCModular_At (0, The_Size, The_Result)
+                  then
+                     Pass := False;
+                     Ada.Text_IO.Put (" **");
+                  end if;
 
-               New_Line;
+                  New_Line;
+               end if;
             end if;
          end loop;
       end loop;
