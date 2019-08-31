@@ -32,6 +32,7 @@ with Semantics_Package;  use Semantics_Package;
 with Scope_Package;      use Scope_Package;
 --
 with Scope_Package.Dump;
+with Semantics_Package;
 
 package body Optimize_Package.Optimize_Test is
 
@@ -220,7 +221,7 @@ package body Optimize_Package.Optimize_Test is
       if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
          Semantics_Package.Parse (The_Unit);
          if The_Number_Of_Errors = 0 and The_Number_Of_Warnings = 0 then
-
+            --              Optimize_Package.Optimize_Debug := True;
             Optimize (The_Unit);
 
             if Dump then

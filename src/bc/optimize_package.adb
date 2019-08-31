@@ -427,17 +427,22 @@ package body Optimize_Package is
             The_Type :=
               Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
               .The_Type;
+
             if Is_Constant (The_Expression) then
                if Is_Within
                  (Constant_Operand (The_Expression.all).The_Value,
                   The_Type)
                then
+                  -- array index may have been optimized need to replace
+                  -- variable result with new array operand.
+                  -- copy the expression for use as index
                   The_Operand :=
                     new Array_Operand'
                       (The_Type       => Array_Type (The_Type.all).The_Element,
                        The_Identifier =>
                          The_Variable.The_Identifier.The_Pointer,
-                       The_Index => The_Expression);
+                       The_Index => Copy(The_Expression));
+                  Dispose (The_Variable.The_Result);
                   The_Variable.The_Result := Copy (The_Operand);
                else
                   Optimize_Error
@@ -445,25 +450,23 @@ package body Optimize_Package is
                      "Expression not within array index type (O1).");
                end if;
             else
+               -- a variable array index can not be optimized (replaced) just
+               -- need to copy variable result to operand
                The_Operand :=
                  new Array_Operand'
                    (The_Type       => Array_Type (The_Type.all).The_Element,
                     The_Identifier => The_Variable.The_Identifier.The_Pointer,
-                    The_Index      => The_Expression);
+                    The_Index      => Copy(The_Expression));
+               Dispose (The_Variable.The_Result);
                The_Variable.The_Result := Copy (The_Operand);
             end if;
+
+            -- dispose operand
+            Dispose (The_Expression);
          end if;
       else
-         The_Type :=
-           Typed_Identifier (The_Variable.The_Identifier.The_Pointer.all)
-           .The_Type;
-
-         The_Operand :=
-           new Identifier_Operand'
-             (The_Type       => The_Type,
-              The_Identifier => The_Variable.The_Identifier.The_Pointer);
-         Dispose(The_Variable.The_Result);
-         The_Variable.The_Result := Copy (The_Operand);
+         -- variable can not be optimized just copy variable result to operand
+         The_Operand := Copy(The_Variable.The_Result);
       end if;
 
       Debug (Optimize_Debug, "end Variable");
@@ -586,7 +589,6 @@ package body Optimize_Package is
                   The_Operand :=
                     new Constant_Operand'
                       (The_Type => The_Right.The_Type, The_Value => The_Value);
-
                   Assign
                     (The_Expression,
                      Copy (The_Operand),
@@ -602,6 +604,7 @@ package body Optimize_Package is
             else
                The_Operand :=
                  new Variable_Operand'(The_Type => The_Right.The_Type);
+
                The_Expression.The_Result := Copy (The_Operand);
             end if;
 
@@ -637,6 +640,7 @@ package body Optimize_Package is
             else
                The_Operand :=
                  new Variable_Operand'(The_Type => The_Right.The_Type);
+
                The_Expression.The_Result := Copy (The_Operand);
             end if;
 
@@ -645,7 +649,6 @@ package body Optimize_Package is
       end case;
 
       -- Dispose the operand.
-
       Dispose (The_Right);
 
       Debug (Optimize_Debug, "end Unary_Expression");
@@ -1106,7 +1109,6 @@ package body Optimize_Package is
       end case;
 
       -- Dispose the operands.
-
       Dispose (The_Left);
       Dispose (The_Right);
 
@@ -1132,6 +1134,7 @@ package body Optimize_Package is
 
          if Is_Variable (The_Identifier) then
             The_Operand               := The_Right;
+            Dispose(The_Expression.The_Result);
             The_Expression.The_Result := Copy (The_Operand);
 
          elsif Is_Index (The_Identifier) then
@@ -1173,6 +1176,8 @@ package body Optimize_Package is
       The_Last  : Positive := 1;
    begin
       Debug (Optimize_Debug, "begin Integer_Expression");
+
+      --        The_Operand := Copy(The_Expression.The_Result);
 
       Get
         (To_String (Integer_Expression_Node (The_Expression.all).The_String),

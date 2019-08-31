@@ -37,6 +37,7 @@ package body Semantics_Package.Semantics_Test is
    LISTNAME : constant String := Test_Package.FILES & "/" & "semantics.tmp";
 
    The_Unmarked_Graph_Allocations   : SYSNatural;
+   The_Unmarked_Operand_Allocations : SYSNatural;
 
    ----------
    -- Name --
@@ -98,6 +99,8 @@ package body Semantics_Package.Semantics_Test is
    begin
       The_Unmarked_Graph_Allocations :=
         Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool);
+      The_Unmarked_Operand_Allocations :=
+        Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool);
    end Set_Up_Case;
 
    --------------------
@@ -177,6 +180,9 @@ package body Semantics_Package.Semantics_Test is
       Ada.Text_IO.Put_Line
         ("Identifier_Allocations: " &
            SYSNatural'Image(Pool_Package.Unmarked_Allocations (Identifier_Package.The_Pool)));
+      Ada.Text_IO.Put_Line
+        ("Graph_Allocations: " &
+           SYSNatural'Image(Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool)));
       Ada.Text_IO.Put_Line
         ("Operand_Allocations: " &
            SYSNatural'Image(Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool)));
@@ -293,6 +299,7 @@ package body Semantics_Package.Semantics_Test is
                Ada.Text_IO.Open(The_File, Ada.Text_IO.Out_File, LISTNAME);
                Ada.Text_IO.Delete (The_File);
 
+               -- assert no lost graph nodes
                AUnit.Assertions.Assert
                  (Count (The_Unit) =
                       Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool),
@@ -333,6 +340,10 @@ package body Semantics_Package.Semantics_Test is
 
       Dispose (The_Unit);
 
+      AUnit.Assertions.Assert
+        (Pool_Package.Unmarked_Allocations (Operand_Package.The_Pool) =
+             The_Unmarked_Operand_Allocations,
+         "Incorrect operand allocations.");
       AUnit.Assertions.Assert
         (Pool_Package.Unmarked_Allocations (Graph_Package.The_Pool) =
              The_Unmarked_Graph_Allocations,
