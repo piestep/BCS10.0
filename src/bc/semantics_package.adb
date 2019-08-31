@@ -119,7 +119,7 @@ package body Semantics_Package is
    procedure Parse (The_Package : Package_Body_Graph) is
       The_Identifier : Identifier_Pointer;
    begin
-      Debug (Semenatics_Debug, "begin Package_Body");
+      Debug (Semantics_Debug, "begin Package_Body");
 
       Scope_Package.Open;
 
@@ -152,13 +152,13 @@ package body Semantics_Package is
       end if;
 
       Scope_Package.Close;
-      Debug (Semenatics_Debug, "end Package_Body");
+      Debug (Semantics_Debug, "end Package_Body");
    end Parse;
 
    procedure Parse (The_Procedure : Procedure_Body_Graph) is
       The_Identifier : Identifier_Pointer;
    begin
-      Debug (Semenatics_Debug, "begin Procedure_Body");
+      Debug (Semantics_Debug, "begin Procedure_Body");
 
       Scope_Package.Open;
 
@@ -192,7 +192,7 @@ package body Semantics_Package is
 
       Scope_Package.Close;
 
-      Debug (Semenatics_Debug, "end Procedure_Body");
+      Debug (Semantics_Debug, "end Procedure_Body");
    end Parse;
 
    procedure Parse (The_Parameters : Parameter_Graph) is
@@ -203,7 +203,7 @@ package body Semantics_Package is
          The_Type             : Type_Pointer;
          Duplicate_Identifier : Boolean := False;
       begin
-         Debug (Semenatics_Debug, "begin Parameter");
+         Debug (Semantics_Debug, "begin Parameter");
 
          -- look up the identifier.
 
@@ -272,28 +272,28 @@ package body Semantics_Package is
             Scope_Package.Enter (The_Identifier);
 
             Debug
-              (Semenatics_Debug,
+              (Semantics_Debug,
                "Parameter_Identifier: " &
                  To_String (The_Parameter.The_Identifier.The_String));
-            Debug (Semenatics_Debug, Image_Of (The_Identifier));
+            Debug (Semantics_Debug, Image_Of (The_Identifier));
          end if;
 
-         Debug (Semenatics_Debug, "end Parameter");
+         Debug (Semantics_Debug, "end Parameter");
       end Parse_Parameter;
 
    begin
-      Debug (Semenatics_Debug, "begin Parameters");
+      Debug (Semantics_Debug, "begin Parameters");
       while The_Parameter /= null loop
          Parse_Parameter (The_Parameter);
          The_Parameter := The_Parameter.The_Next;
       end loop;
-      Debug (Semenatics_Debug, "end Parameters");
+      Debug (Semantics_Debug, "end Parameters");
    end Parse;
 
    procedure Parse (The_Declarations : Declaration_Graph) is
       The_Declaration : Declaration_Graph := The_Declarations;
    begin
-      Debug (Semenatics_Debug, "begin Declarations");
+      Debug (Semantics_Debug, "begin Declarations");
 
       while The_Declaration /= null loop
          if The_Declaration.all in Type_Declaration_Node then
@@ -307,7 +307,7 @@ package body Semantics_Package is
          The_Declaration := The_Declaration.The_Next;
       end loop;
 
-      Debug (Semenatics_Debug, "end Declarations");
+      Debug (Semantics_Debug, "end Declarations");
    end Parse;
 
    procedure Parse (The_Declaration : Type_Declaration_Graph) is
@@ -315,7 +315,7 @@ package body Semantics_Package is
       The_Identifier       : Identifier_Pointer;
       Duplicate_Identifier : Boolean := False;
    begin
-      Debug (Semenatics_Debug, "begin Type_Declaration");
+      Debug (Semantics_Debug, "begin Type_Declaration");
 
       -- look up the identifier.
 
@@ -347,13 +347,13 @@ package body Semantics_Package is
          Scope_Package.Enter (The_Identifier);
 
          Debug
-           (Semenatics_Debug,
+           (Semantics_Debug,
             "Type_Identifier " &
               To_String (The_Declaration.The_Identifier.The_String));
-         Debug (Semenatics_Debug, Image_Of (The_Type));
+         Debug (Semantics_Debug, Image_Of (The_Type));
       end if;
 
-      Debug (Semenatics_Debug, "end Type_Declaration");
+      Debug (Semantics_Debug, "end Type_Declaration");
    end Parse;
 
    procedure Parse (The_Declaration : Identifier_Declaration_Graph) is
@@ -362,7 +362,7 @@ package body Semantics_Package is
       The_Value            : SYSInteger   := 0;
       Duplicate_Identifier : Boolean      := False;
    begin
-      Debug (Semenatics_Debug, "begin Identifier_Declaration");
+      Debug (Semantics_Debug, "begin Identifier_Declaration");
 
       -- look up the identifier.
 
@@ -485,7 +485,7 @@ package body Semantics_Package is
             Scope_Package.Enter (The_Identifier);
 
             Debug
-              (Semenatics_Debug,
+              (Semantics_Debug,
                "Constant_Identifier: " &
                  To_String (The_Declaration.The_Identifier.The_String));
 
@@ -504,14 +504,14 @@ package body Semantics_Package is
             Scope_Package.Enter (The_Identifier);
 
             Debug
-              (Semenatics_Debug,
+              (Semantics_Debug,
                "Variable_Identifier: " &
                  To_String (The_Declaration.The_Identifier.The_String));
 
          end if;
       end if;
 
-      Debug (Semenatics_Debug, "end Identifier_Declaration");
+      Debug (Semantics_Debug, "end Identifier_Declaration");
    end Parse;
 
    procedure Parse
@@ -519,7 +519,7 @@ package body Semantics_Package is
       The_Type       : out Type_Pointer)
    is
    begin
-      Debug (Semenatics_Debug, "begin Definitions");
+      Debug (Semantics_Debug, "begin Definitions");
 
       if The_Definition.all in Array_Definition_Node then
          Parse (Array_Definition_Graph (The_Definition), The_Type);
@@ -534,7 +534,7 @@ package body Semantics_Package is
          raise Critical_Error;
       end if;
 
-      Debug (Semenatics_Debug, "end Definitions");
+      Debug (Semantics_Debug, "end Definitions");
    end Parse;
 
    procedure Parse
@@ -546,7 +546,7 @@ package body Semantics_Package is
       The_Modulas    : SYSInteger;
 
    begin
-      Debug (Semenatics_Debug, "begin Range_Definition");
+      Debug (Semantics_Debug, "begin Range_Definition");
 
       The_Type := null;
 
@@ -752,8 +752,8 @@ package body Semantics_Package is
          end if;
       end if;
 
-      Debug (Semenatics_Debug, Image_Of (The_Type));
-      Debug (Semenatics_Debug, "end Range_Definition");
+      Debug (Semantics_Debug, Image_Of (The_Type));
+      Debug (Semantics_Debug, "end Range_Definition");
    end Parse;
 
    procedure Parse
@@ -762,7 +762,7 @@ package body Semantics_Package is
    is
       The_Size : SYSInteger := 0;
    begin
-      Debug (Semenatics_Debug, "begin Mod_Definition");
+      Debug (Semantics_Debug, "begin Mod_Definition");
 
       The_Type := null;
 
@@ -822,8 +822,8 @@ package body Semantics_Package is
          end if;
       end if;
 
-      Debug (Semenatics_Debug, Image_Of (The_Type));
-      Debug (Semenatics_Debug, "end Mod_Definition");
+      Debug (Semantics_Debug, Image_Of (The_Type));
+      Debug (Semantics_Debug, "end Mod_Definition");
    end Parse;
 
    procedure Parse
@@ -833,7 +833,7 @@ package body Semantics_Package is
       The_Index      : Type_Pointer := null;
       The_Identifier : Identifier_Pointer;
    begin
-      Debug (Semenatics_Debug, "begin Array_Definition");
+      Debug (Semantics_Debug, "begin Array_Definition");
       The_Type := null;
 
       -- look up index (identifier) type.
@@ -1012,13 +1012,13 @@ package body Semantics_Package is
          Type_Package.The_Last := The_Type;
       end if;
 
-      Debug (Semenatics_Debug, "end Array_Definition");
+      Debug (Semantics_Debug, "end Array_Definition");
    end Parse;
 
    procedure Parse (The_Statements : Statement_Graph) is
       The_Statement : Statement_Graph := The_Statements;
    begin
-      Debug (Semenatics_Debug, "begin Statements");
+      Debug (Semantics_Debug, "begin Statements");
       while The_Statement /= null loop
 
          if The_Statement.all in Assignment_Statement_Node then
@@ -1036,14 +1036,14 @@ package body Semantics_Package is
 
          The_Statement := The_Statement.The_Next;
       end loop;
-      Debug (Semenatics_Debug, "end Statements");
+      Debug (Semantics_Debug, "end Statements");
    end Parse;
 
    procedure Parse (The_Statement : Assignment_Statement_Graph) is
       The_Identifier : Identifier_Pointer := null;
       The_Type       : Type_Pointer       := null;
    begin
-      Debug (Semenatics_Debug, "begin Assignment_Statement");
+      Debug (Semantics_Debug, "begin Assignment_Statement");
 
       Parse (The_Statement.The_Variable);
 
@@ -1096,7 +1096,7 @@ package body Semantics_Package is
          end if;
       end if;
 
-      Debug (Semenatics_Debug, "end Assignment_Statement");
+      Debug (Semantics_Debug, "end Assignment_Statement");
    end Parse;
 
    procedure Parse (The_Variable : Variable_Graph) is
@@ -1104,7 +1104,7 @@ package body Semantics_Package is
       The_Type             : Type_Pointer;
       Undefined_Identifier : Boolean            := False;
    begin
-      Debug (Semenatics_Debug, "begin Variable");
+      Debug (Semantics_Debug, "begin Variable");
       The_Type                := null;
       The_Variable.The_Result := null;
 
@@ -1144,7 +1144,7 @@ package body Semantics_Package is
                     new Identifier_Operand'
                       (The_Type => The_Type, The_Identifier => The_Identifier);
 
-                  Debug (Semenatics_Debug, "Identifier_Operand");
+                  Debug (Semantics_Debug, "Identifier_Operand");
                else
                   Semenatics_Error
                     (Position_Of (The_Variable),
@@ -1194,7 +1194,7 @@ package body Semantics_Package is
                                      Copy
                                        (The_Variable.The_Expression
                                         .The_Result));
-                              Debug (Semenatics_Debug, "Array_Operand");
+                              Debug (Semantics_Debug, "Array_Operand");
                            else
                               Semenatics_Error
                                 (Position_Of (The_Variable.The_Expression),
@@ -1209,7 +1209,7 @@ package body Semantics_Package is
                                 The_Index      =>
                                   Copy
                                     (The_Variable.The_Expression.The_Result));
-                           Debug (Semenatics_Debug, "Array_Operand");
+                           Debug (Semantics_Debug, "Array_Operand");
                         end if;
                      else
                         Semenatics_Error
@@ -1255,21 +1255,21 @@ package body Semantics_Package is
                  (Identifier_Operand (The_Variable.The_Result.all)
                   .The_Identifier))));
 
-      Debug (Semenatics_Debug, Image_Of (The_Variable.The_Result));
+      Debug (Semantics_Debug, Image_Of (The_Variable.The_Result));
 
-      Debug (Semenatics_Debug, "end Variable");
+      Debug (Semantics_Debug, "end Variable");
    end Parse;
 
    procedure Parse (The_Statement : Null_Statement_Graph) is
    begin
-      Debug (Semenatics_Debug, "begin Null_Statement");
-      Debug (Semenatics_Debug, "end Null_Statement");
+      Debug (Semantics_Debug, "begin Null_Statement");
+      Debug (Semantics_Debug, "end Null_Statement");
    end Parse;
 
    procedure Parse (The_Statement : If_Statement_Graph) is
       Is_Jump : Boolean := True;
    begin
-      Debug (Semenatics_Debug, "begin If_Statement");
+      Debug (Semantics_Debug, "begin If_Statement");
 
       Parse (The_Statement.The_Expression);
 
@@ -1289,14 +1289,14 @@ package body Semantics_Package is
          Parse (The_Statement.The_Alternates);
       end if;
 
-      Debug (Semenatics_Debug, "end If_Statement");
+      Debug (Semantics_Debug, "end If_Statement");
    end Parse;
 
    procedure Parse (The_Statement : For_Statement_Graph) is
       The_Index      : Type_Pointer := null;
       The_Identifier : Identifier_Pointer;
    begin
-      Debug (Semenatics_Debug, "begin For_Statement");
+      Debug (Semantics_Debug, "begin For_Statement");
 
       -- look up index type.
 
@@ -1394,12 +1394,12 @@ package body Semantics_Package is
 
       Scope_Package.Close;
 
-      Debug (Semenatics_Debug, "end For_Statement");
+      Debug (Semantics_Debug, "end For_Statement");
    end Parse;
 
    procedure Parse (The_Expression : Expression_Graph) is
    begin
-      Debug (Semenatics_Debug, "begin Expression");
+      Debug (Semantics_Debug, "begin Expression");
 
       if The_Expression /= null then
          if The_Expression.all in Unary_Expression_Node then
@@ -1422,14 +1422,14 @@ package body Semantics_Package is
          end if;
       end if;
 
-      Debug (Semenatics_Debug, "end Expression");
+      Debug (Semantics_Debug, "end Expression");
    end Parse;
 
    procedure Parse (The_Expression : Unary_Expression_Graph) is
       The_Value : SYSInteger;
       The_Type  : Type_Pointer;
    begin
-      Debug (Semenatics_Debug, "begin Unary_Expression");
+      Debug (Semantics_Debug, "begin Unary_Expression");
       The_Expression.The_Result := null;
 
       Parse (The_Expression.The_Right);
@@ -1531,14 +1531,14 @@ package body Semantics_Package is
          or else Is_Variable (The_Expression.The_Result)
          or else Is_Constant (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, "end Unary_Expression");
+      Debug (Semantics_Debug, "end Unary_Expression");
    end Parse;
 
    procedure Parse (The_Expression : Binary_Expression_Graph) is
       The_Type  : Type_Pointer;
       The_Value : SYSInteger;
    begin
-      Debug (Semenatics_Debug, "begin Binary_Expression");
+      Debug (Semantics_Debug, "begin Binary_Expression");
       The_Expression.The_Result := null;
 
       Parse (The_Expression.The_Left);
@@ -1714,15 +1714,15 @@ package body Semantics_Package is
          or else Is_Variable (The_Expression.The_Result)
          or else Is_Constant (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, Image_Of (The_Expression.The_Result));
+      Debug (Semantics_Debug, Image_Of (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, "end Binary_Expression");
+      Debug (Semantics_Debug, "end Binary_Expression");
    end Parse;
 
    procedure Parse (The_Expression : Variable_Expression_Graph) is
       The_Identifier : Identifier_Pointer;
    begin
-      Debug (Semenatics_Debug, "begin Variable_Expression");
+      Debug (Semantics_Debug, "begin Variable_Expression");
       The_Expression.The_Result := null;
 
       Parse (The_Expression.The_Variable);
@@ -1735,17 +1735,17 @@ package body Semantics_Package is
          if Is_Variable (The_Identifier) then
             The_Expression.The_Result :=
               Copy (The_Expression.The_Variable.The_Result);
-            Debug (Semenatics_Debug, "Variable");
+            Debug (Semantics_Debug, "Variable");
 
          elsif Is_Index (The_Identifier) then
             The_Expression.The_Result :=
               Copy (The_Expression.The_Variable.The_Result);
-            Debug (Semenatics_Debug, "Index");
+            Debug (Semantics_Debug, "Index");
 
          elsif Is_Parameter (The_Identifier) then
             The_Expression.The_Result :=
               Copy (The_Expression.The_Variable.The_Result);
-            Debug (Semenatics_Debug, "Parameter");
+            Debug (Semantics_Debug, "Parameter");
 
          elsif Is_Constant (The_Identifier) then
             The_Expression.The_Result :=
@@ -1754,7 +1754,7 @@ package body Semantics_Package is
                  The_Value =>
                    Constant_Identifier (The_Identifier.all).The_Value);
 
-            Debug (Semenatics_Debug, "Constant");
+            Debug (Semantics_Debug, "Constant");
          else
             raise Critical_Error;
          end if;
@@ -1783,7 +1783,7 @@ package body Semantics_Package is
                   .The_Identifier)))
          or else Is_Constant (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, "end Variable_Expression");
+      Debug (Semantics_Debug, "end Variable_Expression");
    end Parse;
 
    procedure Parse (The_Expression : Attribute_Expression_Graph) is
@@ -1791,7 +1791,7 @@ package body Semantics_Package is
       The_Identifier       : Identifier_Pointer;
       Undefined_Identifier : Boolean := False;
    begin
-      Debug (Semenatics_Debug, "begin Attribute_Expression");
+      Debug (Semantics_Debug, "begin Attribute_Expression");
 
       -- look up identifier (identifier).
 
@@ -1880,17 +1880,17 @@ package body Semantics_Package is
         (The_Expression.The_Result = null
          or else Is_Constant (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, "Attribute ");
-      Debug (Semenatics_Debug, Image_Of (The_Expression.The_Result));
+      Debug (Semantics_Debug, "Attribute ");
+      Debug (Semantics_Debug, Image_Of (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, "end Attribute_Expression");
+      Debug (Semantics_Debug, "end Attribute_Expression");
    end Parse;
 
    procedure Parse (The_Expression : Integer_Expression_Graph) is
       The_Value : SYSInteger  := 0;
       The_Last  : SYSPositive := 1;
    begin
-      Debug (Semenatics_Debug, "begin Integer_Expression");
+      Debug (Semantics_Debug, "begin Integer_Expression");
 
       Get (To_String (The_Expression.The_String), The_Value, The_Last);
 
@@ -1898,22 +1898,22 @@ package body Semantics_Package is
         new Constant_Operand'
           (The_Type => Universal_Integer, The_Value => The_Value);
 
-      Debug (Semenatics_Debug, "Integer ");
-      Debug (Semenatics_Debug, Image_Of (The_Expression.The_Result));
+      Debug (Semantics_Debug, "Integer ");
+      Debug (Semantics_Debug, Image_Of (The_Expression.The_Result));
 
-      Debug (Semenatics_Debug, "end Integer_Expression");
+      Debug (Semantics_Debug, "end Integer_Expression");
    end Parse;
 
    -- Parse a Boolean Compiler (BC) graph and check semenatics.
 
    procedure Parse (The_Unit : Compilation_Unit_Graph) is
    begin
-      Debug (Semenatics_Debug, "begin Compilation_Unit");
+      Debug (Semantics_Debug, "begin Compilation_Unit");
       -- open initial scope and enter default types and constants.
 
       Parse (The_Unit.The_Package);
 
-      Debug (Semenatics_Debug, "end Compilation_Unit");
+      Debug (Semantics_Debug, "end Compilation_Unit");
    end Parse;
 
 begin

@@ -11,7 +11,7 @@ package Semantics_Package is
 
    -- Debug Semantics parser switch.
 
-   Semenatics_Debug : Boolean := False;
+   Semantics_Debug : Boolean := False;
 
    -- Parse a program graph and check program semenatics.
 

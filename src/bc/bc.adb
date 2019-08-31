@@ -318,7 +318,7 @@ begin
       elsif Argument (The_Argument) = "--scope_debug" then
          Scope_Package.Scope_Debug := True;
       elsif Argument (The_Argument) = "--semenatics_debug" then
-         Semantics_Package.Semenatics_Debug := True;
+         Semantics_Package.Semantics_Debug := True;
       elsif Argument (The_Argument) = "--optimize_debug" then
          Optimize_Package.Optimize_Debug := True;
       elsif Argument (The_Argument) = "--pcode_debug" then
