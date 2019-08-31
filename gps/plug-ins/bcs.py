@@ -277,6 +277,13 @@ GPS.parse_xml(
     </submenu>
   </submenu>
 
+  <action name="Rerun test">
+     <description>Run last test</description>
+     <filter shell_lang="python" shell_cmd="bcs.is_test()" />
+     <shell lang="python" output="none">bcs.rerun()</shell>
+     <external>%1</external>
+  </action>
+
   <action name="Open BCS project">
      <description>Open BCS project</description>
      <filter shell_lang="python" shell_cmd="bcs.is_test()" />
@@ -612,13 +619,26 @@ def run():
    if context.entity_name() is not None:
       entity = context.entity()
       if entity.category() == 'package':
-         return prog + " -s " + entity.full_name().lower() + "!"
+         last_test = prog + " -s " + entity.full_name().lower() + "!"
+         GPS.Project.root().set_property('last_test', last_test)
+         return last_test
       elif entity.category() == 'procedure':
          senario = entity.full_name()[:-(len(entity.name())+1)].lower()
          case = entity.name().lower()
-         return prog + " -s " + senario + "!" + " -c " + case + "!"
+         last_test = prog + " -s " + senario + "!" + " -c " + case + "!"
+         GPS.Project.root().set_property('last_test', last_test)
+         return last_test
 
    return ""
+
+def rerun():
+   """
+   Rerun
+   """
+   test = GPS.Project.root().get_property('last_test')
+   if test:
+      return test
+   return ''
 
 def vdiff():
    """
@@ -769,6 +789,8 @@ def bcs_test():
 @gps_utils.hook('gps_started')
 def __gps_started():
    if is_defined:
+      GPS.Project.root().set_property('last_test', '')
+      GPS.Action('Rerun test').button(toolbar='main', label='Rerun', icon='rerun-symbolic')
       GPS.Action('Open BCS project').button(toolbar='main', label='Project', icon='project-symbolic')
       GPS.Action('Open BCS test').button(toolbar='main', label='Test', icon='test-symbolic')
 
